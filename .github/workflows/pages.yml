@@ -1,0 +1,51 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    # main only. Two branches deploying to one Pages site is last-push-wins, and
+    # whichever pushed most recently silently decides what the clinic sees.
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Fails the deploy while the config still holds placeholders, rather than
+      # publishing a site whose canonical tags point at example.com. This is the
+      # last gate before a clinic's patients see the page.
+      - name: Validate clinic config
+        run: npm run check
+
+      # Config is applied in CI as well as locally, so a page that was edited by
+      # hand and pushed without running apply cannot go live out of step with
+      # the config. Idempotent — a correctly-applied tree produces no diff.
+      - name: Apply config
+        run: npm run apply
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4
