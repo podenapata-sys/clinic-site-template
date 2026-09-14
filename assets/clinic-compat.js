@@ -1,11 +1,11 @@
 /* ============================================================================
-   clinic-compat — bridges the old `OMEGA` contact object to `window.CLINIC`.
+   clinic-compat — bridges the old `CONTACT` contact object to `window.CLINIC`.
    ============================================================================
 
    The site this template grew out of read its contact details from a const
    declared at the top of assets/app.js:
 
-       const OMEGA = { phone: "...", whatsapp: "...", ... };
+       const CONTACT = { phone: "...", whatsapp: "...", ... };
 
    That const is what kept a clinic's phone number in TWO places once the config
    file existed, and a booking button pointing at the previous clinic's WhatsApp
@@ -14,7 +14,7 @@
 
    So app.js no longer declares it. Delete these lines from assets/app.js:
 
-       const OMEGA = {
+       const CONTACT = {
          ... every line of the object literal ...
        };
 
@@ -24,7 +24,7 @@
        <script src="assets/clinic-compat.js"></script>
        <script src="assets/app.js"></script>
 
-   Everything downstream keeps working unchanged: the ~40 references to OMEGA.*
+   Everything downstream keeps working unchanged: the ~40 references to CONTACT.*
    scattered through app.js resolve to this object, which is built from config.
 
    Keeping the old NAME on purpose. Renaming it to CLINIC.* across app.js is a
@@ -43,14 +43,14 @@
       "[clinic-compat] window.CLINIC is missing. Load assets/clinic.config.js " +
       "BEFORE this file, or every phone, WhatsApp and map link will be broken."
     );
-    window.OMEGA = {};
+    window.CONTACT = {};
     return;
   }
 
   const contact = c.contact || {};
   const maps    = c.maps || {};
 
-  window.OMEGA = {
+  window.CONTACT = {
     phone:     contact.phone     || "",
     phoneIntl: contact.phoneIntl || "",
     whatsapp:  contact.whatsapp  || "",
@@ -68,7 +68,7 @@
 
   /* A placeholder number is not a crash, so nothing would otherwise surface it
      — but it is the same failed outcome as a missing one: nobody can book. */
-  if (/X/i.test(window.OMEGA.whatsapp) || !window.OMEGA.whatsapp) {
+  if (/X/i.test(window.CONTACT.whatsapp) || !window.CONTACT.whatsapp) {
     console.warn(
       "[clinic-compat] contact.whatsapp is unset or still a placeholder — " +
       "every Book / WhatsApp button on this page is dead. Fix it in " +

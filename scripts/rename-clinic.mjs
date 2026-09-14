@@ -5,8 +5,8 @@
 
    Run ONCE, right after forking the template for a new client:
 
-     npm run rename -- --from "Omega Dental"
-     npm run rename -- --from "Omega Dental" --dry-run     # look first
+     npm run rename -- --from "Bright Smile"
+     npm run rename -- --from "Bright Smile" --dry-run     # look first
 
    The new name is read from assets/clinic.config.js, so there is one source of
    truth and no chance of the two disagreeing.
@@ -18,7 +18,7 @@
    apart is what makes `apply` safe to run in a pre-deploy hook.
 
    WHAT IT DELIBERATELY WILL NOT DO
-   Email addresses are left alone. Turning "omegadental@gmail.com" into
+   Email addresses are left alone. Turning "info@brightsmile.com" into
    "smilecare@gmail.com" invents an inbox that does not exist and that nobody
    monitors — bookings would vanish into it. Emails come from config.contact
    via `apply`; this reports any it finds so you can confirm they were handled.
@@ -43,10 +43,29 @@ const fromArg      = arg("--from");
    inbox. `npm run apply` reports every address it finds so you know what to
    pass here. */
 const fromEmailArg = arg("--from-email");
+/* The previous practitioner, given explicitly for the same reason as the email.
+   A clinic site names its dentist in the hero, the JSON-LD `employee` node, the
+   about section and every blog byline — around a hundred places — and leaving
+   one behind credits a real person who does not work there. */
+const fromDoctorArg = arg("--from-doctor");
+/* Bangla forms. A bilingual site carries the clinic and practitioner names in
+   both scripts, and the Latin variants below cannot match Bengali text at all —
+   without these the whole data-bn side of the site keeps the previous clinic's
+   name, which is exactly the half a Bangladeshi patient reads.
+
+   Bengali inflects by suffix (হক -> হকের, "Haque's"), and those suffixes attach
+   to whatever noun precedes them. So replacing the base name leaves the suffix
+   in place and still reads correctly. */
+const fromBnArg       = arg("--from-bn");
+const fromDoctorBnArg = arg("--from-doctor-bn");
 
 if (!fromArg) {
   console.error(`
-  Usage:  npm run rename -- --from "Previous Clinic Name" [--from-email old@clinic.com]
+  Usage:  npm run rename -- --from "Previous Clinic Name"
+                            [--from-bn        "পূর্বের নাম"]
+                            [--from-email     old@clinic.com]
+                            [--from-doctor    "Dr. Previous Name"]
+                            [--from-doctor-bn "ডা. পূর্বের নাম"]
 
   The name to replace must be given explicitly. Guessing it from the files
   would eventually guess wrong and rewrite a word that was never a clinic
@@ -89,38 +108,60 @@ const c    = loadConfig();
 const to   = c.name;
 const from = fromArg;
 
-if (!to || /^Example /.test(to)) {
-  console.error(`\n  Set a real clinic name in assets/clinic.config.js first (found "${to}").\n`);
+/* Renaming a real clinic INTO the placeholder is the one legitimate case for
+   the opposite of what this guard protects: neutralising a delivered client
+   site back into the shared template. It has to be asked for by name, because
+   the accident it otherwise prevents — a client site shipping as "Example
+   Dental" — is the more likely one by far. */
+const toPlaceholder = ARGV.includes("--to-placeholder");
+
+if (!to) {
+  console.error(`\n  assets/clinic.config.js has no clinic name.\n`);
+  process.exit(1);
+}
+if (/^Example /.test(to) && !toPlaceholder) {
+  console.error(`\n  Set a real clinic name in assets/clinic.config.js first (found "${to}").`);
+  console.error(`  Building the neutral template on purpose? Add --to-placeholder.\n`);
   process.exit(1);
 }
 
 /* The forms a clinic name actually appears in. Ordered longest-first so
-   "Omega Dental" is consumed before a bare "Omega" can match inside it. */
+   "Bright Smile" is consumed before a bare "Bright" can match inside it. */
 const words     = from.trim().split(/\s+/);
-const compact   = from.replace(/\s+/g, "").toLowerCase();       // omegadental
+const compact   = from.replace(/\s+/g, "").toLowerCase();       // brightsmiledental
 const toWords   = to.trim().split(/\s+/);
 const toCompact = to.replace(/\s+/g, "").toLowerCase();
 
+/* WhatsApp prefill links carry the clinic name inside a ?text= query string,
+   where it is percent-encoded ("Hello%20Example%20Dental"). A literal search
+   cannot see it, so those links kept greeting the previous clinic by name on
+   every fork — on the Apply and Gallery buttons, which are exactly the ones a
+   candidate or patient presses. */
+const enc = v => encodeURIComponent(v);
+
+/* [old, new, singleWord] — singleWord variants are the ones that can collide
+   with a code identifier, and are held to the stricter rule below. */
 const variants = [
-  [from,                  to],                                  // Omega Dental
-  [from.toUpperCase(),    to.toUpperCase()],                    // OMEGA DENTAL
-  [from.toLowerCase(),    to.toLowerCase()],                    // omega dental
-  [compact,               toCompact],                           // omegadental
-  [compact.toUpperCase(), toCompact.toUpperCase()],
+  [from,                  to,                       false],     // Bright Smile
+  [from.toUpperCase(),    to.toUpperCase(),         false],     // OMEGA DENTAL
+  [from.toLowerCase(),    to.toLowerCase(),         false],     // bright smile
+  [compact,               toCompact,                true],      // brightsmiledental
+  [compact.toUpperCase(), toCompact.toUpperCase(),  true],
+  [enc(from),             enc(to),                  false],     // Bright%20Smile
 ];
 /* A single distinctive first word ("OMEGA<small>DENTAL</small>" in the nav
    brand) only when it is not a word that means something else on a clinic
    site. Two letters or fewer, or a common noun, is left alone. */
 const GENERIC = new Set(["the","city","care","dental","clinic","medical","health","smile","family"]);
 if (words.length > 1 && words[0].length > 2 && !GENERIC.has(words[0].toLowerCase())) {
-  variants.push([words[0].toUpperCase(), (toWords[0] || to).toUpperCase()]);
-  variants.push([words[0],               (toWords[0] || to)]);
-  /* Lowercase last, so the compact form ("omegadental") is already consumed and
-     this only catches internal identifiers — the `cmp-omega` CSS class, the
-     `omega_lang` localStorage key. Both sides stay in step because .css is in
+  variants.push([words[0].toUpperCase(), (toWords[0] || to).toUpperCase(), true]);
+  variants.push([words[0],               (toWords[0] || to),               true]);
+  /* Lowercase last, so the compact form ("brightsmile") is already consumed and
+     this only catches internal identifiers — the `cmp-brightsmile` CSS class, the
+     `brightsmile_lang` localStorage key. Both sides stay in step because .css is in
      EXTS: renaming the class in the markup without the stylesheet would
      silently drop the styling on a live price-comparison table. */
-  variants.push([words[0].toLowerCase(), (toWords[0] || to).toLowerCase()]);
+  variants.push([words[0].toLowerCase(), (toWords[0] || to).toLowerCase(), true]);
 }
 
 const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
@@ -142,6 +183,69 @@ for (const f of files) {
 
   let text = original, hits = 0;
 
+  /* Bangla first: these are unambiguous full-name strings in a script none of
+     the Latin variants can touch, so order relative to them does not matter —
+     but doing them before the protection step keeps all name work together. */
+  for (const [a, b] of [[fromBnArg, c.nameBn], [fromDoctorBnArg, c.doctor?.nameBn],
+                        [fromBnArg && encodeURIComponent(fromBnArg), c.nameBn && encodeURIComponent(c.nameBn)],
+                        [fromDoctorBnArg && encodeURIComponent(fromDoctorBnArg),
+                         c.doctor?.nameBn && encodeURIComponent(c.doctor.nameBn)]]) {
+    if (!a || !b) continue;
+    /* Full string first, then each distinctive component — the same shape the
+       Latin pass needs, and for the same reason: copy addresses the clinic and
+       the dentist by a shortened name as often as by the full one
+       (a given name without the surname, the first word without "ডেন্টাল"), and
+       matching only the full string leaves those crediting a real person. */
+    const bnStrip = n => n.replace(/^(ডা\.?|ডাঃ|প্রফ\.?)\s*/u, "").trim().split(/\s+/);
+    /* Same collision guard the Latin pass needs, and for the same failure: the
+       practitioner's given name is often ALSO a word of the clinic's Bangla
+       name, and replacing it there rewrites the clinic as the doctor
+       ("নুসরাত ডেন্টাল"). The clinic pass owns those words. */
+    const bnClinicWords = new Set(fromBnArg ? bnStrip(fromBnArg) : []);
+    const isDoctorPass  = a === fromDoctorBnArg ||
+                          (fromDoctorBnArg && a === encodeURIComponent(fromDoctorBnArg));
+    const oldBits = [a, ...bnStrip(a)];
+    const newBits = [b, ...bnStrip(b)];
+    for (let i = 0; i < oldBits.length; i++) {
+      const oldB = oldBits[i];
+      if (isDoctorPass && i > 0 && bnClinicWords.has(oldB)) continue;
+      /* Collapse to the new full name when the replacement has fewer parts, so
+         a two-word old name never leaves half of itself behind. */
+      const newB = newBits[i] !== undefined ? newBits[i] : (bnStrip(b)[0] || b);
+      if (!oldB || !newB || oldB === newB || [...oldB].length < 2) continue;
+      const parts = text.split(oldB);
+      if (parts.length > 1) { hits += parts.length - 1; text = parts.join(newB); }
+    }
+  }
+
+  /* Named people first: their name may contain a word that a later variant
+     would otherwise catch mid-replacement. */
+  if (fromDoctorArg && c.doctor?.name) {
+    for (const [a, b] of [[fromDoctorArg, c.doctor.name],
+                          [enc(fromDoctorArg), enc(c.doctor.name)]]) {
+      const parts = text.split(a);
+      if (parts.length > 1) { hits += parts.length - 1; text = parts.join(b); }
+    }
+    /* Bare surname, as bylines and alt text often use it alone. */
+    const strip = n => n.replace(/^(Dr\.?|Prof\.?)\s+/i, "").split(/\s+/);
+    const oldParts = strip(fromDoctorArg), newParts = strip(c.doctor.name);
+    /* Surname AND first name: clinic copy addresses the dentist both ways
+       ("ask Dr. Ayesha", "Dr. Ayesha Rahman, BDS"), and catching only the full
+       string leaves the familiar form crediting a real person by name. */
+    /* A word the clinic name also uses is NOT safe to treat as the doctor's:
+       replacing it rewrites the clinic name with the practitioner's, which
+       reads as a real clinic that does not exist ("Nusrat Dental"). The clinic
+       pass below owns those words. */
+    const clinicWords = new Set(words.map(w => w.toLowerCase()));
+    for (const [oldN, newN] of [[oldParts.at(-1), newParts.at(-1)],
+                                [oldParts[0],     newParts[0]]]) {
+      if (!oldN || !newN || oldN.length <= 3 || oldN === newN) continue;
+      if (clinicWords.has(oldN.toLowerCase())) continue;
+      const bare = text.split(oldN);
+      if (bare.length > 1) { hits += bare.length - 1; text = bare.join(newN); }
+    }
+  }
+
   /* The one address we were told to replace goes first, before the protection
      below hides every address from the name swap. */
   if (fromEmailArg && c.contact?.email) {
@@ -161,10 +265,27 @@ for (const f of files) {
     return `${HOLD}${held.length - 1}${HOLD}`;
   });
 
-  for (const [a, b] of variants) {
+  for (const [a, b, singleWord] of variants) {
     if (a === b || !a) continue;
-    const parts = text.split(a);
-    if (parts.length > 1) { hits += parts.length - 1; text = parts.join(b); }
+
+    if (!singleWord) {
+      /* The full clinic name. Unambiguous prose — replace it wherever it is. */
+      const parts = text.split(a);
+      if (parts.length > 1) { hits += parts.length - 1; text = parts.join(b); }
+      continue;
+    }
+
+    /* A single word out of the clinic's name ("Bright") is also, very often, a
+       code identifier: window.BRIGHT, BRIGHT_CONTENT, brightSaveBooking,
+       brightsmile_lang, .cmp-brightsmile. Renaming those does not break the site — the
+       swap is consistent across files — but it bakes the client's name into
+       the code, so the NEXT fork mangles it again into something else.
+       So: never inside a longer identifier, and never after a dot. */
+    const re = new RegExp(
+      `(?<![A-Za-z0-9_.$-])${a.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?![A-Za-z0-9_-])`, "g");
+    const before = text;
+    text = text.replace(re, b);
+    if (text !== before) hits += before.split(a).length - text.split(a).length + 1;
   }
 
   text = text.replace(new RegExp(`${HOLD}(\\d+)${HOLD}`, "g"), (_, i) => held[Number(i)]);

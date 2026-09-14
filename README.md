@@ -67,12 +67,19 @@ absolute URL pointing at a previous host and rewrites it.
 | `npm run check` | Validates the config. Fails while any placeholder remains. |
 | `npm run apply` | Writes config into every page, sitemap, robots.txt. Idempotent. |
 | `npm run diff` | Same, but writes nothing — shows what would change. |
-| `npm run rename -- --from "Old Clinic"` | One-time, at fork: clears the previous clinic's name out of body copy. Leaves email addresses alone and reports them. |
+| `npm run rename -- --from "Old Clinic"` | One-time, at fork: clears the previous clinic's and practitioner's names out of body copy, in both scripts. Skips code identifiers and email addresses, and reports what it skipped. |
 | `npm run dev` | Serves the site locally. |
 
 `apply` never touches body copy, so a clinic that edits its own homepage will
 not have the edit reverted on the next deploy. `rename` does touch body copy,
 which is why it is separate and run exactly once.
+
+Both understand that this site is bilingual: `rename` takes `--from-bn` and
+`--from-doctor-bn` for the Bengali forms, and `apply`'s audit reads Bengali-Indic
+digits, so a phone number printed as ০১৭৭XX-XXXXXX is checked against config like any
+other. `rename` also skips code identifiers (`window.CONTACT`, `CLINIC_CONTENT`,
+`clinic_lang`) — they are named for the template, not for any clinic, and
+renaming them per client compiles the previous client's name into the JavaScript.
 
 ---
 
@@ -88,7 +95,14 @@ REST endpoint is open to the internet.
 `ownerUid()` and disable self-registration. Both. The header comment in that
 file walks through it.
 
-**2. Before/after photos.** `features.beforeAfter` is off by default. Those are
+**2. Images are SVG placeholders.** Every service image ships as a labelled
+placeholder that reads REPLACE, so an unfinished site is obviously unfinished
+rather than quietly wrong. They are resolution-independent, so the `cards/` and
+`thumbs/` size variants are bypassed — 84 files instead of 252. When real
+photographs arrive, drop them in as `.jpg`, run `python3
+tools/gen-image-sizes.py`, and set `media.ext` to `"jpg"` in config.
+
+**3. Before/after photos.** `features.beforeAfter` is off by default. Those are
 real patients: consent to appear on their own clinic's site is not consent to
 appear on another clinic's, or in a template. Ship it only with written consent
 for each image, from the clinic actually using it.
@@ -108,7 +122,7 @@ touching Firebase.
 
 ```
 assets/clinic.config.js   the only file you must edit
-assets/clinic-compat.js   bridges the config to app.js's OMEGA object
+assets/clinic-compat.js   bridges the config to app.js's EXAMPLE object
 assets/app.js             rendering, i18n, calculator, booking
 assets/content.js         services, prices, categories (the admin editor writes this)
 assets/styles.css         theme, driven by brand colours from config

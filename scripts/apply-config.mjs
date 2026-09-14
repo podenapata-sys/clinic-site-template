@@ -269,6 +269,46 @@ function applyToPage(c, file, report) {
     report.rewrittenHosts.add(u);
   }
 
+  /* WhatsApp and phone links. These are hrefs, not prose, and they are the
+     single most load-bearing thing on a clinic site — a wa.me link carrying the
+     previous clinic's digits sends every enquiry to a stranger, and looks
+     completely normal on screen. Rewritten from config on every apply, so they
+     cannot be left behind by a fork. */
+  if (c.contact?.whatsapp) {
+    /* One character class, not an alternation: `\d+` would match only the "880"
+       of a "880XXXXXXXXXX" placeholder and leave the X's dangling after the
+       replacement, producing a longer broken number each run. */
+    html = html.replace(/(wa\.me\/)([0-9Xx]+)/g, (m, a, old) => {
+      if (old !== c.contact.whatsapp) seen.add("wa.me");
+      return `${a}${c.contact.whatsapp}`;
+    });
+    html = html.replace(/(api\.whatsapp\.com\/send\?phone=)([0-9X]+)/gi,
+      (m, a) => { seen.add("wa.me"); return `${a}${c.contact.whatsapp}`; });
+  }
+  if (c.contact?.phoneIntl) {
+    html = html.replace(/(href="tel:)([^"]*)(")/gi, (m, a, old, z) => {
+      if (old !== c.contact.phoneIntl) seen.add("tel");
+      return `${a}${c.contact.phoneIntl}${z}`;
+    });
+  }
+
+  /* The four animated counters. Written as data-target so the count-up script
+     reads them; a clinic that leaves these at 0 gets a visible zero rather than
+     the previous clinic's figures, which is the safe failure. */
+  for (const [k, v] of Object.entries(c.stats || {})) {
+    const re = new RegExp(`(data-stat="${k}"[^>]*?data-target=")([^"]*)(")`, "gi");
+    if (re.test(html)) { seen.add(`stat:${k}`); html = html.replace(re, `$1${v}$3`); }
+  }
+
+  /* Google rating badge. Both places it appears on the homepage. */
+  if (c.rating && typeof c.rating.score === "number") {
+    const sc = c.rating.score ? c.rating.score.toFixed(1) : "";
+    html = html.replace(/(<span class="g-score">)([^<]*)(<\/span>)/gi, (m, a, _b, z) => {
+      seen.add("rating"); return `${a}${sc}${z}`; });
+    html = html.replace(/(<div class="rs-score">)([^ <]*)( )/gi, (m, a, _b, z) => {
+      seen.add("rating"); return `${a}${sc}${z}`; });
+  }
+
   /* Every mailto: on a clinic site belongs to the clinic, so these are rewritten
      from config without needing to know the previous address. The visible link
      text is swapped too — a button reading the old clinic's address while
@@ -352,7 +392,26 @@ Sitemap: ${base}/sitemap.xml
 
 /* ---- main ------------------------------------------------------------- */
 const c = loadConfig();
+
+/* Machine-readable single values, so shell and CI never re-implement the
+   loader. package.json sets "type":"module", which makes a plain
+   `require("./assets/clinic.config.js")` fail outright — it is parsed as ESM,
+   where `window` does not exist. */
+if (ARGV.includes("--print-name"))     { process.stdout.write(c.name || "");            process.exit(0); }
+if (ARGV.includes("--print-base-url")) { process.stdout.write(c.site?.baseUrl || "");   process.exit(0); }
+
 const { errs, warns } = validate(c);
+
+/* Building the shared template itself, where the placeholders ARE the intended
+   content. Everything still gets written — the pages must not keep a previous
+   clinic's absolute URLs — but the placeholder errors become warnings. Never
+   use this on a client site: it is precisely the check that stops one going
+   live with example.com in its canonical tags. */
+const TEMPLATE = ARGV.includes("--template");
+if (TEMPLATE && errs.length) {
+  console.warn(`\n  --template: treating ${errs.length} placeholder error(s) as warnings.`);
+  errs.length = 0;
+}
 
 if (errs.length) {
   console.error(`\n  ${c.name || "config"} — ${errs.length} problem(s) to fix before deploy:\n`);
@@ -394,7 +453,13 @@ if (report.changed.length) {
    languages). These are config data, but the formats vary too much to rewrite
    safely — a wrong guess inside a Terms page is worse than a flagged one. So
    they are reported, never touched. */
-const digits   = v => String(v || "").replace(/\D/g, "");
+/* Bengali-Indic digits map to ASCII before comparison. A bilingual clinic site
+   prints its phone number in both scripts, and an audit that only understands
+   ASCII silently passes the previous clinic's number on the whole Bangla half
+   of the site — which is the half most of its patients read. */
+const BN_DIGITS = "\u09E6\u09E7\u09E8\u09E9\u09EA\u09EB\u09EC\u09ED\u09EE\u09EF";
+const toAscii  = v => String(v || "").replace(/[\u09E6-\u09EF]/g, d => BN_DIGITS.indexOf(d));
+const digits   = v => toAscii(v).replace(/\D/g, "");
 const known    = new Set([digits(c.contact?.phone), digits(c.contact?.phoneIntl),
                           digits(c.contact?.whatsapp)].filter(Boolean));
 const strayPhones = new Map();
@@ -409,7 +474,8 @@ for (const f of pages) {
     .replace(/\sd="[^"]*"/gi, " ")
     .replace(/\sviewBox="[^"]*"/gi, " ");
 
-  for (const m of text.match(/\b\d[\d\s()-]{7,17}\d\b/g) || []) {
+  const scan = text.match(/[\d\u09E6-\u09EF][\d\u09E6-\u09EF\s()-]{7,17}[\d\u09E6-\u09EF]/g) || [];
+  for (const m of scan) {
     const d = digits(m);
     if (d.length < 9 || d.length > 15) continue;
     /* A local number is a suffix of its own international form. */

@@ -57,7 +57,7 @@ service cloud.firestore {
     // two fields must be read as d['service'] and d['time']. Writing d.service is
     // a parse error, not a warning.
     //
-    // NOTE 2 — a rejected write fails SILENTLY on the site: omegaSaveBooking in
+    // NOTE 2 — a rejected write fails SILENTLY on the site: clinicSaveBooking in
     // assets/booking-cloud.js wraps addDoc in `catch (e) {}`, so a rule that is
     // too strict loses bookings with nothing shown on screen and nothing in the
     // console. After touching this function, submit a real booking AND a homepage

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" role="img" aria-label="Dental Implants">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7bb8f0"/><stop offset="1" stop-color="#3a5fb0"/></linearGradient>
+    <filter id="s" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0a2540" flood-opacity="0.18"/></filter>
+  </defs>
+  <style>
+    .tooth{animation:floatY 4.2s ease-in-out infinite}
+    .b1{transform-box:fill-box;transform-origin:center;animation:drift 9s ease-in-out infinite}
+    .b2{transform-box:fill-box;transform-origin:center;animation:drift 11s ease-in-out infinite .6s}
+    .b3{animation:floatY 7s ease-in-out infinite .3s}
+    .motif{transform-box:fill-box;transform-origin:center;animation:twinkle 3.2s ease-in-out infinite}
+    .badge{transform-box:fill-box;transform-origin:center;animation:pop 3.6s ease-in-out infinite}
+    @keyframes floatY{50%{transform:translateY(-6px)}}
+    @keyframes drift{50%{transform:translate(5px,-5px) scale(1.05)}}
+    @keyframes twinkle{0%,100%{opacity:.6;transform:scale(.92)}50%{opacity:1;transform:scale(1.1)}}
+    @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+    @media (prefers-reduced-motion:reduce){.tooth,.b1,.b2,.b3,.motif,.badge{animation:none}}
+  </style>
+  <rect width="400" height="260" fill="url(#g)"/>
+  <circle class="b1" cx="60" cy="40" r="70" fill="#fff" opacity=".10"/>
+  <circle class="b2" cx="350" cy="220" r="90" fill="#fff" opacity=".08"/>
+  <circle class="b3" cx="150" cy="135" r="78" fill="#fff" opacity=".22"/>
+  <g class="tooth"><g filter="url(#s)"><path transform="translate(104 82.1) scale(1.15)" fill="#ffffff" d="M40 2C22 2 9 16 9 35c0 14 5 38 13 49 4 5 9 4 10-3 1-9 1-19 8-19s7 10 8 19c1 7 6 8 10 3 8-11 13-35 13-49C71 16 58 2 40 2Z"/></g><path transform="translate(110 89) scale(1)" fill="url(#g)" d="M40 2C22 2 9 16 9 35c0 14 5 38 13 49 4 5 9 4 10-3 1-9 1-19 8-19s7 10 8 19c1 7 6 8 10 3 8-11 13-35 13-49C71 16 58 2 40 2Z"/></g>
+  <g class="motif"><g fill="#fff" opacity=".95"><rect x="296" y="74" width="12" height="40" rx="3"/><path d="M290 116h24l-6 26h-12z"/></g></g>
+  <g class="badge"><circle cx="332" cy="60" r="26" fill="#fff" opacity=".95"/><g transform="translate(320,48)" fill="none" stroke="#2b6cb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3h4l-1 6h-2z"/><path d="M9 9h6l-3 11z"/></g></g>
+</svg>

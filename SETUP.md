@@ -57,11 +57,11 @@ If you forked from a **built client site** rather than the clean template, its
 name is still in the body copy, the nav and the alt text:
 
 ```bash
-npm run rename -- --from "Omega Dental" --dry-run   # read the report first
-npm run rename -- --from "Omega Dental"
+npm run rename -- --from "Example Dental" --dry-run   # read the report first
+npm run rename -- --from "Example Dental"
 ```
 
-It will not touch email addresses — rewriting `omegadental@gmail.com` into an
+It will not touch email addresses — rewriting `hello@example.com` into an
 address nobody owns would send every booking into a mailbox that does not exist.
 It lists the ones it found so you can point them at the clinic by hand.
 
@@ -82,7 +82,7 @@ config change, and always immediately before deploying.
 Prove it worked:
 
 ```bash
-grep -c "$(node -e 'const w={};require("./assets/clinic.config.js");process.stdout.write(w.CLINIC.site.baseUrl)')" sitemap.xml
+grep -c "$(node scripts/apply-config.mjs --print-base-url)" sitemap.xml
 grep -riE 'example\.(com|github)|PASTE_THE' . --include=*.html --include=*.js --include=*.rules
 ```
 
@@ -143,7 +143,7 @@ Follow the setup block at the top of `tools/booking-alert.gs`. Two things there
 are **not** web content and are not touched by `npm run apply`:
 
 - `TO_EMAIL` — who gets the alerts
-- `SHARED_TOKEN` — must match `OMEGA_ALERT_TOKEN` in `assets/firebase-config.js`
+- `SHARED_TOKEN` — must match `EXAMPLE_ALERT_TOKEN` in `assets/firebase-config.js`
 
 Then run `checkAlertSetup()` from the Apps Script editor. It prints who it will
 email, the token the site must send, and how much of the daily quota is left.
@@ -167,7 +167,7 @@ command, publish directory `.`.
 
 1. **reCAPTCHA** — google.com/recaptcha/admin → add the new domain to the key's
    domain list. App Check rejects every token from an unlisted domain, and
-   `omegaSaveBooking` swallows the error, so bookings just stop with nothing on
+   `exampleSaveBooking` swallows the error, so bookings just stop with nothing on
    screen.
 2. **Firebase** — Authentication → Settings → Authorised domains → add it, or
    the dashboard login fails.

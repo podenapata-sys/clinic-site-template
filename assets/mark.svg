@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Clinic mark">
+  <defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#57C3AD"/><stop offset="1" stop-color="#2E9E86"/></linearGradient></defs>
+  <rect width="64" height="64" rx="16" fill="url(#mg)"/>
+  <path transform="translate(16 14) scale(.4)" fill="#fff" d="M40 2C22 2 9 16 9 35c0 14 5 38 13 49 4 5 9 4 10-3 1-9 1-19 8-19s7 10 8 19c1 7 6 8 10 3 8-11 13-35 13-49C71 16 58 2 40 2Z"/>
+</svg>

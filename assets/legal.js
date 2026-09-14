@@ -1,0 +1,101 @@
+/* Example Dental — shared legal layer: footer legal links, medical-disclaimer line,
+   cookie-consent banner, and third-party (Disqus) gating. Works with BOTH i18n systems
+   (index/book use data-i18n; other pages use data-en/data-bn) by setting text directly
+   and re-translating on the language toggle. */
+(function () {
+  "use strict";
+
+  // Path prefix so links work from root pages and nested (services/blog/gallery) pages.
+  var p = location.pathname;
+  var PRE = /\/(services|blog|gallery)\//.test(p) ? "../" : "";
+
+  var STR = {
+    privacy:  { en: "Privacy Policy",     bn: "প্রাইভেসি পলিসি" },
+    terms:    { en: "Terms of Use",       bn: "ব্যবহারের শর্তাবলি" },
+    disc:     { en: "Medical Disclaimer", bn: "মেডিক্যাল ডিসক্লেইমার" },
+    discline: {
+      en: "This website is for general information only and is not medical advice. Always consult a qualified dentist.",
+      bn: "এই ওয়েবসাইটটি শুধুমাত্র সাধারণ তথ্যের জন্য, এটি চিকিৎসা পরামর্শ নয়। সব সময় একজন যোগ্য দন্তচিকিৎসকের পরামর্শ নিন।"
+    },
+    cookie: {
+      en: "We use cookies and third-party services (Google Maps, WhatsApp, comments) to run this site and improve your experience.",
+      bn: "এই সাইট চালাতে ও আপনার অভিজ্ঞতা উন্নত করতে আমরা কুকি ও তৃতীয় পক্ষের সেবা (গুগল ম্যাপ, হোয়াটসঅ্যাপ, কমেন্ট) ব্যবহার করি।"
+    },
+    accept:  { en: "Accept",  bn: "সম্মত" },
+    decline: { en: "Decline", bn: "না" },
+    learn:   { en: "Learn more", bn: "আরও জানুন" }
+  };
+
+  function lang() {
+    return (document.documentElement.getAttribute("data-lang") === "bn") ? "bn" : "en";
+  }
+
+  /* ---------- Footer legal bar + disclaimer line ---------- */
+  function buildFooter() {
+    document.querySelectorAll(".footer").forEach(function (f) {
+      if (f.querySelector(".foot-legal")) return;
+      var bar = document.createElement("div");
+      bar.className = "foot-legal";
+      bar.innerHTML =
+        '<div class="foot-legal-links">' +
+          '<a href="' + PRE + 'privacy-policy.html" data-lg="privacy"></a><span>·</span>' +
+          '<a href="' + PRE + 'terms.html" data-lg="terms"></a><span>·</span>' +
+          '<a href="' + PRE + 'medical-disclaimer.html" data-lg="disc"></a>' +
+        '</div>' +
+        '<p class="foot-disc" data-lg="discline"></p>';
+      var bottom = f.querySelector(".foot-bottom");
+      if (bottom) bottom.parentNode.insertBefore(bar, bottom);
+      else f.appendChild(bar);
+    });
+  }
+
+  /* ---------- Cookie consent ---------- */
+  function consent() { try { return localStorage.getItem("clinic_consent"); } catch (e) { return null; } }
+  function setConsent(v) { try { localStorage.setItem("clinic_consent", v); } catch (e) {} }
+
+  function buildBanner() {
+    if (consent()) { if (consent() === "granted") loadGated(); return; }
+    var b = document.createElement("div");
+    b.className = "cookie-banner";
+    b.setAttribute("role", "dialog");
+    b.setAttribute("aria-label", "Cookie notice");
+    b.innerHTML =
+      '<p class="cookie-txt"><span data-lg="cookie"></span> ' +
+        '<a href="' + PRE + 'privacy-policy.html" data-lg="learn"></a></p>' +
+      '<div class="cookie-btns">' +
+        '<button type="button" class="cookie-decline" data-lg="decline"></button>' +
+        '<button type="button" class="cookie-accept" data-lg="accept"></button>' +
+      '</div>';
+    document.body.appendChild(b);
+    b.querySelector(".cookie-accept").addEventListener("click", function () {
+      setConsent("granted"); b.remove(); loadGated();
+    });
+    b.querySelector(".cookie-decline").addEventListener("click", function () {
+      setConsent("denied"); b.remove();
+    });
+    translate();
+  }
+
+  // Load consent-gated third parties (currently Disqus on the gallery).
+  function loadGated() { if (typeof window.__loadDisqus === "function") window.__loadDisqus(); }
+
+  /* ---------- Translation (both i18n systems) ---------- */
+  function translate() {
+    var l = lang();
+    document.querySelectorAll("[data-lg]").forEach(function (el) {
+      var s = STR[el.getAttribute("data-lg")];
+      if (s) el.textContent = s[l];
+    });
+  }
+
+  function init() {
+    buildFooter();
+    loadGated();       // no cookie banner — load consent-gated third parties (Disqus) directly
+    translate();
+    var tg = document.getElementById("langToggle");
+    if (tg) tg.addEventListener("click", function () { setTimeout(translate, 0); });
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();

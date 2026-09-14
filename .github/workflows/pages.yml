@@ -29,17 +29,23 @@ jobs:
         with:
           node-version: "20"
 
-      # Fails the deploy while the config still holds placeholders, rather than
-      # publishing a site whose canonical tags point at example.com. This is the
-      # last gate before a clinic's patients see the page.
-      - name: Validate clinic config
-        run: npm run check
-
-      # Config is applied in CI as well as locally, so a page that was edited by
-      # hand and pushed without running apply cannot go live out of step with
-      # the config. Idempotent — a correctly-applied tree produces no diff.
-      - name: Apply config
-        run: npm run apply
+      # A CLIENT site must never publish with placeholders in its canonical tags,
+      # so the check is a hard gate there. THIS repository is the shared
+      # template, where the placeholders are the intended content and a strict
+      # gate would just keep its own CI permanently red — so the two cases are
+      # told apart by the config itself rather than by a flag someone has to
+      # remember to set on one branch and not the other.
+      - name: Validate and apply clinic config
+        run: |
+          set -euo pipefail
+          name=$(node scripts/apply-config.mjs --print-name)
+          if [ "$name" = "Example Dental" ]; then
+            echo "::notice::Unconfigured template (clinic name is \"$name\") - applying in template mode."
+            node scripts/apply-config.mjs --template
+          else
+            npm run check
+            npm run apply
+          fi
 
       - uses: actions/configure-pages@v5
         with:

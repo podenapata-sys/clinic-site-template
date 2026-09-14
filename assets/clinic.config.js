@@ -42,6 +42,10 @@ window.CLINIC = (function () {
 
     /* ===== Identity ===================================================== */
     name:      "Example Dental",          // shown everywhere, incl. <title>
+    /* The clinic's name as it is written in Bangla. A bilingual site carries it
+       in every data-bn attribute, and a transliteration done by whoever happens
+       to be editing drifts within a page. Set it once here. */
+    nameBn:    "উদাহরণ ডেন্টাল",
     legalName: "Example Dental Care",     // JSON-LD + legal pages only
     type:      "Dentist",                 // JSON-LD @type. Use "MedicalClinic"
                                           // for a general/medical practice.
@@ -132,11 +136,12 @@ window.CLINIC = (function () {
 
     /* ===== The practitioner ============================================= */
     doctor: {
-      name:        "Dr. Example Name",
+      name:        "Dr. Ayesha Rahman",
+      nameBn:      "ডা. আয়েশা রহমান",
       title:       "Chief Dental Surgeon",
       credentials: "BDS, PGT",
       specialty:   "Dentistry",
-      photo:       "assets/doctor.jpg",
+      photo:       "assets/doctor.svg",
       bio: {
         en: "A short paragraph on training, years of practice and approach.",
         bn: "প্রশিক্ষণ ও অভিজ্ঞতা সম্পর্কে সংক্ষিপ্ত বিবরণ।",
@@ -152,9 +157,23 @@ window.CLINIC = (function () {
       primaryDark: "#2E9E86",
       ink:         "#173A63",
       accent:      "#F5A623",
-      logo:        "assets/logo.png",
-      mark:        "assets/mark-square.png",   // favicon + social avatar
-      ogImage:     "assets/logo.png",          // 1200x630 ideally
+      logo:        "assets/logo.svg",
+      mark:        "assets/mark-square.svg",   // favicon + social avatar
+      ogImage:     "assets/logo.svg",          // 1200x630 ideally
+    },
+
+    /* ===== Images =======================================================
+       The template ships resolution-independent SVG placeholders, so `ext` is
+       "svg" and the cards/ and thumbs/ size variants are bypassed entirely —
+       84 files instead of 252.
+
+       When the clinic supplies real photographs: drop them into
+       assets/services/ as .jpg, run `python3 tools/gen-image-sizes.py` to build
+       the two size folders, then set ext to "jpg". Card and thumb images are a
+       640px and 132px copy respectively, which is most of this site's weight on
+       a phone — worth doing before launch, not after.                        */
+    media: {
+      ext: "svg",
     },
 
     /* ===== Money ========================================================
@@ -167,6 +186,29 @@ window.CLINIC = (function () {
       locale:  "en-IN",
       showUsd: true,
       usdRate: 123,
+    },
+
+    /* ===== Homepage figures =============================================
+       The four animated counters and the Google rating badge. These are claims
+       a clinic makes in public, so they must be the CLINIC'S OWN numbers —
+       carrying another practice's over is false advertising, and patients do
+       check the Google listing the badge points at.
+
+       `patients` is also editable from the dashboard (it writes to the `site`
+       Firestore collection, which is world-readable by design); the value here
+       is what shows before that loads, and on a site with no Firebase.        */
+    stats: {
+      patients:     0,      // lifetime patients seen
+      years:        0,      // years the practice has been open
+      services:     0,      // how many treatments offered
+      satisfaction: 0,      // percent
+    },
+
+    /* From the clinic's own Google Business Profile. Set rating to 0 to hide
+       the badge rather than show a rating the listing does not support. */
+    rating: {
+      score:  0,            // e.g. 5.0
+      count:  0,            // number of reviews
     },
 
     /* ===== Feature switches =============================================

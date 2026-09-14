@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 64" role="img" aria-label="Clinic logo">
+  <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#57C3AD"/><stop offset="1" stop-color="#2E9E86"/></linearGradient></defs>
+  <rect width="56" height="56" x="4" y="4" rx="14" fill="url(#lg)"/>
+  <path transform="translate(18 16) scale(.32)" fill="#fff" d="M40 2C22 2 9 16 9 35c0 14 5 38 13 49 4 5 9 4 10-3 1-9 1-19 8-19s7 10 8 19c1 7 6 8 10 3 8-11 13-35 13-49C71 16 58 2 40 2Z"/>
+  <text x="72" y="32" font-family="Sora,system-ui,sans-serif" font-size="20" font-weight="800" fill="#173A63">CLINIC</text>
+  <text x="72" y="48" font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="600" fill="#6b7a8c" letter-spacing="2.4">REPLACE LOGO</text>
+</svg>
