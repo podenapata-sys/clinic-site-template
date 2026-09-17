@@ -162,6 +162,39 @@ window.CLINIC = (function () {
       ogImage:     "assets/logo.svg",          // 1200x630 ideally
     },
 
+    /* ===== The estimator's unit =========================================
+       The fee estimator multiplies a price by a quantity. `units` says what one
+       unit IS for this business, so the arithmetic never needs to know: teeth
+       for a dentist, decimals of land for a surveyor, rooms, hours.
+
+       label     sits on the price badge  ("Per Tooth", "প্রতি শতক")
+       qtyLabel  sits above the input     ("No. of teeth", "জমির পরিমাণ")
+       step      granularity — 1 for countable things, 0.01 where fractions are
+                 normal. Land is routinely 2.5 katha, and a whole-number field
+                 quietly quotes for 2.
+       convert   optional: units a visitor may enter, each expressed in the base
+                 unit. Drives the estimator AND the converter page, so the two
+                 can never disagree.                                          */
+    units: {
+      label:    { en: "Per Tooth",    bn: "প্রতি দাঁত" },
+      qtyLabel: { en: "No. of teeth", bn: "দাঁতের সংখ্যা" },
+      min: 1, step: 1, default: 1,
+      convert: null,
+    },
+
+    /* ===== Google Business Profile ======================================
+       The Place ID drives the "leave us a review" link and its QR code. Find
+       it at developers.google.com/maps/documentation/places/web-service/place-id
+       (search the business, copy the ID) — it looks like "ChIJ...".
+
+       Leave it EMPTY and the review link and QR are not rendered at all. That
+       is deliberate: a Place ID is an opaque string that survives every name-
+       and number-based search, so a leftover one points a new client's review
+       QR at someone else's listing with nothing on screen to reveal it.      */
+    google: {
+      placeId: "",
+    },
+
     /* ===== Images =======================================================
        The template ships resolution-independent SVG placeholders, so `ext` is
        "svg" and the cards/ and thumbs/ size variants are bypassed entirely —

@@ -365,7 +365,12 @@ const WA_MSGS_BN = {
 let LANG = localStorage.getItem("clinic_lang") || "bn";  // Bangladeshi audience → Bangla first
 
 function t(key){ return (I18N[LANG] && I18N[LANG][key]) ?? (I18N.en[key] ?? key); }
-function fmt(n){ return n.toLocaleString("en-IN"); } // 1,20,000 style grouping
+/* Currency, locale and FX all come from CLINIC.currency. They used to be three
+   separate literals here and in renderPricing, while clinic.config.js carried a
+   currency block that nothing read — so `showUsd` did nothing and the rate could
+   drift from the configured one without any symptom. */
+const CUR = (window.CLINIC && window.CLINIC.currency) || {};
+function fmt(n){ return n.toLocaleString(CUR.locale || "en-IN"); }
 
 function applyI18n(){
   document.documentElement.lang = LANG;
@@ -446,6 +451,16 @@ const ICONS = {
 };
 function svgIcon(name){return `<svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]||ICONS.check}</svg>`;}
 
+/* The clinic's own Google review link, built from the Place ID in config.
+   A Place ID is an opaque string, so a hardcoded one survives every name- and
+   number-based search — the previous business's ID shipped in this template
+   unnoticed, which would have pointed a new client's review QR at a stranger's
+   listing. Empty ID => no link, and the callers hide their UI. */
+function reviewUrl(){
+  const id = (window.CLINIC && window.CLINIC.google && window.CLINIC.google.placeId) || "";
+  return id ? `https://search.google.com/local/writereview?placeid=${id}` : "";
+}
+
 /* ----- Service image paths -----
    One place decides the extension and the size-variant folder, because the four
    call sites below used to spell ".jpg?v=2" out by hand and a template that
@@ -467,21 +482,6 @@ function svcImg(name, size) {
 }
 
 /* ----- Services grid ----- */
-const SVC_SLUG = {
-  "Scaling & Polishing":"scaling-polishing",
-  "Tooth Fillings":"tooth-fillings",
-  "Root Canal (RCT)":"root-canal",
-  "Crowns & Bridges":"crowns-bridges",
-  "Teeth Whitening":"teeth-whitening",
-  "Dentures":"dentures",
-  "Braces & Aligners":"braces-aligners",
-  "Dental Implants":"dental-implants",
-  "Veneers":"veneers",
-  "Extractions & Surgery":"extractions",
-  "Kids Dentistry":"kids-dentistry",
-  "Cosmetic Dentistry":"cosmetic-dentistry",
-};
-const SVC_TONE = ["#dff3ee","#cfe0f7","#ffe7cf","#e3f7f1","#e7ecfb","#fde7d6"];
 function renderServices(){
   const wrap = document.getElementById("servicesGrid");
   if(!wrap) return;
@@ -512,7 +512,7 @@ function renderServices(){
     <article class="svc-card${s.vid||s.img2?' svc-has-vid':''}">
       <a class="svc-img" href="${href}" aria-label="${name}">${media}</a>${galHtml}
       <div class="svc-body">
-        <div class="svc-top"><span class="svc-price">${s.pr}${s.per?` <span class="svc-per">${t("per_tooth")}</span>`:""}</span>${dur}</div>
+        <div class="svc-top"><span class="svc-price">${s.pr}${s.per?` <span class="svc-per">${unitLabel()}</span>`:""}</span>${dur}</div>
         <h3><a href="${href}">${name}</a></h3>
         ${common?`<span class="svc-common">${common}</span>`:""}
         <p>${LANG==="bn"?s.db:s.de}</p>
@@ -576,11 +576,11 @@ function renderPricing(){
     if(!items.length) return;
     html += `<tr class="price-cat"><td colspan="2">${LANG==="bn"?CATS[cat].bn:CATS[cat].en}</td></tr>`;
     items.forEach(p=>{
-      const price = p.min===p.max ? `৳ ${fmt(p.min)}` : `৳ ${fmt(p.min)} – ${fmt(p.max)}`;
+      const price = p.min===p.max ? fmtBdt(p.min) : `${fmtBdt(p.min)} – ${fmtBdt(p.max)}`;
       const pname = LANG==="bn" && p.nb ? p.nb : p.n;
       const noteTxt = LANG==="bn" && p.noteb ? p.noteb : p.note;
       const noteTag = noteTxt ? ` <span class="tag tag-soft">${noteTxt}</span>` : "";
-      const perLabel = p.per ? `<span class="pprice-per">${t("per_tooth")}</span>` : "";
+      const perLabel = p.per ? `<span class="pprice-per">${unitLabel()}</span>` : "";
       const nameCell = p.slug
         ? `<a class="pname-link" href="services/${p.slug}.html"><span class="pname">${pname}</span>${noteTag}<span class="plink-arr">→</span></a>`
         : `<span class="pname">${pname}</span>${noteTag}`;
@@ -602,10 +602,50 @@ function renderCalcOptions(){            // categories + services + qty
     if(cur) cat.value = cur;
   }
   if(qty && !qty.options.length){
-    qty.innerHTML = Array.from({length:20},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join("");
+    /* A <select> of 1..20 whole numbers cannot express 2.5 katha, and land area
+       routinely exceeds 20 units. The field is a number input so any positive
+       amount is accepted; UNITS.step decides the granularity. */
+    buildQtyField(qty);
   }
+  /* The label above the quantity field names the unit, so it follows config
+     rather than the i18n dictionary when a business defines its own. */
+  const qtyLab = qtyWrapLabel();
+  if (qtyLab) qtyLab.textContent = unitQtyLabel();
   renderCalcServices();
 }
+/* ----- The quantity multiplier -----
+   Generic "price x units". UNITS names what a unit IS for this business — teeth,
+   decimals of land, rooms, hours — so the arithmetic below never has to know. */
+const UNITS = (window.CLINIC && window.CLINIC.units) || {};
+function unitLabel(){
+  const l = UNITS.label;
+  if (!l) return t("per_tooth");
+  return (LANG === "bn" && l.bn) ? l.bn : (l.en || "");
+}
+function unitQtyLabel(){
+  const l = UNITS.qtyLabel;
+  if (!l) return t("calc_qty");
+  return (LANG === "bn" && l.bn) ? l.bn : (l.en || "");
+}
+/* Replaces the old 1..20 <select> in place, keeping the element id so every
+   existing listener and style still applies. */
+function qtyWrapLabel(){
+  const w = document.getElementById("calcQtyWrap");
+  return w ? w.querySelector("label") : null;
+}
+function buildQtyField(el){
+  if (!el || el.tagName === "INPUT") return;
+  const input = document.createElement("input");
+  input.type = "number";
+  input.id = el.id;
+  input.className = el.className;
+  input.min = String(UNITS.min ?? 0.01);
+  input.step = String(UNITS.step ?? 0.01);
+  input.value = String(UNITS.default ?? 1);
+  input.inputMode = "decimal";
+  el.replaceWith(input);
+}
+
 function renderCalcServices(){
   const catSel = document.getElementById("calcCategory");
   const sel = document.getElementById("calcService");
@@ -618,8 +658,8 @@ function renderCalcServices(){
   updateCalc();
 }
 let _calcAnim;
-const USD_RATE = 123;                    // 1 USD ≈ 123 BDT (update here if it changes)
-function fmtBdt(bdt){ return "৳ " + fmt(bdt); }
+const USD_RATE = Number(CUR.usdRate) || 123;
+function fmtBdt(bdt){ return (CUR.symbol || "\u09f3") + " " + fmt(bdt); }
 function fmtUsd(bdt){ return "$" + Math.round(bdt/USD_RATE).toLocaleString("en-US"); }
 function fitCalcLine(el, avail){          // shrink font so the number fits one line without growing the box
   if(!el || !avail) return;
@@ -637,8 +677,14 @@ function updateCalc(){
   const p = PRICES[+sel.value] || PRICES[0];
   const per = !!p.per;
   if(qtyWrap) qtyWrap.style.visibility = per ? "visible" : "hidden";  // keep space so card height stays fixed
-  const qty = per ? Math.max(1, parseInt((qtyEl&&qtyEl.value)||"1",10)) : 1;
-  const min = p.min*qty, max = p.max*qty;
+  /* parseFloat, not parseInt: land is sold in fractions and parseInt("2.5")
+     is 2 — a 20% undercount, on a price, with nothing on screen to show it.
+     A blank or nonsense field falls back to one unit rather than NaN. */
+  const raw = parseFloat((qtyEl && qtyEl.value) || "1");
+  const qty = per ? (isFinite(raw) && raw > 0 ? raw : 1) : 1;
+  /* Round once, at the end: rounding the unit price first then multiplying
+     compounds the error across both bounds of the range. */
+  const min = Math.round(p.min*qty), max = Math.round(p.max*qty);
   // build the result structure once; update text in-place each frame so we can size the font to fit
   out.innerHTML = `<span class="calc-amt"></span><span class="calc-usd"></span>${p.note?`<span class="calc-sub">${p.note}</span>`:""}`;
   const amtEl = out.querySelector(".calc-amt");
@@ -968,7 +1014,7 @@ function submitBooking(e){
     emerg: f.f_emerg.checked,
   };
   let lines = [
-    "🦷 *Example Dental — Appointment Request*",
+    "*Example Dental — Appointment Request*",
     `Name: ${data.name}`,
     `Phone: ${data.phone}`,
     data.service ? `Treatment: ${data.service}` : "",
@@ -1151,6 +1197,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   document.getElementById("calcCategory")?.addEventListener("change", renderCalcServices);
   document.getElementById("calcService")?.addEventListener("change", updateCalc);
   document.getElementById("calcQty")?.addEventListener("change", updateCalc);
+  document.getElementById("calcQty")?.addEventListener("input", updateCalc);
   document.getElementById("calcBook")?.addEventListener("click", function(){
     const svc = this.dataset.service ? "?service="+encodeURIComponent(this.dataset.service) : "";
     window.location.href = "book.html"+svc;
@@ -1260,7 +1307,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
       chip.addEventListener("click", ()=>{
         const key = chip.dataset.msg;
         const msgs = LANG==="bn" ? WA_MSGS_BN : WA_MSGS;
-        if(start) start.href = "https://wa.me/880XXXXXXXXXX?text=" + encodeURIComponent(msgs[key]||"");
+        /* Reads config like every other WhatsApp link on the site. This one was
+           a literal placeholder, and apply-config only rewrites .html — so on a
+           forked site the floating chat widget silently led nowhere, which is
+           the most-pressed control on a phone. */
+        if(start) start.href = `https://wa.me/${CONTACT.whatsapp}?text=` + encodeURIComponent(msgs[key]||"");
         start?.click();
       });
     });
@@ -1311,7 +1362,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
       }).slice(0,18);
     }
 
-    var TYPE_ICONS = {service:"🦷",price:"💰",faq:"❓",blog:"📄",tech:"⚙️"};
+    var TYPE_ICONS = {service:"📄",price:"💰",faq:"❓",blog:"📄",tech:"⚙️"};
     var TYPE_KEY   = {service:"srch_services",price:"srch_pricing",faq:"srch_faq",blog:"srch_blog",tech:"srch_tech"};
 
     function renderResults(results){
@@ -1385,9 +1436,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
   // Google Review QR Code
   setTimeout(()=>{
     const qrEl = document.getElementById("reviewQRCode");
-    if(qrEl && window.QRCode){
+    if(qrEl && window.QRCode && reviewUrl()){
       new QRCode(qrEl, {
-        text:"https://search.google.com/local/writereview?placeid=ChIJkU6fOETBVTcRtwuNI9vunfY",
+        text: reviewUrl(),
         width:128, height:128,
         colorDark:"#13294e", colorLight:"#ffffff"
       });

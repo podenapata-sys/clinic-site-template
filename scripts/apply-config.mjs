@@ -269,6 +269,16 @@ function applyToPage(c, file, report) {
     report.rewrittenHosts.add(u);
   }
 
+  /* The Google review link, in both the QR anchor and the button. Driven from
+     config for the same reason the Place ID lives there — see clinic.config.js. */
+  {
+    const pid = c.google?.placeId || "";
+    html = html.replace(/(writereview\?placeid=)([A-Za-z0-9_-]*)/g, (m, a, old) => {
+      if (old !== pid) { seen.add("placeid"); report.rewrittenPlaceIds.add(old); }
+      return `${a}${pid}`;
+    });
+  }
+
   /* WhatsApp and phone links. These are hrefs, not prose, and they are the
      single most load-bearing thing on a clinic site — a wa.me link carrying the
      previous clinic's digits sends every enquiry to a stranger, and looks
@@ -427,7 +437,7 @@ if (CHECK) {
 }
 
 const pages  = walk(ROOT);
-const report = { changed: [], tags: new Map(), rewrittenHosts: new Set(), rewrittenEmails: new Set() };
+const report = { changed: [], tags: new Map(), rewrittenHosts: new Set(), rewrittenEmails: new Set(), rewrittenPlaceIds: new Set() };
 pages.forEach(p => applyToPage(c, p, report));
 const n = writeSitemap(c, pages, report);
 
@@ -441,6 +451,10 @@ if (report.rewrittenEmails.size) {
   console.log(`\n  Repointed ${report.rewrittenEmails.size} email address(es) to ${c.contact.email}:`);
   [...report.rewrittenEmails].forEach(a => console.log(`    - ${a}`));
   console.log(`    (tools/booking-alert.gs -> TO_EMAIL is not web content — set it by hand.)`);
+}
+if (report.rewrittenPlaceIds.size) {
+  console.log(`\n  Repointed Google review link(s) to config.google.placeId${c.google?.placeId ? "" : " (empty — link hidden)"}:`);
+  [...report.rewrittenPlaceIds].filter(Boolean).forEach(a => console.log(`    - was ${a}`));
 }
 if (report.changed.length) {
   console.log("");
@@ -502,6 +516,57 @@ if (strayPhones.size) {
   console.log(`  Not rewritten — check each one, they may be a previous clinic's:`);
   [...strayPhones].slice(0, 8).forEach(([n, where]) =>
     console.log(`    ${n}   ${[...where].slice(0, 2).join(", ")}${where.size > 2 ? ` +${where.size - 2} more` : ""}`));
+}
+
+/* OPAQUE IDENTIFIERS. Names, phone numbers, emails and hostnames are all
+   greppable because you know what you are looking for. A Google Place ID, a
+   GA/GTM property, an Apps Script deployment — these are meaningless strings
+   that match no such pattern, so they survive a clean-looking sweep and ship
+   to the next client still pointing at the last one. Shape, not content, is
+   the only thing that finds them. */
+const OPAQUE = [
+  [/\bChIJ[A-Za-z0-9_-]{10,}/g,        "Google Place ID"],
+  [/\bGTM-[A-Z0-9]{4,}\b/g,            "Google Tag Manager container"],
+  [/\bUA-\d{4,}-\d+\b/g,              "Universal Analytics property"],
+  [/\bG-[A-Z0-9]{8,}\b/g,              "GA4 measurement ID"],
+  [/\bAKfycb[A-Za-z0-9_-]{10,}/g,      "Apps Script deployment"],
+  [/\bAIza[A-Za-z0-9_-]{30,}/g,        "Google API key"],
+  [/\b\d{10,}-[a-z0-9]{20,}\b/g,       "OAuth client ID"],
+];
+{
+  const found = new Map();
+  /* .js and .gs too, not just pages — the Place ID that prompted this lived in
+     app.js, which the page walk never opens. */
+  const extra = [];
+  const collect = (dir) => {
+    for (const e of readdirSync(dir)) {
+      if (e.startsWith(".") || e === "node_modules") continue;
+      const fp = join(dir, e);
+      if (statSync(fp).isDirectory()) collect(fp);
+      else if (/\.(js|mjs|gs|json|xml|txt)$/.test(e) && !/vendor|clinic\.config/.test(fp)) extra.push(fp);
+    }
+  };
+  collect(ROOT);
+  for (const f of [...pages, ...extra]) {
+    const text = readFileSync(f, "utf8");
+    for (const [re, label] of OPAQUE) {
+      for (const m of text.match(re) || []) {
+        if (c.google?.placeId && m.includes(c.google.placeId)) continue;
+        const k = `${label}|${m}`;
+        if (!found.has(k)) found.set(k, new Set());
+        found.get(k).add(relative(ROOT, f));
+      }
+    }
+  }
+  if (found.size) {
+    console.log(`\n  ${found.size} opaque identifier(s) not accounted for by config:`);
+    for (const [k, where] of [...found].slice(0, 8)) {
+      const [label, val] = k.split("|");
+      console.log(`    ${label}: ${val.slice(0, 44)}${val.length > 44 ? "…" : ""}`);
+      console.log(`        ${[...where].slice(0, 3).join(", ")}`);
+    }
+    console.log(`    These match no name or number, so a normal sweep cannot see them.`);
+  }
 }
 
 const missing = [...report.tags].filter(([, s]) => !s.has("canonical")).map(([f]) => f);
