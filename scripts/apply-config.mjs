@@ -25,6 +25,11 @@ import { join, relative, dirname, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT   = join(dirname(fileURLToPath(import.meta.url)), "..");
+/* The practitioner block. `doctor` is the name this key had while the template
+   was clinic-only; a delivered client site still carries it, so both are read
+   and neither has to be migrated in a hurry. */
+const PRAC = (c) => (c && (c.practitioner || c.doctor)) || null;
+
 const ARGV   = process.argv.slice(2);
 const DRY    = ARGV.includes("--dry-run");
 const CHECK  = ARGV.includes("--check");
@@ -75,7 +80,7 @@ function validate(c) {
   if (/^Example /.test(c.legalName || ""))   errs.push("legalName is still the placeholder.");
   if (/^Street address/.test(c.address?.street || ""))
                                              errs.push("address.street is still the placeholder.");
-  if (/^Dr\. Example/.test(c.doctor?.name || ""))
+  if (/^Dr\. Example/.test(PRAC(c)?.name || ""))
                                              errs.push("doctor.name is still the placeholder.");
 
   const { lat, lng } = c.geo || {};
@@ -87,7 +92,7 @@ function validate(c) {
   for (const d of c.description ? Object.keys(c.description) : []) {
     if (/Example Dental/i.test(c.description[d] || ""))
       errs.push(`description.${d} still names the placeholder clinic — it ships straight into <meta description> and og:description.`);
-    if (/^A short paragraph/.test(c.doctor?.bio?.[d] || ""))
+    if (/^A short paragraph/.test(PRAC(c)?.bio?.[d] || ""))
       warns.push(`doctor.bio.${d} is still the placeholder text.`);
     const len = (c.description[d] || "").length;
     if (len > 160) warns.push(`description.${d} is ${len} chars — Google truncates past ~155.`);
@@ -136,6 +141,14 @@ function setAttr(html, pattern, value, seen, label) {
   return next;
 }
 
+/* schema.org types that actually accept the medical vocabulary. Anything else
+   — ProfessionalService, LocalBusiness, HomeAndConstructionBusiness — must not
+   carry medicalSpecialty or a Physician employee. */
+const MEDICAL_TYPES = new Set([
+  "Dentist", "Physician", "MedicalClinic", "MedicalBusiness", "Hospital",
+  "Pharmacy", "Optician", "VeterinaryCare", "MedicalOrganization",
+]);
+
 /* ---- the JSON-LD block ------------------------------------------------ */
 function buildJsonLd(c) {
   const base = c.site.baseUrl;
@@ -167,12 +180,20 @@ function buildJsonLd(c) {
       opens: h.opens, closes: h.closes,
     })),
     sameAs: [c.contact?.facebook, c.contact?.instagram].filter(Boolean),
-    medicalSpecialty: c.specialty || undefined,
-    employee: c.doctor?.name ? {
-      "@type": "Physician",
-      name: c.doctor.name,
-      jobTitle: c.doctor.title || undefined,
-      medicalSpecialty: c.doctor.specialty || c.specialty || undefined,
+    /* medicalSpecialty and Physician are medical-vocabulary terms. On a
+       non-medical @type they are invalid and Search Console reports them, so
+       a land surveyor or a law practice gets knowsAbout and a plain Person
+       instead. Everything else about the node is identical. */
+    ...(MEDICAL_TYPES.has(c.type)
+      ? { medicalSpecialty: c.specialty || undefined }
+      : { knowsAbout: c.specialty || undefined }),
+    employee: PRAC(c)?.name ? {
+      "@type": MEDICAL_TYPES.has(c.type) ? "Physician" : "Person",
+      name: PRAC(c).name,
+      jobTitle: PRAC(c).title || undefined,
+      ...(MEDICAL_TYPES.has(c.type)
+        ? { medicalSpecialty: PRAC(c).specialty || c.specialty || undefined }
+        : { knowsAbout: PRAC(c).specialty || c.specialty || undefined }),
     } : undefined,
   };
   if (!node.sameAs.length) delete node.sameAs;

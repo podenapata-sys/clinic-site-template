@@ -29,6 +29,11 @@ import { join, relative, dirname, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+/* The practitioner block. `doctor` is the name this key had while the template
+   was clinic-only; a delivered client site still carries it, so both are read
+   and neither has to be migrated in a hurry. */
+const PRAC = (c) => (c && (c.practitioner || c.doctor)) || null;
+
 const ARGV = process.argv.slice(2);
 const DRY  = ARGV.includes("--dry-run");
 
@@ -186,10 +191,10 @@ for (const f of files) {
   /* Bangla first: these are unambiguous full-name strings in a script none of
      the Latin variants can touch, so order relative to them does not matter —
      but doing them before the protection step keeps all name work together. */
-  for (const [a, b] of [[fromBnArg, c.nameBn], [fromDoctorBnArg, c.doctor?.nameBn],
+  for (const [a, b] of [[fromBnArg, c.nameBn], [fromDoctorBnArg, PRAC(c)?.nameBn],
                         [fromBnArg && encodeURIComponent(fromBnArg), c.nameBn && encodeURIComponent(c.nameBn)],
                         [fromDoctorBnArg && encodeURIComponent(fromDoctorBnArg),
-                         c.doctor?.nameBn && encodeURIComponent(c.doctor.nameBn)]]) {
+                         PRAC(c)?.nameBn && encodeURIComponent(PRAC(c).nameBn)]]) {
     if (!a || !b) continue;
     /* Full string first, then each distinctive component — the same shape the
        Latin pass needs, and for the same reason: copy addresses the clinic and
@@ -220,15 +225,15 @@ for (const f of files) {
 
   /* Named people first: their name may contain a word that a later variant
      would otherwise catch mid-replacement. */
-  if (fromDoctorArg && c.doctor?.name) {
-    for (const [a, b] of [[fromDoctorArg, c.doctor.name],
-                          [enc(fromDoctorArg), enc(c.doctor.name)]]) {
+  if (fromDoctorArg && PRAC(c)?.name) {
+    for (const [a, b] of [[fromDoctorArg, PRAC(c).name],
+                          [enc(fromDoctorArg), enc(PRAC(c).name)]]) {
       const parts = text.split(a);
       if (parts.length > 1) { hits += parts.length - 1; text = parts.join(b); }
     }
     /* Bare surname, as bylines and alt text often use it alone. */
     const strip = n => n.replace(/^(Dr\.?|Prof\.?)\s+/i, "").split(/\s+/);
-    const oldParts = strip(fromDoctorArg), newParts = strip(c.doctor.name);
+    const oldParts = strip(fromDoctorArg), newParts = strip(PRAC(c).name);
     /* Surname AND first name: clinic copy addresses the dentist both ways
        ("ask Dr. Ayesha", "Dr. Ayesha Rahman, BDS"), and catching only the full
        string leaves the familiar form crediting a real person by name. */

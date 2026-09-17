@@ -134,8 +134,11 @@ window.CLINIC = (function () {
       { days: ["Friday"], opens: "16:00", closes: "21:30" },
     ],
 
-    /* ===== The practitioner ============================================= */
-    doctor: {
+    /* ===== The practitioner =============================================
+       Whoever the business is sold on: the dentist, the surveyor, the
+       solicitor. Named for the role rather than the profession so a vertical
+       swap does not have to touch the scripts that read it.                 */
+    practitioner: {
       name:        "Dr. Ayesha Rahman",
       nameBn:      "ডা. আয়েশা রহমান",
       title:       "Chief Dental Surgeon",
