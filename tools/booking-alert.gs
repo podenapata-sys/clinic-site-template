@@ -86,6 +86,19 @@ function _bookingEmail(d) {
     ['Wants',     when],
     ['Address',   _address(d) || '—']
   ];
+
+  /* Parcel identity, appended only when the enquirer actually gave it. A row
+     of five em-dashes is noise in a notification someone reads on a phone. */
+  var plot = [
+    ['District', _clean(d.district)],
+    ['Mouza',    _clean(d.mouza) + (_clean(d.jl) ? ' (JL ' + _clean(d.jl) + ')' : '')],
+    ['Dag No.',  _clean(d.dag)],
+    ['Khatian',  _clean(d.khatian)],
+    ['Area',     _clean(d.area) ? _clean(d.area) + ' ' + _clean(d.areaUnit) : '']
+  ];
+  for (var pi = 0; pi < plot.length; pi++) {
+    if (plot[pi][1]) rows.push(plot[pi]);
+  }
   var body = '<div style="font-family:Arial,sans-serif;font-size:15px;color:#1f2d3d">'
     + (d.emerg ? '<p style="background:#fde8e8;color:#c0392b;padding:10px;border-radius:8px">'
                + '<b>Marked as an emergency / same-day request.</b></p>' : '')
@@ -165,6 +178,7 @@ function doGet() {
 
 var SHEET_NAME    = 'Website Bookings';
 var SHEET_HEADERS = ['Received', 'Client', 'Phone', 'Address', 'Service',
+                     'District', 'Mouza', 'JL', 'Dag', 'Khatian', 'Area',
                      'Requested date', 'Requested time', 'Emergency', 'Status'];
 var ADDRESS_COL   = 4;   // where Address sits in SHEET_HEADERS
 
@@ -195,6 +209,12 @@ function _logBooking(d) {
     'address':        _address(d),
     'note':           _address(d),   // an un-migrated sheet still says Note
     'service':        _clean(d.service),
+    'district':       _clean(d.district),
+    'mouza':          _clean(d.mouza),
+    'jl':             _clean(d.jl),
+    'dag':            _clean(d.dag),
+    'khatian':        _clean(d.khatian),
+    'area':           _clean(d.area) ? _clean(d.area) + ' ' + _clean(d.areaUnit) : '',
     'treatment':      _clean(d.service),  // ditto
     'requested date': _clean(d.date),
     'requested time': _clean(d.time),
@@ -381,6 +401,9 @@ function _newBookings(token, sinceIso) {
         time:      _str(f.time),
         /* `note` is what the field was called before the form asked for an address */
         address:   _str(f.address) || _str(f.note),
+        district:  _str(f.district), mouza: _str(f.mouza), jl: _str(f.jl),
+        dag:       _str(f.dag), khatian: _str(f.khatian),
+        area:      _str(f.area), areaUnit: _str(f.areaUnit),
         emerg:     !!(f.emergency && f.emergency.booleanValue),
         createdAt: (f.createdAt && f.createdAt.timestampValue) || ''
       });

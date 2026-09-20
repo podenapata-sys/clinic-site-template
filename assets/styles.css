@@ -1053,3 +1053,20 @@ body.bn .legal-doc p,body.bn .legal-doc li{font-size:1.05rem;line-height:1.9}
 /* Booking WhatsApp transparency note */
 .book-wa-note{margin-top:12px;font-size:.82rem;color:var(--muted);text-align:center;line-height:1.5}
 .book-wa-note a{color:var(--teal-dd);font-weight:600}
+
+/* ---- Parcel fieldset on the survey-request form ----------------------------
+   Visually secondary to the required fields above it: every control in here is
+   optional, and a block of inputs that LOOKS required is what makes someone
+   close the form when they do not have a dag number to hand. */
+.f-plot{border:1px solid #e2eeeb;border-radius:14px;padding:16px 16px 6px;margin:6px 0 4px;background:#fbfdfd}
+.f-plot legend{padding:0 8px;font-size:.9rem;font-weight:700;color:var(--ink)}
+.f-plot .f-hint{margin:0 0 12px;font-size:.86rem;line-height:1.5;color:var(--muted)}
+.f-plot .f-field label{font-size:.8rem}
+.f-area{display:flex;gap:8px}
+.f-area input{flex:1 1 auto;min-width:0}
+.f-area select{flex:0 0 auto;width:auto;min-width:104px}
+@media (max-width:560px){
+  .f-plot{padding:14px 12px 4px}
+  .f-area{flex-wrap:wrap}
+  .f-area select{width:100%}
+}

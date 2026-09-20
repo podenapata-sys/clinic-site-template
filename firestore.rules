@@ -62,10 +62,16 @@ service cloud.firestore {
     // too strict loses bookings with nothing shown on screen and nothing in the
     // console. After touching this function, submit a real booking AND a homepage
     // callback (they take different paths) before trusting it.
+    // NOTE 3 — the plot fields below are OPTIONAL but must still be listed in
+    // hasOnly and type-checked. Someone enquiring before they own the land has
+    // no dag number, and a required field there costs the enquiry — so the form
+    // always sends them, empty when unknown, and the rule allows empty strings.
     function validBooking(d) {
       return d.keys().hasOnly([
                'name','phone','service','date','dateISO','time',
-               'address','note','emergency','status','source','kind','createdAt'
+               'address','note','emergency','status','source','kind','createdAt',
+               // parcel identity, all optional
+               'mouza','jl','dag','khatian','area','areaUnit','district'
              ])
         && d.name is string       && d.name.size() > 0    && d.name.size() <= 100
         && d.phone is string      && d.phone.size() >= 6  && d.phone.size() <= 25
@@ -79,7 +85,17 @@ service cloud.firestore {
         && d.status == 'new'
         && d.source == 'website'
         && d.kind in ['appointment','callback']
-        && d.createdAt == request.time;
+        && d.createdAt == request.time
+        // Parcel identity. Kept short: these are reference numbers off a
+        // document, not free text, and a generous limit here is just a place to
+        // paste spam into a collection the public can write to.
+        && d.mouza is string    && d.mouza.size()    <= 120
+        && d.jl is string       && d.jl.size()       <= 40
+        && d.dag is string      && d.dag.size()      <= 120
+        && d.khatian is string  && d.khatian.size()  <= 120
+        && d.area is string     && d.area.size()     <= 40
+        && d.areaUnit is string && d.areaUnit.size() <= 20
+        && d.district is string && d.district.size() <= 80;
     }
 
     match /bookings/{bookingId} {

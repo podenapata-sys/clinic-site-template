@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Land Area Converter — Example Land Survey</title>
+<meta name="description" content="Convert between decimal (শতক), katha (কাঠা), bigha (বিঘা), acre (একর) and square feet. Greater-Dhaka standard, shown on screen.">
+<meta name="keywords" content="land survey Dhaka, amin, khatian, mouza map, dag number, boundary demarcation, land verification, jomi jorip">
+<link rel="canonical" href="https://example.github.io/clinic-site-template/area-converter.html">
+<meta name="theme-color" content="#57C3AD">
+<link rel="icon" type="image/png" href="assets/mark-square.svg?v=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="assets/styles.css?v=1">
+<style>
+  .conv-wrap{max-width:760px;margin:0 auto}
+  .conv-in{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin:18px 0 6px}
+  .conv-in .fld{flex:1 1 200px;min-width:170px}
+  .conv-in label{display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:6px}
+  .conv-in input,.conv-in select{width:100%;padding:13px 14px;border:1px solid #d8e3e8;border-radius:12px;
+    font:inherit;font-size:1.05rem;background:#fff;color:var(--ink)}
+  .conv-in input:focus,.conv-in select:focus{outline:2px solid var(--teal);outline-offset:1px}
+  .conv-out{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+  .conv-out li{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+    padding:14px 16px;background:#f4f9f8;border:1px solid #e2eeeb;border-radius:12px}
+  .conv-out .cu{font-weight:600;color:var(--muted)}
+  .conv-out .cv{font-family:var(--f-head);font-weight:800;font-size:1.22rem;color:var(--ink);
+    font-variant-numeric:tabular-nums}
+  .conv-out li.is-src{background:#eaf6f3;border-color:var(--teal)}
+  .conv-std{margin-top:16px;padding:14px 16px;border-left:4px solid var(--orange);
+    background:#fff8ef;border-radius:0 10px 10px 0;font-size:.93rem;color:#6b5b43}
+  .conv-ref{width:100%;border-collapse:collapse;margin-top:12px;font-size:.93rem}
+  .conv-ref th,.conv-ref td{padding:9px 10px;border-bottom:1px solid #e6eef1;text-align:left}
+  .conv-ref th{color:var(--muted);font-weight:600}
+  .conv-ref td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<header class="header"><nav class="nav container">
+  <a class="brand" href="index.html"><span class="logo-anim"><img src="assets/mark.svg?v=3" alt="Example Land Survey"></span><span>EXAMPLE<small>LAND SURVEY</small></span></a>
+  <div class="navlist" id="navlist">
+    <a href="index.html#why" data-en="About Us" data-bn="আমাদের সম্পর্কে"></a>
+    <a href="services/index.html" data-en="Our Services" data-bn="আমাদের সেবা"></a>
+    <a href="index.html#contact" data-en="Contact" data-bn="যোগাযোগ"></a>
+    <a href="index.html#pricing" data-en="Fee List" data-bn="মূল্য তালিকা"></a>
+    <a href="gallery/index.html" data-en="Gallery" data-bn="গ্যালারি"></a>
+    <a href="careers.html" data-en="Career" data-bn="ক্যারিয়ার"></a>
+    <div class="nav-actions">
+      <a class="btn btn-primary" href="book.html" data-en="Request a Survey" data-bn="জরিপের অনুরোধ"></a>
+    </div>
+  </div>
+  <button class="lang-toggle nav-lang" id="langToggle"><span id="langText">বাংলা</span></button>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav></header>
+<meta name="page-root" content="">
+
+<section class="hero"><span class="blob b1"></span><span class="blob b2"></span>
+  <div class="container" style="position:relative;z-index:1;padding:52px 0 26px;max-width:820px;text-align:center">
+    <span class="eyebrow" data-en="Free tool" data-bn="ফ্রি টুল"></span>
+    <h1 data-en="Land area converter" data-bn="জমির একক রূপান্তর"></h1>
+    <p data-en="Convert between decimal (শতক), katha (কাঠা), bigha (বিঘা), acre (একর) and square feet."
+       data-bn="শতক, কাঠা, বিঘা, একর ও বর্গফুটের মধ্যে রূপান্তর করুন।"></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container conv-wrap">
+
+    <div class="calc-card">
+      <div class="conv-in">
+        <div class="fld">
+          <label for="convAmt" data-en="Amount" data-bn="পরিমাণ"></label>
+          <input id="convAmt" type="number" inputmode="decimal" step="0.001" min="0" value="1">
+        </div>
+        <div class="fld">
+          <label for="convUnit" data-en="Unit" data-bn="একক"></label>
+          <select id="convUnit"></select>
+        </div>
+      </div>
+      <ul class="conv-out" id="convOut"></ul>
+    </div>
+
+    <div class="conv-std">
+      <b data-en="Which standard this uses" data-bn="কোন মান ব্যবহৃত হয়েছে"></b><br>
+      <span id="convStd"></span><br>
+      <span data-en="Katha and bigha are not uniform across Bangladesh. If your papers were drawn up under a different local measure, these figures will not match them — tell us which measure your documents use."
+            data-bn="কাঠা ও বিঘা সারা বাংলাদেশে এক নয়। আপনার কাগজ অন্য স্থানীয় মাপে তৈরি হলে এই সংখ্যাগুলো মিলবে না — আপনার দলিলে কোন মাপ ব্যবহৃত হয়েছে তা জানান।"></span>
+    </div>
+
+    <h2 style="margin-top:34px" data-en="Reference" data-bn="রেফারেন্স"></h2>
+    <table class="conv-ref">
+      <thead><tr>
+        <th data-en="Unit" data-bn="একক"></th>
+        <th style="text-align:right" data-en="Square feet" data-bn="বর্গফুট"></th>
+      </tr></thead>
+      <tbody id="convRef"></tbody>
+    </table>
+
+    <div class="legal-callout" style="margin-top:28px">
+      <p data-en="This is arithmetic on the standard above — it is not a measurement of your land, and it says nothing about your plot. Official area comes from a signed field survey report."
+         data-bn="এটি উপরের মানের ভিত্তিতে শুধুই গাণিতিক হিসাব — এটি আপনার জমির পরিমাপ নয় এবং আপনার জমি সম্পর্কে কিছুই বলে না। প্রকৃত পরিমাণ স্বাক্ষরিত মাঠ জরিপ রিপোর্টে নির্ধারিত হয়।"></p>
+      <p style="margin-top:10px"><a class="pd-link" href="accuracy-disclaimer.html" data-en="Read the accuracy notice" data-bn="নির্ভুলতা বিজ্ঞপ্তি পড়ুন"></a></p>
+    </div>
+
+    <div style="text-align:center;margin-top:34px">
+      <h2 data-en="Want the real figure?" data-bn="প্রকৃত পরিমাণ জানতে চান?"></h2>
+      <p data-en="A field survey measures the plot as it actually stands and gives you a signed area statement."
+         data-bn="মাঠ জরিপে জমি বাস্তবে যেমন আছে তেমনভাবে মাপা হয় এবং স্বাক্ষরিত পরিমাণ বিবরণী দেওয়া হয়।"></p>
+      <a class="btn btn-primary" href="book.html" data-en="Request a survey" data-bn="জরিপের অনুরোধ করুন"></a>
+      <a class="btn btn-ghost" href="index.html#calc" data-en="Estimate the fee" data-bn="খরচ হিসাব করুন"></a>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer"><div class="container" style="text-align:center">
+  <div class="foot-logo" style="justify-content:center"><span class="logo-anim"><img src="assets/mark.svg?v=3" alt="Example Land Survey" style="height:50px"></span><span style="font-family:var(--f-head);font-weight:800;color:#fff;font-size:1.25rem">EXAMPLE<small style="display:block;font-size:.62rem;letter-spacing:.34em;text-indent:.34em;color:var(--orange)">LAND SURVEY</small></span></div>
+  <p style="color:#a9c2cd;margin:14px 0">Street address line, Dhaka · 01XXXXXXXXX</p>
+  <div class="foot-bottom">© <span id="yr"></span> EXAMPLE LAND SURVEY</div>
+</div></footer>
+
+<script src="assets/clinic.config.js?v=1"></script>
+<script src="assets/clinic-compat.js?v=1"></script>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* The SAME units.convert table the fee estimator reads, so the converter and
+   the estimator can never disagree about what a katha is. */
+var U    = (window.CLINIC && window.CLINIC.units) || {};
+var LIST = U.convert || [];
+var SQFT = U.sqftPerBase || 435.6;
+
+function lang(){ return document.documentElement.getAttribute('data-lang') === 'bn' ? 'bn' : 'en'; }
+var BN = '০১২৩৪৫৬৭৮৯';
+function toBn(s){ return String(s).replace(/[0-9]/g, function(d){ return BN.charAt(+d); }); }
+
+/* Land is bought in fractions, so trailing zeros are noise but the first
+   significant digits are not: 0.0023 acre has to survive rounding. */
+function fmtNum(n){
+  if (!isFinite(n)) return '—';
+  var s;
+  if (n === 0)        s = '0';
+  else if (n >= 1000) s = Math.round(n).toLocaleString('en-IN');
+  else if (n >= 1)    s = n.toFixed(3).replace(/\.?0+$/, '');
+  else                s = n.toPrecision(3).replace(/\.?0+$/, '');
+  return lang() === 'bn' ? toBn(s) : s;
+}
+function unitName(u){ return lang() === 'bn' ? u.bn : u.en; }
+
+function buildUnits(){
+  var sel = document.getElementById('convUnit');
+  var cur = sel.value;
+  sel.innerHTML = LIST.map(function(u){
+    return '<option value="' + u.key + '">' + unitName(u) + '</option>';
+  }).join('');
+  sel.value = cur || (U.base || (LIST[0] && LIST[0].key));
+}
+
+function render(){
+  var amt  = parseFloat(document.getElementById('convAmt').value);
+  var key  = document.getElementById('convUnit').value;
+  var from = LIST.filter(function(u){ return u.key === key; })[0];
+  var out  = document.getElementById('convOut');
+  if (!from || !isFinite(amt) || amt < 0) { out.innerHTML = ''; return; }
+
+  var inBase = amt * from.inBase;          // everything goes through the base unit
+  out.innerHTML = LIST.map(function(u){
+    var v = inBase / u.inBase;
+    return '<li class="' + (u.key === key ? 'is-src' : '') + '">' +
+             '<span class="cu">' + unitName(u) + '</span>' +
+             '<span class="cv">' + fmtNum(v) + '</span>' +
+           '</li>';
+  }).join('');
+
+  document.getElementById('convRef').innerHTML = LIST.map(function(u){
+    return '<tr><td>' + unitName(u) + '</td><td>' + fmtNum(u.inBase * SQFT) + '</td></tr>';
+  }).join('');
+
+  var std = (U.standard && (lang() === 'bn' ? U.standard.bn : U.standard.en)) || '';
+  document.getElementById('convStd').textContent = std;
+}
+
+function applyLang(l){
+  document.documentElement.setAttribute('data-lang', l);
+  document.body.classList.toggle('bn', l === 'bn');
+  try { localStorage.setItem('clinic_lang', l); } catch(e){}
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    el.textContent = (l === 'bn' ? el.getAttribute('data-bn') : el.getAttribute('data-en'));
+  });
+  var t = document.getElementById('langText'); if (t) t.textContent = (l === 'bn' ? 'EN' : 'বাংলা');
+  buildUnits(); render();
+}
+
+var L = 'bn'; try { L = localStorage.getItem('clinic_lang') || 'bn'; } catch(e){}
+applyLang(L);
+document.getElementById('langToggle').onclick = function(){
+  applyLang(document.documentElement.getAttribute('data-lang') === 'bn' ? 'en' : 'bn');
+};
+document.getElementById('convAmt').addEventListener('input', render);
+document.getElementById('convUnit').addEventListener('change', render);
+var bg = document.getElementById('burger'), nv = document.getElementById('navlist');
+if (bg) bg.onclick = function(){ nv.classList.toggle('open'); };
+</script>
+<script src="assets/brand-highlight.js?v=1" defer></script><script src="assets/admin-gate.js?v=1" defer></script>
+<script src="assets/legal.js?v=1" defer></script>
+</body></html>

@@ -49,6 +49,19 @@
           /* `note` is kept for the callback form and for anything written before the
              booking form started asking for an address. */
           address: data.address || "", note: data.msg || "",
+          /* Parcel identity, ALWAYS written even when empty.
+             firestore.rules lists these in hasOnly and then type-checks each
+             one, and a type check requires the field to be present — so the
+             homepage callback form, which asks for none of them, would be
+             rejected if they were merged in conditionally. A rejected write is
+             swallowed by the catch below, so it would fail in total silence. */
+          mouza:    data.mouza    || "",
+          jl:       data.jl       || "",
+          dag:      data.dag      || "",
+          khatian:  data.khatian  || "",
+          area:     data.area     || "",
+          areaUnit: data.areaUnit || "",
+          district: data.district || "",
           emergency: !!data.emerg, status: "new", source: "website",
           kind: data.kind || "appointment",
           createdAt: serverTimestamp()

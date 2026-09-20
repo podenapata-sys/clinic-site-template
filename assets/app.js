@@ -27,6 +27,14 @@ const SERVICES = (window.CLINIC_CONTENT || {}).services || [];
 /* ---------- i18n strings ---------- */
 const I18N = {
   en: {
+    f_plot_legend:"About the land (optional)",
+    f_plot_hint:"Fill in whatever you have. None of this is required — if you are enquiring before you buy, leave it blank and we will find it.",
+    f_district:"District / Upazila", f_district_ph:"e.g. Dhaka / Savar",
+    f_mouza:"Mouza", f_mouza_ph:"Mouza name",
+    f_jl:"JL No.", f_jl_ph:"JL number",
+    f_dag:"Dag No.", f_dag_ph:"Dag / plot number",
+    f_khatian:"Khatian No.", f_khatian_ph:"Khatian / porcha number",
+    f_area:"Approx. area", f_area_ph:"e.g. 5",
     nav_home:"Home", nav_about:"About", nav_services:"Services", nav_pricing:"Pricing",
     nav_calc:"Estimate", nav_ba:"Our Work", nav_contact:"Contact",
     book:"Request a Survey", call:"Call Now",
@@ -149,6 +157,14 @@ const I18N = {
     lang_label:"বাংলা",
   },
   bn: {
+    f_plot_legend:"জমি সম্পর্কে (ঐচ্ছিক)",
+    f_plot_hint:"যা জানা আছে তাই লিখুন। কোনোটিই বাধ্যতামূলক নয় — কেনার আগে জানতে চাইলে খালি রাখুন, আমরা বের করে দেব।",
+    f_district:"জেলা / উপজেলা", f_district_ph:"যেমন ঢাকা / সাভার",
+    f_mouza:"মৌজা", f_mouza_ph:"মৌজার নাম",
+    f_jl:"জেএল নম্বর", f_jl_ph:"জেএল নম্বর",
+    f_dag:"দাগ নম্বর", f_dag_ph:"দাগ / প্লট নম্বর",
+    f_khatian:"খতিয়ান নম্বর", f_khatian_ph:"খতিয়ান / পর্চা নম্বর",
+    f_area:"আনুমানিক পরিমাণ", f_area_ph:"যেমন ৫",
     nav_home:"হোম", nav_about:"পরিচিতি", nav_services:"সেবা", nav_pricing:"মূল্য",
     nav_calc:"খরচ হিসাব", nav_ba:"আমাদের কাজ", nav_contact:"যোগাযোগ",
     book:"জরিপের অনুরোধ", call:"কল করুন",
@@ -402,7 +418,7 @@ function applyI18n(){
   });
   // dynamic blocks
   renderServices(); renderPricing(); renderCalcOptions(); renderTestimonials(); renderBookOptions(); renderBookSlots();
-  renderSteps(); renderTech(); renderFaqs(); renderCalcBA(); renderMarquee();
+  renderSteps(); renderTech(); renderFaqs(); renderCalcBA(); renderMarquee(); renderAreaUnits();
   const tgl = document.getElementById("langText");
   if (tgl) tgl.textContent = t("lang_label");
   applyGoogleReviews(); // re-overlay live Google data (if loaded) in the current language
@@ -1016,6 +1032,31 @@ function renderBookSlots(){
     tl.innerHTML = opts;
   }
 }
+/* Human-readable name for a unit key, for the WhatsApp message. */
+function unitLabelFor(key){
+  const u = (UNITS.convert || []).filter(x => x.key === key)[0];
+  return u ? (LANG === "bn" ? u.bn : u.en) : (key || "");
+}
+
+/* A form control that may not exist on every page that posts a booking. */
+function fld(f, name){
+  const el = f[name];
+  return el && el.value ? String(el.value).trim() : "";
+}
+
+/* The area unit list is the SAME table the estimator and the converter read, so
+   a booking can never arrive in a unit the site does not know. */
+function renderAreaUnits(){
+  const sel = document.getElementById("f_areaUnit");
+  if (!sel) return;
+  const list = (UNITS.convert || []);
+  if (!list.length) return;
+  const cur = sel.value;
+  sel.innerHTML = list.map(u =>
+    `<option value="${u.key}">${LANG === "bn" ? u.bn : u.en}</option>`).join("");
+  sel.value = cur || UNITS.base || list[0].key;
+}
+
 function submitBooking(e){
   e.preventDefault();
   const f = e.target;
@@ -1033,6 +1074,16 @@ function submitBooking(e){
        note. It is the address now, and it travels as one all the way to the clinic's
        bookings sheet and the Address column of their records. */
     address: f.f_address ? f.f_address.value.trim() : "",
+    /* Parcel identity. Always sent, empty when unknown: the Firestore rule
+       whitelists exact keys, so omitting one is a rejected write, and a
+       rejected write is swallowed by clinicSaveBooking's catch. */
+    mouza:    fld(f, "f_mouza"),
+    jl:       fld(f, "f_jl"),
+    dag:      fld(f, "f_dag"),
+    khatian:  fld(f, "f_khatian"),
+    area:     fld(f, "f_area"),
+    areaUnit: fld(f, "f_areaUnit"),
+    district: fld(f, "f_district"),
     emerg: f.f_emerg.checked,
   };
   let lines = [
@@ -1044,6 +1095,13 @@ function submitBooking(e){
     data.time ? `Preferred time: ${data.time}` : "",
     data.emerg ? "⚠️ EMERGENCY / same-day requested" : "",
     data.address ? `Address: ${data.address}` : "",
+    /* The parcel lines are what make the message actionable — a surveyor can
+       price and schedule from a mouza and a dag without another round trip. */
+    data.district ? `District: ${data.district}` : "",
+    data.mouza ? `Mouza: ${data.mouza}${data.jl ? ` (JL ${data.jl})` : ""}` : "",
+    data.dag ? `Dag: ${data.dag}` : "",
+    data.khatian ? `Khatian: ${data.khatian}` : "",
+    data.area ? `Area: ${data.area} ${unitLabelFor(data.areaUnit)}` : "",
   ].filter(Boolean);
   const url = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(lines.join("\n"))}`;
   const note = document.getElementById("bookSuccess");
@@ -1077,7 +1135,12 @@ function sendBookingAlert(data){
     const payload = JSON.stringify({
       token: window.CLINIC_ALERT_TOKEN || "",
       name: data.name, phone: data.phone, service: data.service,
-      date: data.date, time: data.time, address: data.address, emerg: !!data.emerg
+      date: data.date, time: data.time, address: data.address, emerg: !!data.emerg,
+      /* The parcel is the whole point of the enquiry for a surveyor — without
+         it the alert email says someone wants "a survey" somewhere. */
+      district: data.district, mouza: data.mouza, jl: data.jl,
+      dag: data.dag, khatian: data.khatian,
+      area: data.area, areaUnit: data.areaUnit
     });
     if(navigator.sendBeacon){
       navigator.sendBeacon(url, new Blob([payload], {type:"text/plain;charset=UTF-8"}));
