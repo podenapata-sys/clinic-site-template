@@ -208,7 +208,17 @@ for (const f of files) {
        string, then given name to given name, then surname to surname. */
     const bnStrip = n => n.replace(/^(ডা\.?|ডাঃ|মোঃ|মোহাম্মদ|প্রফ\.?)\s*/u, "").trim().split(/\s+/);
     const oldP = bnStrip(a), newP = bnStrip(b);
-    const pairs = [[a, b], [oldP[0], newP[0]], [oldP.at(-1), newP.at(-1)]];
+    /* Carry the honorific with the given name. Replacing the name alone leaves
+       the OLD title attached — "ডা. আয়েশা" becoming "ডা. কামাল" calls a land
+       surveyor "Doctor", which is a false credential, not a cosmetic slip. */
+    const hon = n => (n.match(/^(ডা\.?|ডাঃ|মোঃ|মোহাম্মদ|প্রফ\.?)/u) || [""])[0];
+    const oldH = hon(a), newH = hon(b);
+    const pairs = [
+      [a, b],
+      (oldH && oldP[0]) ? [`${oldH} ${oldP[0]}`, newH ? `${newH} ${newP[0]}` : newP[0]] : [null, null],
+      [oldP[0], newP[0]],
+      [oldP.at(-1), newP.at(-1)],
+    ];
     const bnClinicWords = new Set(fromBnArg ? bnStrip(fromBnArg) : []);
     const isDoctorPass = a === fromDoctorBnArg ||
                          (fromDoctorBnArg && a === encodeURIComponent(fromDoctorBnArg));
