@@ -1,0 +1,1005 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Example Dental — Example Dental</title>
+<link rel="icon" href="assets/mark-square.svg">
+<style>
+:root{--navy:#13294e;--navy2:#1c3a63;--teal:#57C3AD;--teal-dd:#2c8a78;--blue:#2B6CB0;
+  --orange:#F08A24;--ink:#16323c;--muted:#5b7682;--line:#e7eef1;--bg:#eef4f6;--card:#fff;
+  --ok:#1c9c6b;--due:#d9760f;--danger:#d94848;--r:16px;
+  --f:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  --fh:'Sora','Inter',system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--f);color:var(--ink);background:
+  radial-gradient(900px 500px at 100% -10%,rgba(87,195,173,.16),transparent 60%),
+  radial-gradient(700px 400px at -10% 110%,rgba(43,108,176,.12),transparent 60%),var(--bg);
+  min-height:100vh;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--fh);color:var(--navy);margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding:18px}
+/* ---- lock screen ---- */
+#lock{position:fixed;inset:0;z-index:50;display:grid;place-items:center;
+  background:linear-gradient(160deg,#0f2444,#183a67);padding:20px}
+.lockcard{background:#fff;border-radius:22px;box-shadow:0 30px 70px -20px rgba(0,0,0,.5);
+  width:100%;max-width:360px;padding:30px 26px;text-align:center}
+.lockcard img{height:52px;margin-bottom:10px}
+.lockcard h2{font-size:1.25rem;margin-bottom:4px}
+.lockcard p{color:var(--muted);font-size:.9rem;margin:0 0 18px}
+.pin{width:100%;text-align:center;font-size:1.5rem;letter-spacing:.4em;padding:12px;
+  border:2px solid var(--line);border-radius:12px;font-family:var(--fh);font-weight:700}
+.pin:focus{outline:none;border-color:var(--teal)}
+.lockmsg{color:var(--danger);font-size:.85rem;min-height:1.1em;margin-top:8px}
+.btn{border:none;cursor:pointer;font-family:var(--fh);font-weight:700;border-radius:12px;
+  padding:12px 18px;font-size:.95rem;transition:transform .12s,box-shadow .12s,background .15s}
+.btn:active{transform:translateY(1px)}
+.btn-p{background:linear-gradient(120deg,var(--teal),var(--blue));color:#fff;
+  box-shadow:0 10px 22px -8px rgba(43,108,176,.6);width:100%;margin-top:14px}
+.btn-g{background:#fff;color:var(--navy);border:1.5px solid var(--line)}
+.btn-g:hover{border-color:var(--teal);color:var(--teal-dd)}
+.btn-sm{padding:8px 12px;font-size:.82rem}
+.btn-o{background:linear-gradient(120deg,#F5A94C,var(--orange));color:#fff}
+/* ---- topbar ---- */
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:6px 0 18px}
+.top .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.top .brand img{height:40px}
+.top .brand b{font-family:var(--fh);font-weight:800;color:var(--navy);font-size:1.15rem;line-height:1}
+.top .brand small{display:block;font-size:.6rem;letter-spacing:.32em;color:var(--orange);font-weight:700}
+.top h1{font-size:1.05rem}
+.spacer{flex:1}
+.top .btn{white-space:nowrap}
+.hint{background:#fff6e9;border:1px solid #f6d9b0;color:#8a5a12;border-radius:12px;
+  padding:10px 14px;font-size:.82rem;margin-bottom:16px;display:flex;gap:8px;align-items:flex-start}
+/* ---- panels ---- */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:0 12px 30px -18px rgba(19,41,78,.28);padding:18px;margin-bottom:18px}
+.panel h3{font-size:1rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.fld input,.fld select{padding:10px 11px;border:1.5px solid var(--line);border-radius:10px;
+  font-family:var(--f);font-size:.92rem;color:var(--ink);background:#fff;width:100%}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--teal)}
+.fld .ro{background:#f2f7f6;font-weight:700;color:var(--teal-dd);font-family:var(--fh)}
+.form-actions{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+/* ---- stats ---- */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;
+  box-shadow:0 12px 30px -18px rgba(19,41,78,.28)}
+.stat .n{font-family:var(--fh);font-weight:800;font-size:1.8rem;line-height:1.1;overflow-wrap:anywhere}
+.stat .l{font-size:.78rem;color:var(--muted);margin-top:4px;font-weight:600}
+.stat.blue .n{color:var(--blue)} .stat.teal .n{color:var(--teal-dd)}
+.stat.ok .n{color:var(--ok)} .stat.due .n{color:var(--due)}
+/* ---- toolbar ---- */
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.tabs{display:inline-flex;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px;max-width:100%}
+.tab{border:none;background:none;cursor:pointer;font-family:var(--fh);font-weight:700;font-size:.85rem;
+  color:var(--muted);padding:7px 15px;border-radius:999px}
+.tab.active{background:linear-gradient(120deg,var(--teal),var(--blue));color:#fff}
+.tools input[type=date],.tools input[type=month]{padding:8px 10px;border:1.5px solid var(--line);
+  border-radius:10px;font-family:var(--f);font-size:.88rem}
+/* ---- table ---- */
+.tablewrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:0 12px 30px -18px rgba(19,41,78,.28)}
+table{border-collapse:collapse;width:100%;min-width:820px}
+th,td{padding:11px 12px;text-align:left;font-size:.86rem;border-bottom:1px solid var(--line);white-space:nowrap}
+/* Name + Service are the long columns; letting just those wrap keeps the 10-column
+   table inside its container instead of forcing a horizontal scrollbar that clipped
+   the Delete button at ~1280px. */
+th:nth-child(4),td:nth-child(4),th:nth-child(5),td:nth-child(5){white-space:normal;min-width:9ch}
+th{background:#f6faf9;font-family:var(--fh);font-weight:700;color:var(--navy);font-size:.74rem;
+  text-transform:uppercase;letter-spacing:.04em;position:sticky;top:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:#f8fcfb}
+.cid{font-family:var(--fh);font-weight:700;color:var(--blue)}
+.due-pos{color:var(--due);font-weight:700} .due-zero{color:var(--ok);font-weight:700}
+.rowbtn{border:none;background:none;cursor:pointer;font-size:1rem;padding:4px 6px;border-radius:6px}
+.rowbtn:hover{background:#eef4f6}
+.rowbtn{text-decoration:none}
+.when{color:var(--muted);font-weight:600;font-size:.82em}
+.tab-bin{margin-left:6px}
+/* ---- report ---- */
+.rep{margin-bottom:18px;display:none}
+.rep h3{margin-bottom:12px}
+.rep-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+@media(max-width:820px){.rep-grid{grid-template-columns:1fr}}
+.bar-row{display:grid;grid-template-columns:74px 1fr auto;gap:10px;align-items:center;margin-bottom:7px;font-size:.85rem}
+.bar-track{background:#eef4f6;border-radius:6px;overflow:hidden;height:20px}
+.bar-fill{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:6px;min-width:2px}
+.bar-val{font-variant-numeric:tabular-nums;font-weight:700;color:var(--navy);white-space:nowrap}
+.rep-mut{color:var(--muted);font-size:.85rem}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+.badge{display:inline-block;background:#eaf6f2;color:var(--teal-dd);font-weight:700;font-size:.78rem;
+  padding:3px 9px;border-radius:999px}
+@media(max-width:820px){.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.form-grid{grid-template-columns:1fr}.top h1{display:none}}
+
+/* ---- phones: the 10-column table becomes one card per patient, so the Edit/Delete
+   buttons are reachable without scrolling 9 columns sideways ---- */
+@media(max-width:620px){
+  .tablewrap{overflow-x:visible;background:none;border:none;box-shadow:none;border-radius:0}
+  table{min-width:0}
+  thead{display:none}
+  tbody tr{display:block;position:relative;background:var(--card);border:1px solid var(--line);
+    border-radius:var(--r);box-shadow:0 10px 24px -18px rgba(19,41,78,.28);
+    padding:52px 13px 6px;margin-bottom:12px}
+  tbody tr:hover{background:var(--card)}
+  tbody td{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+    padding:8px 0;white-space:normal;font-size:.95rem;text-align:right;
+    border-bottom:1px dashed var(--line)}
+  tbody td:last-child{border-bottom:none}
+  tbody td::before{content:attr(data-label);flex:0 0 auto;text-align:left;
+    font-family:var(--fh);font-weight:700;font-size:.71rem;text-transform:uppercase;
+    letter-spacing:.04em;color:var(--muted)}
+  tbody td.actions{position:absolute;top:8px;right:10px;left:10px;padding:0;border:none;
+    display:flex;justify-content:flex-end;gap:8px}
+  tbody td.actions::before{content:none}
+  .rowbtn{min-width:44px;min-height:44px;display:inline-flex;align-items:center;
+    justify-content:center;font-size:1.15rem;background:#f2f7f9}
+  .stat{padding:14px}
+  .stat .n{font-size:1.45rem}
+  .top{flex-wrap:wrap;gap:8px}
+  .tools{flex-wrap:wrap;gap:8px}
+  #searchBox{flex:1 1 100%;min-width:0}
+}
+
+/* ---- content editor ---- */
+.ed-item{border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px;background:var(--card)}
+.ed-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.ed-head b{color:var(--navy);font-family:var(--fh)}
+.ed-row{display:grid;grid-template-columns:120px 1fr 1fr;gap:10px;align-items:start;margin-bottom:9px}
+.ed-row>label{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+  color:var(--muted);padding-top:10px}
+.ed-row input,.ed-row textarea,.ed-row select{width:100%;padding:9px 10px;border:1.5px solid var(--line);
+  border-radius:9px;font-family:var(--f);font-size:.9rem;background:#fff;color:var(--ink)}
+.ed-row textarea{min-height:62px;resize:vertical}
+.ed-row .bn{font-family:var(--f)}
+.ed-lang{font-size:.66rem;font-weight:700;color:var(--muted);margin-bottom:3px;display:block}
+.ed-note{font-size:.78rem;color:var(--muted)}
+.ed-warn{color:var(--orange);font-weight:600}
+.ed-err{color:var(--danger);font-weight:600}
+.dirty{background:#fff8e6}
+.ed-bar{position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0;margin-bottom:12px;
+  display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--line)}
+@media(max-width:760px){
+  .ed-row{grid-template-columns:1fr;gap:4px}
+  .ed-row>label{padding-top:6px}
+}
+
+/* ---- images ---- */
+.im-slots{display:flex;gap:14px;flex-wrap:wrap}
+.im-slot{width:132px}
+.im-slot .cap{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:5px}
+.im-box{width:132px;height:99px;border:1.5px dashed var(--line);border-radius:10px;overflow:hidden;
+  background:#f6faf9;display:flex;align-items:center;justify-content:center;position:relative}
+.im-box img{width:100%;height:100%;object-fit:cover;display:block}
+.im-box .none{color:var(--muted);font-size:.76rem;text-align:center;padding:6px}
+.im-acts{display:flex;gap:5px;margin-top:6px}
+.im-acts button{flex:1;font-size:.74rem;padding:6px 4px;border:1px solid var(--line);background:#fff;
+  border-radius:7px;cursor:pointer;font-family:var(--f);color:var(--ink)}
+.im-acts button:hover{background:#eef4f6}
+.im-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.im-chip{width:92px}
+.im-chip .im-box{width:92px;height:69px}
+.im-chip .im-acts button{padding:6px 2px}
+.im-chip .im-acts button.x{flex:0 0 26px;color:var(--danger);font-weight:700}
+.im-new{position:absolute;top:3px;left:3px;background:var(--orange);color:#fff;font-size:.62rem;
+  font-weight:700;padding:1px 5px;border-radius:5px}
+/* picker */
+.pk-back{position:fixed;inset:0;background:rgba(19,41,78,.55);z-index:200;display:none;
+  align-items:center;justify-content:center;padding:16px}
+.pk-back.open{display:flex}
+.pk{background:var(--card);border-radius:var(--r);max-width:900px;width:100%;max-height:88vh;
+  display:flex;flex-direction:column;box-shadow:0 30px 70px -20px rgba(19,41,78,.5)}
+.pk-top{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pk-top h3{margin:0;color:var(--navy);font-family:var(--fh)}
+.pk-grid{padding:14px 16px;overflow:auto;display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.pk-item{cursor:pointer;border:2px solid transparent;border-radius:9px;overflow:hidden;background:#f6faf9}
+.pk-item img{width:100%;height:78px;object-fit:cover;display:block}
+.pk-item span{display:block;font-size:.64rem;padding:3px 5px;color:var(--muted);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pk-item:hover,.pk-item.sel{border-color:var(--teal)}
+</style>
+</head>
+<body>
+
+<div id="lock">
+  <div class="lockcard">
+    <img src="assets/mark.svg?v=3" alt="Example Dental">
+    <h2 id="lockTitle">Enter PIN</h2>
+    <p id="lockSub">Website content — Example Dental</p>
+    <input class="pin" id="pinInput" type="password" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="&bull;&bull;&bull;&bull;">
+    <div class="lockmsg" id="lockMsg"></div>
+    <button class="btn btn-p" id="pinBtn">Unlock</button>
+  </div>
+</div>
+
+<div id="dash" style="display:none">
+  <div class="top">
+    <a class="brand" href="index.html">
+      <img src="assets/mark.svg?v=3" alt="Example Dental">
+      <span><b>EXAMPLE<small>DENTAL</small></b></span>
+    </a>
+    <h1>Website Content</h1>
+    <span class="spacer"></span>
+    <a class="btn btn-p btn-sm" id="recordsBtn" href="dashboard.html" style="width:auto;text-decoration:none;display:inline-flex;align-items:center">&#128203; Records</a>
+    <button class="btn btn-p btn-sm" id="pubBtn" style="width:auto;display:none">&#128640; Publish to website</button>
+    <button class="btn btn-g btn-sm" id="lockBtn">&#128274; Lock</button>
+  </div>
+
+  <div class="hint" id="draftNote"><span id="draftIcon">&#128221;</span> <span id="draftText">Loaded from the live website.</span></div>
+
+  <!-- Publishing writes to the repository, so it needs the clinic's own login — the
+       same one the dashboard uses. Nothing here can publish while signed out. -->
+  <div class="hint" id="pubSignIn" style="display:none">
+    <div style="margin-bottom:8px">Sign in with your clinic login to publish changes.</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <input id="pubEmail" type="email" placeholder="Owner email" autocomplete="username"
+             style="flex:1;min-width:160px;padding:9px;border:1.5px solid var(--line);border-radius:9px;font-family:inherit">
+      <input id="pubPass" type="password" placeholder="Password" autocomplete="current-password"
+             style="flex:1;min-width:140px;padding:9px;border:1.5px solid var(--line);border-radius:9px;font-family:inherit">
+      <button class="btn btn-p btn-sm" id="pubLogin" style="width:auto">Connect</button>
+    </div>
+    <div id="pubMsg" style="color:#c0392b;font-size:.82rem;margin-top:6px"></div>
+  </div>
+
+  <div class="ed-bar">
+    <div class="tabs">
+      <button class="tab active" data-view="services">Services</button>
+      <button class="tab" data-view="prices">Prices</button>
+      <button class="tab" data-view="images">Photos</button>
+      <button class="tab" data-view="gallery">Gallery</button>
+    </div>
+    <span class="spacer"></span>
+    <button class="btn btn-g btn-sm" id="previewBtn">&#128065; Preview</button>
+    <button class="btn btn-g btn-sm" id="revertBtn">&#8634; Revert draft</button>
+    <button class="btn btn-o btn-sm" id="checkBtn">&#10003; Check</button>
+  </div>
+
+  <div class="panel" id="msgPanel" style="display:none"><div id="msgBody"></div></div>
+
+  <div id="editor"></div>
+
+  <div class="panel" id="previewPanel" style="display:none">
+    <h3>&#128065; Preview &mdash; how the website will look</h3>
+    <div class="ed-note" style="margin-bottom:12px">Rendered from your draft, not from the live site.</div>
+    <h4 style="margin:14px 0 8px;color:var(--navy)">Service cards</h4>
+    <div id="pvServices"></div>
+    <h4 style="margin:18px 0 8px;color:var(--navy)">Price table</h4>
+    <div id="pvPrices"></div>
+    <h4 style="margin:18px 0 8px;color:var(--navy)">Gallery</h4>
+    <div id="pvGallery"></div>
+  </div>
+
+  <div class="foot" id="edFoot"></div>
+
+<div class="pk-back" id="pkBack">
+  <div class="pk">
+    <div class="pk-top">
+      <h3 id="pkTitle">Choose a photo</h3>
+      <span class="spacer"></span>
+      <label class="btn btn-g btn-sm" style="width:auto;cursor:pointer">&#11014; Upload a photo
+        <input type="file" id="pkFile" accept="image/*" style="display:none">
+      </label>
+      <button class="btn btn-g btn-sm" id="pkClose" style="width:auto">Close</button>
+    </div>
+    <div class="pk-grid" id="pkGrid"></div>
+  </div>
+</div>
+</div>
+
+<script src="assets/clinic.config.js?v=1"></script>
+<script src="assets/clinic-compat.js?v=1"></script>
+<script src="assets/content.js?v=1"></script>
+<script src="assets/firebase-config.js?v=1"></script>
+<script type="module">
+  /* Auth only — the editor needs to prove who it is before the Apps Script will commit
+     anything. Fails quietly: with no Firebase the editor still works as a draft tool. */
+  (async () => {
+    try {
+      const cfg = window.CLINIC_FB; if (!cfg || !cfg.apiKey) return;
+      const { initializeApp } = await import("https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js");
+      const A = await import("https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js");
+      const auth = A.getAuth(initializeApp(cfg));
+      window.__odAuth = {
+        signIn: (em, pw) => A.signInWithEmailAndPassword(auth, em, pw),
+        token:  () => auth.currentUser ? auth.currentUser.getIdToken() : Promise.resolve(""),
+        onChange: (fn) => A.onAuthStateChanged(auth, fn)
+      };
+      if (window.__odAuthReady) window.__odAuthReady();
+    } catch (e) { /* offline or blocked — publishing stays unavailable */ }
+  })();
+</script>
+<script>
+(function(){
+  "use strict";
+  var $=function(id){return document.getElementById(id);};
+  var LS_DRAFT="od_content_draft";
+  var DEFAULT_PIN="2518";
+  var LS_PIN="od_pin";
+
+  /* ---------- PIN lock (same rules as the records dashboard) ---------- */
+  function digits(s){ return (s||"").replace(/\D/g,""); }
+  function checkPin(p){ return p===DEFAULT_PIN || localStorage.getItem(LS_PIN)===btoa("od:"+p); }
+  /* Shared with dashboard.html: unlock once and both pages are open for this browser
+     session, so the 🌐 Website / 📋 Records links do not each demand the PIN again. */
+  var SESSION_OPEN = "od_open";
+  function unlock(){
+    try{ sessionStorage.setItem(SESSION_OPEN, "1"); }catch(e){}
+    $("lock").style.display="none"; $("dash").style.display="block"; render();
+  }
+  function alreadyOpen(){
+    try{ return sessionStorage.getItem(SESSION_OPEN) === "1"; }catch(e){ return false; }
+  }
+  function tryUnlock(){
+    var p=digits($("pinInput").value);
+    if(checkPin(p)){ unlock(); }
+    else { $("lockMsg").textContent="Wrong PIN."; $("pinInput").value=""; $("pinInput").focus(); }
+  }
+
+  /* ---------- draft state ----------
+     The editor never touches the live site in this step: it edits a copy held in
+     localStorage. `shipped` is what assets/content.js currently contains, so
+     Revert always has something truthful to go back to. */
+  var shipped=null, draft=null, view="services";
+
+  function clone(o){ return JSON.parse(JSON.stringify(o)); }
+  function loadShipped(){
+    var C=window.CLINIC_CONTENT;
+    if(!C||!C.services){ return {cats:{},prices:[],services:[]}; }
+    return clone({cats:C.cats, prices:C.prices, services:C.services,
+                  gallery:C.gallery||[], galleryCats:C.galleryCats||{}});
+  }
+  function loadDraft(){
+    try{ var raw=localStorage.getItem(LS_DRAFT); if(raw) return JSON.parse(raw); }catch(e){}
+    return null;
+  }
+  function saveDraft(){
+    try{ localStorage.setItem(LS_DRAFT, JSON.stringify(draft)); }
+    catch(e){ msg("Could not save your draft &mdash; browser storage may be full.", true); }
+    updateDraftNote();
+  }
+  function isDirty(){ return JSON.stringify(draft)!==JSON.stringify(shipped); }
+  function updateDraftNote(){
+    if(isDirty()){
+      $("draftIcon").innerHTML="&#128221;";
+      $("draftText").innerHTML="<b>Unpublished draft</b> &mdash; saved on this device only. The live website still shows the old content.";
+      $("draftNote").style.background="#fff8e6";
+    }else{
+      $("draftIcon").innerHTML="&#9989;";
+      $("draftText").textContent="Matches the live website. No unpublished changes.";
+      $("draftNote").style.background="";
+    }
+  }
+
+  function msg(html, isErr){
+    $("msgPanel").style.display="block";
+    $("msgBody").innerHTML="<div class='"+(isErr?"ed-err":"")+"'>"+html+"</div>";
+    $("msgPanel").scrollIntoView({behavior:"smooth",block:"nearest"});
+  }
+  function clearMsg(){ $("msgPanel").style.display="none"; }
+
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function fmt(n){ return Number(n||0).toLocaleString("en-IN"); }
+
+  /* price-table range for a service, shown beside the card price so a real
+     mistake is visible without the editor deriving one from the other */
+  function tableRange(slug){
+    var rows=draft.prices.filter(function(p){ return p.slug===slug; });
+    if(!rows.length) return null;
+    var lo=Math.min.apply(null,rows.map(function(r){return +r.min||0;}));
+    var hi=Math.max.apply(null,rows.map(function(r){return +r.max||+r.min||0;}));
+    return lo===hi ? ("&#2547;"+fmt(lo)) : ("&#2547;"+fmt(lo)+"&ndash;"+fmt(hi));
+  }
+
+
+  /* ================= PHOTOS =================
+     A service points at photos by name only (img = the card photo, img2 = the
+     one it fades to, gal = the little strip). The files themselves live in
+     assets/services/ in three sizes. So changing a photo is just changing a
+     name — and a newly uploaded photo is held in the draft until it is
+     published, because only publishing can write real files. */
+
+  function photoList(){
+    var base = (window.CLINIC_CONTENT && window.CLINIC_CONTENT.photos) || [];
+    var added = Object.keys(draft.newPhotos || {});
+    return added.concat(base.filter(function(n){ return added.indexOf(n) < 0; }));
+  }
+  function isNew(name){ return !!(draft.newPhotos && draft.newPhotos[name]); }
+  function thumbSrc(name){
+    if(isNew(name)) return draft.newPhotos[name].thumb;
+    return "assets/services/thumbs/" + name + ".jpg";
+  }
+
+  function slot(caption, name, kind, idx, pos){
+    var inner = name
+      ? "<img src=\"" + thumbSrc(name) + "\" alt=\"\" onerror=\"this.style.display='none'\">"
+        + (isNew(name) ? "<span class='im-new'>NEW</span>" : "")
+      : "<span class='none'>No photo</span>";
+    var tight = kind === "gal";
+    var acts = "<button data-pick='" + kind + "' data-i='" + idx + "' data-pos='" + (pos==null?"":pos) + "'>"
+             + (name ? "Change" : "Choose") + "</button>"
+             + (name && kind !== "img"
+                 ? "<button class='" + (tight ? "x" : "") + "' title='Remove' data-drop='" + kind
+                   + "' data-i='" + idx + "' data-pos='" + (pos==null?"":pos) + "'>"
+                   + (tight ? "&times;" : "Remove") + "</button>"
+                 : "");
+    return "<div class='" + (kind==="gal" ? "im-chip" : "im-slot") + "'>"
+         + (caption ? "<div class='cap'>" + caption + "</div>" : "")
+         + "<div class='im-box'>" + inner + "</div>"
+         + "<div class='im-acts'>" + acts + "</div></div>";
+  }
+
+  function renderImages(){
+    var html = "<div class='ed-note' style='margin-bottom:12px'>"
+      + "Every service shows a <b>main photo</b> on its card. The <b>second photo</b> is what the card "
+      + "fades to when someone points at it, and the <b>extra photos</b> are the small strip in the corner "
+      + "of the card. Tap Change to pick a different one, or Upload a photo to add your own.</div>";
+
+    draft.services.forEach(function(sv, i){
+      var gal = sv.gal || [];
+      html += "<div class='ed-item'>"
+        + "<div class='ed-head'>" + (sv.icon||"") + " <b>" + esc(sv.en||"(unnamed)") + "</b></div>"
+        + "<div class='im-slots'>"
+        +   slot("Main photo", sv.img, "img", i)
+        +   slot("Second photo", sv.img2, "img2", i)
+        + "</div>"
+        + "<div class='cap' style='margin-top:14px;font-size:.7rem;font-weight:700;"
+        +   "text-transform:uppercase;letter-spacing:.04em;color:var(--muted)'>Extra photos on the card</div>"
+        + "<div class='im-strip'>"
+        +   gal.map(function(g,j){ return slot("", g, "gal", i, j); }).join("")
+        +   "<div class='im-chip'><div class='im-box' style='border-style:dashed'>"
+        +     "<span class='none'>Add</span></div>"
+        +     "<div class='im-acts'><button data-pick='galnew' data-i='" + i + "'>Add photo</button></div></div>"
+        + "</div></div>";
+    });
+    return html;
+  }
+
+
+  /* ================= GALLERY =================
+     The public gallery page builds its grid and its category tabs from this
+     list, so a photo added here shows up there once published. Reuses the same
+     picker and upload as the Photos tab - a gallery photo is just a photo name
+     plus a category and a caption. */
+  function renderGallery(){
+    var cats = draft.galleryCats || {};
+    var html = "<div class='ed-note' style='margin-bottom:12px'>"
+      + "These are the photos on your Gallery page. Each one needs a <b>category</b>, so it shows "
+      + "under the right tab, and a caption in both languages.</div>"
+      + "<div class='ed-item' style='display:flex;align-items:center;gap:12px;flex-wrap:wrap'>"
+      + "<div><b style='color:var(--navy);font-family:var(--fh)'>Add a photo to the gallery</b>"
+      /* The picker's upload button sits in its header and is easy to miss, so say here
+         that a brand-new picture is possible without first visiting the Photos tab. */
+      + "<div style='color:var(--muted);font-size:.85rem;margin-top:2px'>"
+      + "Pick one you already have, or press <b>&#11014; Upload a photo</b> to add a new one "
+      + "from your phone or computer.</div></div>"
+      + "<span class='spacer'></span>"
+      + "<button class='btn btn-p btn-sm' style='width:auto' data-pick='gnew' data-i='0'>&#10133; Add photo</button>"
+      + "</div>";
+
+    (draft.gallery || []).forEach(function(g, i){
+      var opts = Object.keys(cats).map(function(k){
+        return "<option value='" + k + "'" + (g.cat===k ? " selected" : "") + ">"
+             + esc(cats[k].en) + "</option>";
+      }).join("");
+      var unknown = !cats[g.cat];
+      html += "<div class='ed-item'>"
+        + "<div style='display:flex;gap:14px;flex-wrap:wrap'>"
+        +   "<div class='im-slot'>"
+        +     "<div class='im-box'>"
+        +       (g.photo ? "<img src=\"" + thumbSrc(g.photo) + "\" alt=\"\" onerror=\"this.style.display='none'\">"
+                          + (isNew(g.photo) ? "<span class='im-new'>NEW</span>" : "")
+                        : "<span class='none'>No photo</span>")
+        +     "</div>"
+        +     "<div class='im-acts'>"
+        +       "<button data-pick='gphoto' data-i='" + i + "'>Change</button>"
+        +       "<button class='x' title='Remove from gallery' data-gdrop='" + i + "'>&times;</button>"
+        +     "</div>"
+        +   "</div>"
+        +   "<div style='flex:1;min-width:260px'>"
+        +     "<div class='ed-row' style='grid-template-columns:110px 1fr'>"
+        +       "<label>Shows under</label>"
+        +       "<div><select data-gidx='" + i + "' data-key='cat'>" + opts
+        +         (unknown ? "<option value='" + esc(g.cat) + "' selected>" + esc(g.cat) + " (unknown)</option>" : "")
+        +       "</select></div></div>"
+        +     "<div class='ed-row' style='grid-template-columns:110px 1fr 1fr'>"
+        +       "<label>Caption</label>"
+        +       "<div><span class='ed-lang'>English</span>"
+        +         "<input data-gidx='" + i + "' data-key='en' value=\"" + esc(g.en) + "\"></div>"
+        +       "<div><span class='ed-lang'>&#2476;&#2494;&#2434;&#2482;&#2494;</span>"
+        +         "<input data-gidx='" + i + "' data-key='bn' value=\"" + esc(g.bn) + "\"></div>"
+        +     "</div>"
+        +   "</div>"
+        + "</div></div>";
+    });
+    return html;
+  }
+
+  /* ---------- the picker ---------- */
+  var pkTarget = null;
+  function openPicker(kind, i, pos){
+    pkTarget = {kind:kind, i:i, pos:pos};
+    var cur = kind==="img" ? draft.services[i].img
+            : kind==="img2" ? draft.services[i].img2
+            : kind==="gal" ? (draft.services[i].gal||[])[pos]
+            : kind==="gphoto" ? (draft.gallery[i]||{}).photo
+            : null;
+    $("pkTitle").textContent = (kind==="gphoto"||kind==="gnew")
+      ? "Choose a photo for the gallery"
+      : ("Choose a photo for " + (draft.services[i].en || "this service"));
+    $("pkGrid").innerHTML = photoList().map(function(n){
+      return "<div class='pk-item" + (n===cur ? " sel" : "") + "' data-name=\"" + esc(n) + "\">"
+        + "<img src=\"" + thumbSrc(n) + "\" alt=\"\" loading='lazy' onerror=\"this.parentNode.style.display='none'\">"
+        + "<span>" + esc(n) + (isNew(n) ? " (new)" : "") + "</span></div>";
+    }).join("");
+    $("pkBack").classList.add("open");
+  }
+  function closePicker(){ $("pkBack").classList.remove("open"); pkTarget=null; }
+
+  function applyPick(name){
+    if(!pkTarget) return;
+    if(pkTarget.kind==="gphoto"){
+      draft.gallery[pkTarget.i].photo = name;
+      saveDraft(); closePicker(); render(); return;
+    }
+    if(pkTarget.kind==="gnew"){
+      draft.gallery = draft.gallery || [];
+      var firstCat = Object.keys(draft.galleryCats||{})[0] || "";
+      draft.gallery.unshift({photo:name, cat:firstCat, en:"", bn:""});
+      saveDraft(); closePicker(); render();
+      msg("Photo added to the gallery. Give it a caption in both languages, and check it is under the right tab.");
+      return;
+    }
+    var sv = draft.services[pkTarget.i];
+    if(pkTarget.kind==="img")  sv.img = name;
+    if(pkTarget.kind==="img2") sv.img2 = name;
+    if(pkTarget.kind==="gal"){ sv.gal = sv.gal||[]; sv.gal[pkTarget.pos] = name; }
+    if(pkTarget.kind==="galnew"){ sv.gal = sv.gal||[]; sv.gal.push(name); }
+    saveDraft(); closePicker(); render();
+  }
+  function dropPhoto(kind, i, pos){
+    var sv = draft.services[i];
+    if(kind==="img2") delete sv.img2;
+    if(kind==="gal" && sv.gal) sv.gal.splice(pos,1);
+    saveDraft(); render();
+  }
+
+  /* ---------- upload: resize in the browser to the three sizes the site uses ---------- */
+  function resize(img, width){
+    var w = Math.min(width, img.naturalWidth);
+    var h = Math.round(img.naturalHeight * w / img.naturalWidth);
+    var c = document.createElement("canvas"); c.width=w; c.height=h;
+    c.getContext("2d").drawImage(img,0,0,w,h);
+    return c.toDataURL("image/jpeg", 0.82);
+  }
+  function safeName(f){
+    return (f.name||"photo").replace(/\.[^.]+$/,"").toLowerCase()
+      .replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,40) || "photo";
+  }
+  function handleUpload(file){
+    if(!file) return;
+    if(!/^image\//.test(file.type)){ alert("That is not an image file."); return; }
+    var fr = new FileReader();
+    fr.onload = function(e){
+      var img = new Image();
+      img.onload = function(){
+        var name = safeName(file), base = name, n = 2;
+        while(photoList().indexOf(name) > -1){ name = base + "-" + (n++); }
+        draft.newPhotos = draft.newPhotos || {};
+        draft.newPhotos[name] = { full: resize(img,1200), card: resize(img,640), thumb: resize(img,132) };
+        try{
+          saveDraft();
+        }catch(err){
+          delete draft.newPhotos[name];
+          alert("Could not store that photo — the browser ran out of room for drafts.\n\nPublish the photos you have already added, then add more.");
+          return;
+        }
+        applyPick(name);
+      };
+      img.onerror = function(){ alert("Could not read that image."); };
+      img.src = e.target.result;
+    };
+    fr.readAsDataURL(file);
+  }
+
+  /* ---------- rendering the forms ---------- */
+  function field(label, key, idx, kind, enVal, bnVal){
+    var tag = kind==="area" ? "textarea" : "input";
+    var close = kind==="area" ? "</textarea>" : "";
+    function box(lang,val){
+      return "<div><span class='ed-lang'>"+(lang==="en"?"English":"&#2476;&#2494;&#2434;&#2482;&#2494;")+"</span>"
+        + "<"+tag+" data-idx='"+idx+"' data-key='"+key[lang]+"'"
+        + (kind==="area" ? ">"+esc(val)+close : " value=\""+esc(val)+"\">")
+        + "</div>";
+    }
+    return "<div class='ed-row'><label>"+label+"</label>"+box("en",enVal)+box("bn",bnVal)+"</div>";
+  }
+  function single(label, key, idx, val, type, hint){
+    return "<div class='ed-row'><label>"+label+"</label>"
+      + "<div><input data-idx='"+idx+"' data-key='"+key+"' type='"+(type||"text")+"' value=\""+esc(val)+"\"></div>"
+      + "<div class='ed-note' style='padding-top:9px'>"+(hint||"")+"</div></div>";
+  }
+
+  function renderServices(){
+    var html="<div class='ed-note' style='margin-bottom:12px'>"
+      + "These are the treatment cards on your home page. Fill in both English and Bangla &mdash; "
+      + "visitors see whichever language they have chosen.</div>";
+    draft.services.forEach(function(s,i){
+      var rng=tableRange(s.slug);
+      html += "<div class='ed-item' data-svc='"+i+"'>"
+        + "<div class='ed-head'>"+ (s.icon||"") +" <b>"+esc(s.en||"(unnamed)")+"</b>"
+        + (s.slug?"<span class='badge'>"+esc(s.slug)+"</span>":"<span class='badge'>no page</span>")+"</div>"
+        + field("Service name",{en:"en",bn:"bn"},i,"input",s.en,s.bn)
+        + field("Short line under it",{en:"cne",bn:"cn"},i,"input",s.cne,s.cn)
+        + field("What it is",{en:"de",bn:"db"},i,"area",s.de,s.db)
+        + single("Price on the card","pr",i,s.pr,"text",
+            rng ? ("In your price list this service runs <b>"+rng+"</b>") : "This service has no rows in the price list.")
+        + field("How long it takes",{en:"dur",bn:"durbn"},i,"input",s.dur,s.durbn)
+        + "</div>";
+    });
+    return html;
+  }
+
+  function renderPrices(){
+    var html="<div class='ed-note' style='margin-bottom:12px'>"
+      + "This is your price list, also used by the cost calculator and the booking form. "
+      + "If a treatment has one fixed price, put the same number in both boxes.</div>";
+    var cats=draft.cats;
+    Object.keys(cats).forEach(function(c){
+      var rows=[];
+      draft.prices.forEach(function(p,i){ if(p.c===c) rows.push([p,i]); });
+      if(!rows.length) return;
+      html += "<h3 style='margin:16px 0 8px;color:var(--navy)'>"+esc(cats[c].en)+" &middot; "+esc(cats[c].bn)+"</h3>";
+      rows.forEach(function(pair){
+        var p=pair[0], i=pair[1];
+        html += "<div class='ed-item' data-price='"+i+"'>"
+          + field("Treatment name",{en:"n",bn:"nb"},i,"input",p.n,p.nb)
+          + "<div class='ed-row'><label>Price &#2547;</label>"
+            + "<div><span class='ed-lang'>Cheapest</span><input data-idx='"+i+"' data-key='min' type='number' min='0' value='"+(+p.min||0)+"'></div>"
+            + "<div><span class='ed-lang'>Most expensive</span><input data-idx='"+i+"' data-key='max' type='number' min='0' value='"+(+p.max||0)+"'></div>"
+          + "</div>"
+          + field("Small note beside it",{en:"note",bn:"noteb"},i,"input",p.note||"",p.noteb||"")
+          + "</div>";
+      });
+    });
+    return html;
+  }
+
+  function render(){
+    $("editor").innerHTML = view==="services" ? renderServices()
+                       : view==="prices"   ? renderPrices()
+                       : view==="gallery"  ? renderGallery()
+                       : renderImages();
+    $("edFoot").innerHTML = view==="services" ? ("Showing <b>"+draft.services.length+"</b> service cards")
+      : view==="prices" ? ("Showing <b>"+draft.prices.length+"</b> price rows")
+      : view==="gallery" ? ("Showing <b>"+(draft.gallery||[]).length+"</b> gallery photos")
+      : ("<b>"+photoList().length+"</b> photos available"
+         + (draft.newPhotos && Object.keys(draft.newPhotos).length
+            ? (" &middot; <b>"+Object.keys(draft.newPhotos).length+"</b> added, not published yet") : ""));
+    updateDraftNote();
+  }
+
+  /* ---------- edits ---------- */
+  /* select elements fire change; inputs fire input - handle both with one function */
+  function onFieldEdit(e){
+    var el=e.target;
+    if(!el.dataset) return;
+    /* gallery fields carry data-gidx, so this must come before the data-idx guard */
+    if(el.dataset.gidx !== undefined){
+      var gi = +el.dataset.gidx, g = (draft.gallery||[])[gi];
+      if(g){ g[el.dataset.key] = el.value; el.closest(".ed-item").classList.add("dirty"); saveDraft(); }
+      return;
+    }
+    if(el.dataset.idx===undefined) return;
+    var i=+el.dataset.idx, k=el.dataset.key;
+    if(view==="images" || view==="gallery") return;
+    var target = view==="services" ? draft.services[i] : draft.prices[i];
+    if(!target) return;
+    target[k] = (k==="min"||k==="max") ? (el.value===""?0:Number(el.value)) : el.value;
+    el.closest(".ed-item").classList.add("dirty");
+    saveDraft();
+  }
+  document.addEventListener("input", onFieldEdit);
+  document.addEventListener("change", onFieldEdit);
+
+  /* ---------- validation ---------- */
+  function validate(){
+    var errs=[], warns=[];
+    draft.services.forEach(function(s,i){
+      var who="Service "+(i+1)+" ("+(s.en||s.slug||"unnamed")+")";
+      if(!String(s.en||"").trim()) errs.push(who+": English name is empty.");
+      if(!String(s.bn||"").trim()) errs.push(who+": Bangla name is empty.");
+      if(!String(s.de||"").trim()) errs.push(who+": English description is empty.");
+      if(!String(s.db||"").trim()) errs.push(who+": Bangla description is empty.");
+      if(!String(s.pr||"").trim()) errs.push(who+": card price is empty.");
+    });
+    var seen={};
+    draft.services.forEach(function(s){
+      if(!s.slug) return;
+      if(seen[s.slug]) errs.push("Two services share the page name \""+s.slug+"\".");
+      seen[s.slug]=1;
+    });
+    draft.prices.forEach(function(p,i){
+      var who="Price row "+(i+1)+" ("+(p.n||"unnamed")+")";
+      if(!String(p.n||"").trim()) errs.push(who+": English name is empty.");
+      if(!String(p.nb||"").trim()) errs.push(who+": Bangla name is empty.");
+      if(isNaN(+p.min)) errs.push(who+": minimum is not a number.");
+      if(isNaN(+p.max)) errs.push(who+": maximum is not a number.");
+      if(+p.min > +p.max) errs.push(who+": minimum ("+fmt(p.min)+") is more than the maximum ("+fmt(p.max)+").");
+    });
+    (draft.gallery||[]).forEach(function(g,i){
+      var who = "Gallery photo " + (i+1) + (g.en ? " (" + g.en + ")" : "");
+      if(!g.photo) errs.push(who + ": no photo chosen.");
+      if(!String(g.en||"").trim()) errs.push(who + ": English caption is empty.");
+      if(!String(g.bn||"").trim()) errs.push(who + ": Bangla caption is empty.");
+      if(!g.cat || !(draft.galleryCats||{})[g.cat])
+        errs.push(who + ": category \"" + (g.cat||"none") + "\" is not one of the gallery tabs.");
+    });
+
+    /* a card price outside its own table range is usually deliberate, so warn only */
+    draft.services.forEach(function(s){
+      if(!s.slug) return;
+      var rows=draft.prices.filter(function(p){return p.slug===s.slug;});
+      if(!rows.length) return;
+      var nums=(String(s.pr).match(/[\d,]+/g)||[]).map(function(x){return +x.replace(/,/g,"");});
+      if(!nums.length) return;
+      var lo=Math.min.apply(null,rows.map(function(r){return +r.min||0;}));
+      var hi=Math.max.apply(null,rows.map(function(r){return +r.max||+r.min||0;}));
+      if(Math.min.apply(null,nums)<lo || Math.max.apply(null,nums)>hi)
+        warns.push(s.en+": card price \""+s.pr+"\" falls outside its price-table range (&#2547;"+fmt(lo)+"&ndash;"+fmt(hi)+"). This is often intentional.");
+    });
+    return {errs:errs, warns:warns};
+  }
+
+  /* ---------- preview ---------- */
+  function previewServices(){
+    return "<div style='display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px'>"
+      + draft.services.map(function(s){
+          return "<div class='ed-item' style='margin:0'>"
+            + "<div style='font-family:var(--fh);font-weight:800;color:var(--teal-dd);font-size:1.05rem'>"+esc(s.pr)+"</div>"
+            + "<div style='font-family:var(--fh);font-weight:700;color:var(--navy);margin:4px 0 2px'>"+esc(s.en)+"</div>"
+            + "<div style='color:var(--muted);font-size:.82rem'>"+esc(s.bn)+"</div>"
+            + "<div style='font-size:.84rem;margin-top:6px'>"+esc(s.de)+"</div></div>";
+        }).join("") + "</div>";
+  }
+  function previewPrices(){
+    var html="<table style='width:100%;min-width:0'><tbody>";
+    Object.keys(draft.cats).forEach(function(c){
+      var rows=draft.prices.filter(function(p){return p.c===c;});
+      if(!rows.length) return;
+      html+="<tr><td colspan='2' style='background:#f6faf9;font-weight:700;color:var(--navy)'>"+esc(draft.cats[c].en)+"</td></tr>";
+      rows.forEach(function(p){
+        var price = (+p.min===+p.max) ? ("&#2547; "+fmt(p.min)) : ("&#2547; "+fmt(p.min)+" &ndash; "+fmt(p.max));
+        html+="<tr><td>"+esc(p.n)+"</td><td class='num'>"+price+"</td></tr>";
+      });
+    });
+    return html+"</tbody></table>";
+  }
+
+  function previewGallery(){
+    var cats=draft.galleryCats||{};
+    return "<div style='display:flex;gap:10px;flex-wrap:wrap'>"
+      + (draft.gallery||[]).map(function(g){
+          return "<div style='width:110px'>"
+            + "<div class='im-box' style='width:110px;height:82px'>"
+            + (g.photo ? "<img src=\"" + thumbSrc(g.photo) + "\" alt=\"\">" : "<span class='none'>?</span>")
+            + "</div><div style='font-size:.7rem;color:var(--muted);margin-top:3px'>"
+            + esc((cats[g.cat]||{}).en || g.cat) + "</div>"
+            + "<div style='font-size:.76rem'>" + esc(g.en) + "</div></div>";
+        }).join("") + "</div>";
+  }
+
+  /* ---------- publishing ---------- */
+
+  /* content.js is regenerated as plain JSON rather than rebuilt in the hand-written
+     literal style it started with. JSON.stringify round-trips exactly — Bengali text,
+     quotes and ৳ included — where re-emitting JavaScript by hand is a quoting bug
+     waiting to happen in a file every page depends on. */
+  function contentFileText(d){
+    var data = { cats:d.cats, prices:d.prices, services:d.services,
+                 photos:d.photos, gallery:d.gallery, galleryCats:d.galleryCats };
+    return "/* Example Dental — website content.\n"
+         + "   GENERATED by the admin content editor (admin-content.html). Do not hand-edit:\n"
+         + "   the next publish overwrites this file.\n\n"
+         + "   Loaded with a plain <script> before assets/app.js, which reads it synchronously\n"
+         + "   when it renders the service grid, price table, calculator, booking dropdown and\n"
+         + "   the services/*.html pages. */\n"
+         + "window.CLINIC_CONTENT = " + JSON.stringify(data, null, 2) + ";\n";
+  }
+
+  /* Never publish a file the browser cannot read back. Parsing our own output and
+     comparing it to the draft costs nothing and makes a broken content.js — which would
+     empty every page on the site — impossible to ship. */
+  function verifyRoundTrip(text, d){
+    try{
+      var sandbox = {};
+      new Function("window", text)(sandbox);
+      var back = sandbox.CLINIC_CONTENT;
+      var want = { cats:d.cats, prices:d.prices, services:d.services,
+                   photos:d.photos, gallery:d.gallery, galleryCats:d.galleryCats };
+      return JSON.stringify(back) === JSON.stringify(want);
+    }catch(e){ return false; }
+  }
+
+  function b64(str){
+    var bytes = new TextEncoder().encode(str), bin = "";
+    for (var i=0;i<bytes.length;i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+
+  /* Collect content.js plus three image files for every photo added since the last
+     publish. The editor already made the 1200/640/132 versions when the file was picked. */
+  function filesToPublish(){
+    var text = contentFileText(draft);
+    if(!verifyRoundTrip(text, draft)) return { error:"The content could not be written safely. Nothing was published." };
+    var files = [{ path:"assets/content.js", content:b64(text) }];
+    var added = draft.newPhotos || {};
+    Object.keys(added).forEach(function(name){
+      var p = added[name];
+      files.push({ path:"assets/services/"+name+".jpg",        content:p.full.split(",")[1] });
+      files.push({ path:"assets/services/cards/"+name+".jpg",  content:p.card.split(",")[1] });
+      files.push({ path:"assets/services/thumbs/"+name+".jpg", content:p.thumb.split(",")[1] });
+    });
+    return { files: files };
+  }
+
+  function pubNote(html, isErr){
+    var el = $("pubMsg"); if(!el) return;
+    el.style.color = isErr ? "#c0392b" : "#2c8a78";
+    el.innerHTML = html;
+  }
+
+  async function publish(){
+    var url = (window.CLINIC_ALERT_URL||"").trim();
+    if(!url){ pubNote("Publishing is not set up yet — CLINIC_ALERT_URL is empty.", true); return; }
+    if(!window.__odAuth){ pubNote("Still connecting to Firebase — try again in a moment.", true); return; }
+
+    var built = filesToPublish();
+    if(built.error){ pubNote(built.error, true); return; }
+
+    var btn = $("pubBtn"); btn.disabled = true; btn.textContent = "Publishing…";
+    pubNote("", false);
+    try{
+      var idToken = await window.__odAuth.token();
+      var photos = Object.keys(draft.newPhotos||{}).length;
+      var res = await fetch(url, {
+        method:"POST",
+        headers:{"Content-Type":"text/plain;charset=UTF-8"},   // a simple request: no preflight
+        body: JSON.stringify({
+          action:"publish", idToken: idToken, files: built.files,
+          message:"Update website content" + (photos ? " and add "+photos+" photo"+(photos>1?"s":"") : "")
+        })
+      });
+      var out = {};
+      try{ out = JSON.parse(await res.text()); }catch(e){ out = { ok:false, error:"The server replied with something unexpected." }; }
+
+      if(!out.ok){ pubNote(out.error || "Publish failed.", true); return; }
+
+      /* Published: this draft IS the live content now. Photos are real files, so they
+         belong in the normal list and the draft copies can go. */
+      Object.keys(draft.newPhotos||{}).forEach(function(n){
+        if(draft.photos.indexOf(n) === -1) draft.photos.push(n);
+      });
+      delete draft.newPhotos;
+      shipped = clone(draft);
+      saveDraft();
+      updateDraftNote(); render();
+      pubNote("Published \u2713 commit <b>"+ (out.commit||"") +"</b>. The website updates in a minute or two.", false);
+    }catch(e){
+      pubNote("Could not reach the publisher: " + e, true);
+    }finally{
+      btn.disabled = false; btn.textContent = "\uD83D\uDE80 Publish to website";
+    }
+  }
+
+  function wirePublish(){
+    var signedIn = false;
+    function paint(){
+      $("pubBtn").style.display   = signedIn ? "inline-flex" : "none";
+      $("pubSignIn").style.display = signedIn ? "none" : "block";
+    }
+    paint();
+    if(window.__odAuth){
+      window.__odAuth.onChange(function(u){ signedIn = !!u; paint(); });
+    }
+    window.__odAuthReady = function(){
+      window.__odAuth.onChange(function(u){ signedIn = !!u; paint(); });
+    };
+    $("pubLogin").addEventListener("click", async function(){
+      var em = $("pubEmail").value.trim(), pw = $("pubPass").value;
+      if(!em || !pw){ pubNote("Enter the email and password.", true); return; }
+      pubNote("", false);
+      try{ await window.__odAuth.signIn(em, pw); $("pubPass").value=""; }
+      catch(e){ pubNote("Sign-in failed — check the email and password.", true); }
+    });
+    $("pubBtn").addEventListener("click", publish);
+  }
+
+  /* ---------- wire up ---------- */
+  document.addEventListener("DOMContentLoaded", function(){
+    shipped = loadShipped();
+    draft = loadDraft() || clone(shipped);
+
+    wirePublish();
+    $("pinBtn").addEventListener("click", tryUnlock);
+    $("pinInput").addEventListener("keydown", function(e){ if(e.key==="Enter") tryUnlock(); });
+    if(alreadyOpen()) unlock(); else $("pinInput").focus();
+    $("lockBtn").addEventListener("click", function(){
+      try{ sessionStorage.removeItem(SESSION_OPEN); }catch(e){}   // Lock must mean locked
+      location.reload();
+    });
+
+    document.querySelectorAll(".tab").forEach(function(t){
+      t.addEventListener("click", function(){
+        document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active");});
+        t.classList.add("active"); view=t.dataset.view; clearMsg(); render();
+      });
+    });
+
+    /* photo slots and the picker */
+    document.addEventListener("click", function(e){
+      var b = e.target.closest("[data-pick]");
+      if(b){ openPicker(b.dataset.pick, +b.dataset.i, b.dataset.pos===""?null:+b.dataset.pos); return; }
+      var gd = e.target.closest("[data-gdrop]");
+      if(gd){
+        var gi = +gd.dataset.gdrop, g = draft.gallery[gi];
+        if(confirm("Remove this photo from the gallery?\n\n" + (g && g.en ? g.en : "") +
+                   "\n\nThe photo file stays on your site and can be added back.")){
+          draft.gallery.splice(gi,1); saveDraft(); render();
+        }
+        return;
+      }
+      var d = e.target.closest("[data-drop]");
+      if(d){ dropPhoto(d.dataset.drop, +d.dataset.i, d.dataset.pos===""?null:+d.dataset.pos); return; }
+      var it = e.target.closest(".pk-item");
+      if(it){ applyPick(it.dataset.name); return; }
+    });
+    $("pkClose").addEventListener("click", closePicker);
+    $("pkBack").addEventListener("click", function(e){ if(e.target===$("pkBack")) closePicker(); });
+    $("pkFile").addEventListener("change", function(e){
+      handleUpload(e.target.files && e.target.files[0]); e.target.value="";
+    });
+    document.addEventListener("keydown", function(e){ if(e.key==="Escape") closePicker(); });
+
+    $("checkBtn").addEventListener("click", function(){
+      var r=validate();
+      if(r.errs.length){
+        msg("<b>"+r.errs.length+" problem(s) to fix:</b><ul><li>"+r.errs.join("</li><li>")+"</li></ul>", true);
+      }else if(r.warns.length){
+        msg("<b>Looks good.</b> "+r.warns.length+" thing(s) worth a glance:<ul class='ed-warn'><li>"
+            + r.warns.join("</li><li>")+"</li></ul>");
+      }else{
+        msg("<b>All good.</b> Every field is filled in both languages and the amounts make sense.");
+      }
+    });
+
+    $("previewBtn").addEventListener("click", function(){
+      var pn=$("previewPanel"), open=pn.style.display==="block";
+      pn.style.display = open ? "none" : "block";
+      $("previewBtn").innerHTML = open ? "&#128065; Preview" : "&#128065; Hide preview";
+      if(!open){
+        $("pvServices").innerHTML=previewServices();
+        $("pvPrices").innerHTML=previewPrices();
+        $("pvGallery").innerHTML=previewGallery();
+        pn.scrollIntoView({behavior:"smooth",block:"nearest"});
+      }
+    });
+
+    $("revertBtn").addEventListener("click", function(){
+      if(!isDirty()){ msg("There is nothing to revert &mdash; your draft already matches the live website."); return; }
+      if(!confirm("Discard your draft and go back to what the live website shows?\n\nThis cannot be undone.")) return;
+      draft = clone(shipped);
+      try{ localStorage.removeItem(LS_DRAFT); }catch(e){}
+      clearMsg(); render();
+      msg("Draft discarded. You are back to the live website content.");
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    # main only. Two branches deploying to one Pages site is last-push-wins, and
+    # whichever pushed most recently silently decides what the clinic sees.
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # A CLIENT site must never publish with placeholders in its canonical tags,
+      # so the check is a hard gate there. THIS repository is the shared
+      # template, where the placeholders are the intended content and a strict
+      # gate would just keep its own CI permanently red — so the two cases are
+      # told apart by the config itself rather than by a flag someone has to
+      # remember to set on one branch and not the other.
+      - name: Validate and apply clinic config
+        run: |
+          set -euo pipefail
+          name=$(node scripts/apply-config.mjs --print-name)
+          if [ "$name" = "Example Dental" ]; then
+            echo "::notice::Unconfigured template (clinic name is \"$name\") - applying in template mode."
+            node scripts/apply-config.mjs --template
+          else
+            npm run check
+            npm run apply
+          fi
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: deployment
+        uses: actions/deploy-pages@v4

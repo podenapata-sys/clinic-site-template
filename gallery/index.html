@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Photo Gallery | Example Dental Dhaka</title>
+<meta name="description" content="Browse real before-and-after photos and treatment results from Example Dental, Dhaka. See scaling, veneers, implants, braces and more.">
+<link rel="canonical" href="https://example.github.io/clinic-site-template/gallery/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Photo Gallery | Example Dental Dhaka">
+<meta property="og:description" content="Browse real before-and-after photos and treatment results from Example Dental, Dhaka. See scaling, veneers, implants, braces and more.">
+<meta property="og:image" content="https://example.github.io/clinic-site-template/assets/logo.svg">
+<meta name="theme-color" content="#57C3AD">
+<link rel="icon" type="image/png" href="../assets/mark-square.svg?v=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/styles.css?v=1">
+</head>
+<body>
+<header class="header"><nav class="nav container">
+  <a class="brand" href="../index.html"><span class="logo-anim"><img src="../assets/mark.svg?v=3" alt="Example Dental"></span><span>EXAMPLE<small>DENTAL</small></span></a>
+  <div class="navlist" id="navlist">
+    <a href="../index.html#why" data-en="About Us" data-bn="আমাদের সম্পর্কে"></a>
+    <a href="../services/index.html" data-en="Our Services" data-bn="আমাদের সেবা"></a>
+    <a href="../index.html#contact" data-en="Contact" data-bn="যোগাযোগ"></a>
+    <a href="../index.html#pricing" data-en="Price List" data-bn="মূল্য তালিকা"></a>
+    <a href="index.html" data-en="Gallery" data-bn="গ্যালারি"></a>
+    <a href="../careers.html" data-en="Career" data-bn="ক্যারিয়ার"></a>
+    <div class="nav-actions">
+      <a class="btn btn-primary" href="../book.html" data-en="Book Appointment" data-bn="অ্যাপয়েন্টমেন্ট নিন"></a>
+    </div>
+  </div>
+  <button class="srch-btn" id="srch-btn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></button>
+  <button class="lang-toggle nav-lang" id="langToggle"><span id="langText">বাংলা</span></button>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav></header>
+<meta name="page-root" content="../">
+
+<!-- Hero -->
+<section class="hero"><span class="blob b1"></span><span class="blob b2"></span>
+  <div class="container" style="position:relative;z-index:1;padding:60px 0 40px;text-align:center;max-width:720px">
+    <span class="eyebrow" data-en="Our Work" data-bn="আমাদের কাজ"></span>
+    <h1 data-en="Before &amp; After Gallery" data-bn="আগে ও পরের গ্যালারি"></h1>
+    <p style="color:var(--muted);margin-top:12px" data-en="Real results from our patients — scaling, veneers, implants, braces and more." data-bn="আমাদের রোগীদের আসল ফলাফল — স্কেলিং, ভিনেয়ার, ইমপ্লান্ট, ব্রেসেস ও আরও অনেক কিছু।"></p>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section class="section" style="padding-top:20px"><div class="container">
+
+  <!-- Filter tabs -->
+  <div class="gal-filter" id="galFilter"></div>
+
+  <!-- Photo grid -->
+  <div class="gal-grid" id="galGrid"></div>
+
+  <!-- Submit CTA -->
+  <div class="gal-submit">
+    <h3 data-en="Share Your Smile!" data-bn="আপনার হাসি শেয়ার করুন!">Share Your Smile!</h3>
+    <p data-en="Treated at Example Dental? Send us your before &amp; after photo — we'd love to feature your transformation." data-bn="উদাহরণ ডেন্টালে চিকিৎসা করিয়েছেন? আপনার আগে ও পরের ছবি পাঠান — আমরা আপনার পরিবর্তন শেয়ার করতে চাই।">Treated at Example Dental? Send us your before &amp; after photo — we'd love to feature your transformation.</p>
+    <a class="btn btn-wa" href="https://wa.me/880XXXXXXXXXX?text=I'd%20like%20to%20share%20my%20before%20%26%20after%20photo%20from%20Example%20Dental%20%F0%9F%98%81" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.15em;flex-shrink:0"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.25-8.24 8.25zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg> <span data-en="Send on WhatsApp" data-bn="হোয়াটসঅ্যাপে পাঠান">Send on WhatsApp</span>
+    </a>
+  </div>
+
+  <!-- Comments -->
+  <div style="margin:40px 0 20px">
+    <h2 style="margin-bottom:24px" data-en="Community Comments" data-bn="কমিউনিটি মন্তব্য">Community Comments</h2>
+    <div id="disqus_thread"></div>
+  </div>
+</div></section>
+
+<!-- Lightbox -->
+<div class="gal-lb" id="galLb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="gal-lb-close" id="galLbClose" aria-label="Close">✕</button>
+  <button class="gal-lb-nav gal-lb-prev" id="galLbPrev" aria-label="Previous">‹</button>
+  <!-- no src= until a photo is opened: src="" makes the browser re-request this page -->
+  <img class="gal-lb-img" id="galLbImg" alt="">
+  <button class="gal-lb-nav gal-lb-next" id="galLbNext" aria-label="Next">›</button>
+</div>
+
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container foot-grid">
+    <div class="foot-brand">
+      <div class="foot-logo"><span class="logo-anim logo-anim--mark"><img src="../assets/mark.svg?v=3" alt="Example Dental"></span><span>EXAMPLE<small>DENTAL</small></span></div>
+      <p style="color:#a9c2cd;font-size:.9rem" data-en="Modern painless dentistry in the heart of Dhaka." data-bn="ঢাকার প্রাণে আধুনিক, ব্যথাহীন দন্তচিকিৎসা।">Modern painless dentistry in the heart of Dhaka.</p>
+      <div class="foot-soc">
+        <a href="" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg></a>
+        <a href="https://wa.me/880XXXXXXXXXX" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.25-8.24 8.25zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h4 data-en="Quick Links" data-bn="দ্রুত লিংক">Quick Links</h4>
+      <a href="../index.html" data-en="Home" data-bn="হোম">Home</a>
+      <a href="../services/index.html" data-en="Services" data-bn="সেবা">Services</a>
+      <a href="../index.html#pricing" data-en="Price List" data-bn="মূল্য তালিকা">Price List</a>
+      <a href="../book.html" data-en="Book Appointment" data-bn="অ্যাপয়েন্টমেন্ট নিন">Book Appointment</a>
+    </div>
+    <div>
+      <h4 data-en="Contact" data-bn="যোগাযোগ">Contact</h4>
+      <a href="tel:+880XXXXXXXXXX">📞 01XXXXXXXXX</a>
+      <a href="https://wa.me/880XXXXXXXXXX" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.15em;flex-shrink:0"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.25-8.24 8.25zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg> 01XXXXXXXXX</a>
+      <a href="mailto:hello@example.com">✉️ hello@example.com</a>
+    </div>
+  </div>
+  <div class="container foot-bottom">© <span id="yr"></span> EXAMPLE DENTAL</div>
+</footer>
+
+<a class="fab" href="https://wa.me/880XXXXXXXXXX" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.15em;flex-shrink:0"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.25-8.24 8.25zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></a>
+
+<script src="../assets/clinic.config.js?v=1"></script>
+<script src="../assets/clinic-compat.js?v=1"></script>
+<script src="../assets/content.js?v=1"></script>
+<script>
+/* ---- i18n ---- */
+function setLang(l){
+  document.documentElement.setAttribute('data-lang',l);
+  document.body.classList.toggle('bn',l==='bn');
+  try{localStorage.setItem('clinic_lang',l)}catch(e){}
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    el.textContent=(l==='bn'?el.getAttribute('data-bn'):el.getAttribute('data-en'));
+  });
+  var t=document.getElementById('langText');if(t)t.textContent=(l==='bn'?'EN':'বাংলা');
+  renderGallery(l);
+}
+var L='bn';try{L=localStorage.getItem('clinic_lang')||'bn'}catch(e){}
+
+/* ---- gallery data ---- */
+/* Photos and category tabs come from assets/content.js so the admin content
+   editor can change them. Photos are stored by name; the paths are built here,
+   keeping the cards/ thumbnail swap and the full-size lightbox exactly as before. */
+var OC = window.CLINIC_CONTENT || {};
+var GAL_CATS = OC.galleryCats || {};
+var PHOTOS = (OC.gallery || []).map(function(g){
+  return { src:'../assets/services/'+g.photo+'.jpg', cat:g.cat, en:g.en, bn:g.bn };
+});
+(function(){
+  var f=document.getElementById('galFilter'); if(!f) return;
+  var html='<button class="gal-tag active" data-cat="all" data-en="All" data-bn="সব">All</button>';
+  Object.keys(GAL_CATS).forEach(function(k){
+    var c=GAL_CATS[k];
+    html+='<button class="gal-tag" data-cat="'+k+'" data-en="'+c.en+'" data-bn="'+c.bn+'">'+c.en+'</button>';
+  });
+  f.innerHTML=html;
+})();
+PHOTOS.forEach(function(p,gi){p.gi=gi;});
+
+/* positive community comments (bilingual) */
+
+var activeCat='all';
+var lbIndex=0;
+var visiblePhotos=[];
+
+function doShare(src,caption){
+  var url=location.origin+location.pathname+'?photo='+encodeURIComponent(src);
+  if(navigator.share){navigator.share({title:'Example Dental — '+caption,url:url}).catch(function(){});}
+  else{navigator.clipboard&&navigator.clipboard.writeText(url).then(function(){alert('Link copied!');});}
+}
+function openLb(idx){
+  lbIndex=idx;
+  var lb=document.getElementById('galLb');
+  var img=document.getElementById('galLbImg');
+  img.src=visiblePhotos[idx].src;
+  img.alt=visiblePhotos[idx].en;
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLb(){
+  document.getElementById('galLb').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function renderGallery(lang){
+  var grid=document.getElementById('galGrid');
+  visiblePhotos=activeCat==='all'?PHOTOS:PHOTOS.filter(function(p){return p.cat===activeCat;});
+  var html='';
+  visiblePhotos.forEach(function(p,i){
+    var caption=lang==='bn'?p.bn:p.en;
+    html+='<div class="gal-item" data-cat="'+p.cat+'">';
+    html+='<div class="gal-head">';
+    html+='<span class="gal-avatar"><img src="../assets/mark-square.svg?v=1" alt="Example Dental"></span>';
+    html+='<span class="gal-user">example_dental</span>';
+    html+='<span class="gal-more">&#8943;</span>';
+    html+='</div>';
+    html+='<div class="gal-photo" data-idx="'+i+'" title="'+caption+'">';
+    /* grid cells are ~300px, so load the 640px copy; the lightbox still opens the
+       full-size image. Falls back to the full file if no copy exists. */
+    var thumbSrc=p.src.replace('/assets/services/','/assets/services/cards/');
+    html+='<img src="'+thumbSrc+'" alt="'+caption+'" loading="lazy" decoding="async" data-full="'+p.src+'" onerror="if(this.dataset.fb){this.closest(\'.gal-item\').style.display=\'none\'}else{this.dataset.fb=1;this.src=this.dataset.full}">';
+    html+='<span class="gal-wm" aria-hidden="true"><img src="../assets/mark-square.svg?v=1" alt=""><span class="gal-wm-tx">EXAMPLE<b>DENTAL</b></span></span>';
+    html+='</div>';
+    html+='<div class="gal-actions">';
+    html+='<button class="gal-act" data-share="'+i+'" aria-label="Share">&#128257;</button>';
+    html+='<button class="gal-act gal-bookmark" data-save="'+i+'" aria-label="Save">&#128278;</button>';
+    html+='</div>';
+    html+='<div class="gal-caption"><b>example_dental</b>'+caption+'</div>';
+    html+='</div>';
+  });
+  grid.innerHTML=html;
+
+  grid.querySelectorAll('.gal-photo').forEach(function(el){
+    el.addEventListener('click',function(){openLb(parseInt(el.dataset.idx,10));});
+  });
+  grid.querySelectorAll('[data-share]').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      var idx=parseInt(btn.dataset.share,10);
+      var p=visiblePhotos[idx];
+      doShare(p.src,lang==='bn'?p.bn:p.en);
+    });
+  });
+  grid.querySelectorAll('[data-save]').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      btn.classList.toggle('saved');
+    });
+  });
+}
+
+/* filter tabs */
+document.getElementById('galFilter').addEventListener('click',function(e){
+  var btn=e.target.closest('.gal-tag');
+  if(!btn)return;
+  document.querySelectorAll('.gal-tag').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  activeCat=btn.dataset.cat;
+  renderGallery(document.documentElement.getAttribute('data-lang')||'en');
+});
+
+/* lightbox */
+document.getElementById('galLbClose').addEventListener('click',closeLb);
+document.getElementById('galLb').addEventListener('click',function(e){if(e.target===this)closeLb();});
+document.getElementById('galLbPrev').addEventListener('click',function(){
+  lbIndex=(lbIndex-1+visiblePhotos.length)%visiblePhotos.length;
+  document.getElementById('galLbImg').src=visiblePhotos[lbIndex].src;
+});
+document.getElementById('galLbNext').addEventListener('click',function(){
+  lbIndex=(lbIndex+1)%visiblePhotos.length;
+  document.getElementById('galLbImg').src=visiblePhotos[lbIndex].src;
+});
+document.addEventListener('keydown',function(e){
+  if(!document.getElementById('galLb').classList.contains('open'))return;
+  if(e.key==='Escape')closeLb();
+  if(e.key==='ArrowLeft')document.getElementById('galLbPrev').click();
+  if(e.key==='ArrowRight')document.getElementById('galLbNext').click();
+});
+
+/* pre-select filter from ?cat= (service → its gallery) */
+var qc=new URLSearchParams(location.search).get('cat');
+if(qc){var tb=document.querySelector('.gal-tag[data-cat="'+qc+'"]');
+  if(tb){document.querySelectorAll('.gal-tag').forEach(function(b){b.classList.remove('active');});
+    tb.classList.add('active');activeCat=qc;}}
+
+/* lang toggle */
+setLang(L);
+document.getElementById('langToggle').addEventListener('click',function(){
+  setLang(document.documentElement.getAttribute('data-lang')==='en'?'bn':'en');
+});
+
+/* mobile nav */
+var b=document.getElementById('burger'),n=document.getElementById('navlist');
+if(b)b.addEventListener('click',function(){n.classList.toggle('open');});
+n&&n.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');});});
+
+/* year */
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+/* Disqus — loaded only after cookie consent (see assets/legal.js) */
+var disqus_config=function(){this.page.url='https://example.github.io/clinic-site-template/gallery/index.html';this.page.identifier='example-dental-gallery';};
+window.__loadDisqus=function(){
+  if(window.__disqusLoaded)return;window.__disqusLoaded=true;
+  var d=document,s=d.createElement('script');s.src='https://example-dental-gallery.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);
+};
+try{if(localStorage.getItem('clinic_consent')==='granted')window.__loadDisqus();}catch(e){}
+</script>
+<div class="srch-overlay" id="srch-overlay" role="dialog" aria-modal="true" aria-label="Site search"><div class="srch-modal"><div class="srch-row"><svg class="srch-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg><input class="srch-input" id="srch-input" type="search" autocomplete="off" placeholder="Search..."><kbd class="srch-esc">Esc</kbd><button class="srch-close" id="srch-close">✕</button></div><div class="srch-results" id="srch-results"></div><div class="srch-hint" id="srch-hint-txt">↑↓ navigate · Enter open · Esc close</div></div></div>
+<script src="../assets/brand-highlight.js?v=1" defer></script><script src="../assets/admin-gate.js?v=1" defer></script>
+</body>
+</html>

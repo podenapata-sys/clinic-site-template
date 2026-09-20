@@ -1,0 +1,19 @@
+# Editors
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Node (only the config scripts use it; there is no build step)
+node_modules/
+npm-debug.log*
+
+# Local overrides — a clinic's real Firebase keys during testing.
+# Never commit a client's live config to the template repo.
+assets/clinic.config.local.js
+.env
+.env.*
+
+# Generated
+*.log

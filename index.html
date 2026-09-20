@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Example Dental — Painless, modern and affordable dental care</title>
+<meta name="description" content="Example Dental offers painless, modern and affordable dental care — check-ups, fillings, root canal, crowns, braces and whitening.">
+<meta name="keywords" content="dentist, dental clinic, painless dentist, teeth whitening, dental implants, braces, root canal">
+<meta name="theme-color" content="#57C3AD">
+<link rel="canonical" href="https://example.github.io/clinic-site-template/">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Example Dental — Painless, modern and affordable dental care">
+<meta property="og:description" content="Example Dental offers painless, modern and affordable dental care — check-ups, fillings, root canal, crowns, braces and whitening.">
+<meta property="og:image" content="https://example.github.io/clinic-site-template/assets/logo.svg">
+<meta property="og:locale" content="en_US"><meta property="og:locale:alternate" content="bn_BD">
+<link rel="icon" type="image/png" href="assets/mark-square.svg?v=1">
+<!-- Preload the hero (LCP) image -->
+<link rel="preload" as="image" href="assets/hero-portrait.svg?v=1" fetchpriority="high">
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="assets/styles.css?v=1">
+<!-- Structured data: Dentist / MedicalClinic -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  "name": "Example Dental",
+  "legalName": "Example Dental Care",
+  "image": "https://example.github.io/clinic-site-template/assets/logo.svg",
+  "logo": "https://example.github.io/clinic-site-template/assets/logo.svg",
+  "url": "https://example.github.io/clinic-site-template/",
+  "email": "hello@example.com",
+  "telephone": "+880XXXXXXXXXX",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Street address line",
+    "addressLocality": "Dhaka",
+    "addressCountry": "BD"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 23.8103,
+    "longitude": 90.4125
+  },
+  "hasMap": "https://www.google.com/maps?q=23.8103,90.4125&z=16",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Saturday",
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday"
+      ],
+      "opens": "10:00",
+      "closes": "21:30"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Friday",
+      "opens": "16:00",
+      "closes": "21:30"
+    }
+  ],
+  "medicalSpecialty": "Dentistry",
+  "employee": {
+    "@type": "Physician",
+    "name": "Dr. Ayesha Rahman",
+    "jobTitle": "Chief Dental Surgeon",
+    "medicalSpecialty": "Dentistry"
+  }
+}
+</script>
+</head>
+<body>
+
+<div id="scrollbar"></div>
+
+
+<!-- header -->
+<header class="header">
+  <nav class="nav container">
+    <a class="brand" href="#home">
+      <span class="logo-anim logo-anim--mark"><img src="assets/mark.svg?v=3" alt="Example Dental logo"></span>
+      <span>EXAMPLE<small>DENTAL</small></span>
+    </a>
+    <div class="navlist" id="navlist">
+      <a href="#why" data-i18n="nav_about_us"></a>
+      <div class="has-dd">
+        <a href="#services" class="dd-toggle"><span data-i18n="nav_ourservices"></span> <span class="dd-caret">▾</span></a>
+        <div class="dd-menu">
+          <span class="dd-notch" aria-hidden="true"></span>
+          <a href="services/field-survey.html"><span class="dd-ic">🦷</span><span class="dd-nm" data-i18n="dd_svc1"></span><span class="dd-arr">›</span></a>
+          <a href="services/field-survey.html"><span class="dd-ic">💊</span><span class="dd-nm" data-i18n="dd_svc2"></span><span class="dd-arr">›</span></a>
+          <a href="services/land-records.html"><span class="dd-ic">🔩</span><span class="dd-nm" data-i18n="dd_svc3"></span><span class="dd-arr">›</span></a>
+          <a href="services/boundary-demarcation.html"><span class="dd-ic">📏</span><span class="dd-nm" data-i18n="dd_svc4"></span><span class="dd-arr">›</span></a>
+          <a href="services/mouza-map.html"><span class="dd-ic">✨</span><span class="dd-nm" data-i18n="dd_svc5"></span><span class="dd-arr">›</span></a>
+          <a href="services/partition-survey.html"><span class="dd-ic">🦷</span><span class="dd-nm" data-i18n="dd_svc6"></span><span class="dd-arr">›</span></a>
+          <a href="services/pre-purchase-verification.html"><span class="dd-ic">🌱</span><span class="dd-nm" data-i18n="dd_svc7"></span><span class="dd-arr">›</span></a>
+          <a href="services/index.html" class="dd-more"><span class="dd-nm" data-i18n="dd_more"></span><span class="dd-arr">›</span></a>
+        </div>
+      </div>
+      <a href="#contact" data-i18n="nav_contact_link"></a>
+      <a href="#pricing" data-i18n="nav_pricelist"></a>
+      <a href="gallery/index.html" data-i18n="nav_gallery"></a>
+      <a href="careers.html" data-i18n="nav_careers"></a>
+      <div class="nav-actions">
+        <a class="btn btn-primary" href="book.html" data-i18n="book"></a>
+      </div>
+    </div>
+    <button class="srch-btn" id="srch-btn" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></button>
+    <button class="lang-toggle nav-lang" id="langToggle" aria-label="Switch language"><span id="langText">বাংলা</span></button>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+<meta name="page-root" content="">
+
+<!-- hero -->
+<section class="hero" id="home">
+  <span class="blob b1"></span><span class="blob b2"></span>
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow" data-i18n="hero_eyebrow"></span>
+      <h1 data-i18n="hero_title" data-i18n-html></h1>
+      <p class="lead" data-i18n="hero_text"></p>
+      <div class="hero-cta">
+        <a class="btn btn-call" href="tel:+880XXXXXXXXXX"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7A2 2 0 0 1 22 16.9z"/></svg> <span data-i18n="call"></span></a>
+        <a class="btn btn-wa hero-wa-btn" href="https://wa.me/880XXXXXXXXXX" target="_blank" rel="noopener"><svg class="ic-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.25-8.24 8.25zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg> <span data-i18n="hero_wa"></span></a>
+        <a class="btn btn-ghost" href="book.html" data-i18n="book"></a>
+      </div>
+      <div class="hero-trust-row">
+        <a class="g-review-badge" href="https://www.google.com/maps" target="_blank" rel="noopener" aria-label="See our Google reviews">
+          <svg class="g-logo" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path fill="#EA4335" d="M24 9.5c3.2 0 5.9 1.1 8.1 2.9l6-6C34.4 3.2 29.5 1 24 1 14.8 1 7 6.7 3.7 14.7l7 5.4C12.4 14 17.7 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.4 5.7c4.3-4 6.8-9.9 6.8-16.9h.4z"/>
+            <path fill="#FBBC05" d="M10.7 28.6A14.6 14.6 0 0 1 9.5 24c0-1.6.3-3.2.8-4.6l-7-5.4A23.9 23.9 0 0 0 .5 24c0 3.9.9 7.5 2.6 10.7l7.6-6.1z"/>
+            <path fill="#34A853" d="M24 46.5c5.4 0 10-1.8 13.3-4.8l-7.4-5.7c-1.8 1.2-4.1 2-6.9 2-6.3 0-11.6-4.2-13.5-10l-7.6 5.9C6.8 41.5 14.8 46.5 24 46.5z"/>
+          </svg>
+          <div class="g-review-text">
+            <span class="g-stars">★★★★★</span>
+            <span class="g-score"></span>
+            <span class="g-label" data-i18n="g_reviews"></span>
+          </div>
+        </a>
+        <div class="hp-badge">
+          <div class="hp-avatars">
+            <span class="hp-av">😊</span>
+            <span class="hp-av">😁</span>
+            <span class="hp-av">🙂</span>
+          </div>
+          <div class="hp-text">
+            <span class="hp-count">3,415+</span>
+            <span class="hp-label" data-i18n="hp_label"></span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-badges">
+        <span data-i18n="hero_b1"></span><span data-i18n="hero_b2"></span>
+        <span data-i18n="hero_b3"></span><span data-i18n="hero_b4"></span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="hero-photo">
+        <img class="hero-photo-img" src="assets/hero-portrait.svg?v=1" alt="Smiling patient at a dental check-up with her dentist at Example Dental" onerror="this.remove()">
+        <!-- Placeholder illustration — automatically replaced once assets/hero-portrait.svg is added -->
+        <svg viewBox="0 0 300 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:90%;max-width:280px">
+          <!-- background circle glow -->
+          <circle cx="150" cy="200" r="140" fill="url(#heroGrad)" opacity=".18"/>
+          <!-- dental chair base -->
+          <rect x="60" y="300" width="180" height="28" rx="14" fill="#2B6CB0" opacity=".22"/>
+          <rect x="80" y="260" width="140" height="50" rx="18" fill="#57C3AD" opacity=".28"/>
+          <!-- chair back -->
+          <rect x="100" y="160" width="100" height="110" rx="20" fill="#c7e8e2"/>
+          <!-- body / white coat area -->
+          <rect x="95" y="220" width="110" height="70" rx="16" fill="#f0faf8"/>
+          <!-- head -->
+          <ellipse cx="150" cy="155" rx="46" ry="50" fill="#FDDBB4"/>
+          <!-- hair -->
+          <ellipse cx="150" cy="118" rx="48" ry="24" fill="#5a3a1a"/>
+          <ellipse cx="106" cy="138" rx="14" ry="28" fill="#5a3a1a"/>
+          <ellipse cx="194" cy="138" rx="14" ry="28" fill="#5a3a1a"/>
+          <!-- eyes -->
+          <ellipse cx="134" cy="155" rx="7" ry="8" fill="#3a2510"/>
+          <ellipse cx="166" cy="155" rx="7" ry="8" fill="#3a2510"/>
+          <circle cx="136" cy="152" r="2.5" fill="#fff"/>
+          <circle cx="168" cy="152" r="2.5" fill="#fff"/>
+          <!-- big smile -->
+          <path d="M127 172 Q150 192 173 172" stroke="#c0392b" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <!-- teeth -->
+          <rect x="135" y="174" width="30" height="11" rx="4" fill="#fff"/>
+          <!-- cheeks blush -->
+          <ellipse cx="120" cy="170" rx="11" ry="7" fill="#f08080" opacity=".28"/>
+          <ellipse cx="180" cy="170" rx="11" ry="7" fill="#f08080" opacity=".28"/>
+          <!-- arm / thumbs up -->
+          <path d="M210 230 Q240 210 238 180 Q237 160 220 162 Q205 164 206 182 L200 182 Q188 182 188 192 Q188 202 200 202 L198 208 Q186 208 186 218 Q186 228 198 228 L198 234 Q186 234 187 244 Q188 252 200 252 L210 252 Q224 252 230 240 Q236 230 210 230Z" fill="#FDDBB4"/>
+          <path d="M220 162 Q228 148 222 136 Q216 124 206 130 Q200 136 200 148 L200 182" stroke="#e8b98a" stroke-width="1.5" fill="none"/>
+          <!-- thumbs up detail -->
+          <path d="M206 148 Q210 142 216 146" stroke="#c89060" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <!-- tooth icon badge -->
+          <circle cx="70" cy="290" r="26" fill="#fff" opacity=".9"/>
+          <path d="M62 280 Q57 275 60 268 Q63 261 70 261 Q77 261 80 268 Q83 275 78 280 L76 296 Q75 300 70 300 Q65 300 64 296Z" fill="#57C3AD"/>
+          <!-- star sparkles -->
+          <text x="220" y="120" font-size="22" fill="#F08A24" opacity=".9">★</text>
+          <text x="46" y="200" font-size="16" fill="#57C3AD" opacity=".7">✦</text>
+          <text x="240" y="280" font-size="14" fill="#2B6CB0" opacity=".6">✦</text>
+          <defs>
+            <radialGradient id="heroGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#57C3AD"/>
+              <stop offset="100%" stop-color="#2B6CB0"/>
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="float-card fc-1"><div class="fc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/></svg></div><div><strong data-i18n="hero_badge_t"></strong><small data-i18n="hero_badge_s"></small></div></div>
+      <div class="float-card fc-2"><div class="fc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div><div><strong>10x</strong><small data-i18n="hero_badge2_s">Sterilization &amp; Safety</small></div></div>
+    </div>
+  </div>
+  <div class="container hero-stats" id="stats">
+    <div class="stats-grid">
+      <!-- data-target is the FALLBACK, shown when Firebase is unreachable. The clinic
+           edits these from the dashboard; assets/booking-cloud.js overwrites them live. -->
+      <div class="hstat"><div class="stat-num" data-stat="surveys" data-target="0" data-suffix="+">0</div><div class="stat-lbl" data-i18n="stat1"></div></div>
+      <div class="hstat"><div class="stat-num" data-stat="years" data-target="0" data-suffix="+">0</div><div class="stat-lbl" data-i18n="stat2"></div></div>
+      <div class="hstat"><div class="stat-num" data-stat="services" data-target="0" data-suffix="+">0</div><div class="stat-lbl" data-i18n="stat3"></div></div>
+      <div class="hstat"><div class="stat-num" data-stat="satisfaction" data-target="0" data-suffix="%">0</div><div class="stat-lbl" data-i18n="stat4"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- request a callback -->
+<section class="section callback-sec">
+  <div class="container">
+    <div class="callback-card">
+      <div class="callback-head"><h2 data-i18n="cb_title"></h2></div>
+      <div class="callback-body">
+        <form class="callback-form" id="callbackForm">
+          <div class="cb-input cb-name">
+            <svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input type="text" id="cbName" name="cbName" required data-i18n-ph="cb_name_ph">
+          </div>
+          <div class="cb-input">
+            <svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7A2 2 0 0 1 22 16.9z"/></svg>
+            <input type="tel" id="cbNumber" name="cbNumber" required data-i18n-ph="cb_ph">
+          </div>
+          <button class="cb-submit" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </form>
+        <div class="callback-actions">
+          <a class="btn cb-call" href="tel:+880XXXXXXXXXX"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7A2 2 0 0 1 22 16.9z"/></svg> 01XXXXXXXXX</a>
+          <a class="btn btn-wa" href="https://wa.me/880XXXXXXXXXX" target="_blank" rel="noopener"><svg class="ic-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.25-8.24 8.25zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg> <span data-i18n="cb_wa"></span></a>
+        </div>
+        <div class="cb-success" id="cbSuccess"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- marquee -->
+<div class="marquee" aria-hidden="true"><div class="marquee-track" id="marqueeTrack"></div></div>
+
+<!-- services -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="services_eyebrow"></span>
+      <h2 data-i18n="services_title"></h2>
+      <p data-i18n="services_text"></p>
+    </div>
+    <div class="svc-grid" id="servicesGrid"></div>
+    <div style="text-align:center;margin-top:44px">
+      <a class="btn btn-primary" href="services/index.html"><span data-i18n="view_all"></span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- calculator -->
+<section class="section soft" id="calc">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="calc_eyebrow"></span>
+      <h2 data-i18n="calc_title"></h2>
+      <p data-i18n="calc_text"></p>
+    </div>
+    <div class="calc-layout">
+      <div class="calc-card">
+        <div class="calc-top">
+          <h3 class="calc-heading"><span data-i18n="calc_head1"></span> <span class="grad-pink" data-i18n="calc_head2"></span></h3>
+          <div class="calc-field">
+            <label data-i18n="calc_category"></label>
+            <select id="calcCategory"></select>
+          </div>
+          <div class="calc-field">
+            <label data-i18n="calc_serviceopt"></label>
+            <select id="calcService"></select>
+          </div>
+          <div class="calc-field" id="calcQtyWrap">
+            <label data-i18n="calc_qty"></label>
+            <select id="calcQty"></select>
+          </div>
+        </div>
+        <div class="calc-bottom">
+          <div class="lbl" data-i18n="calc_result"></div>
+          <div id="calcResult"></div>
+          <p class="calc-note" data-i18n="calc_note"></p>
+          <button class="btn" id="calcBook" data-i18n="calc_book"></button>
+        </div>
+      </div>
+      <div class="calc-ba" id="calcBa"></div>
+    </div>
+  </div>
+</section>
+
+<!-- how it works -->
+<section class="section soft2" id="how">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="steps_eyebrow"></span>
+      <h2 data-i18n="steps_title"></h2>
+      <p data-i18n="steps_text"></p>
+    </div>
+    <div class="steps-grid" id="stepsGrid"></div>
+  </div>
+</section>
+
+<!-- why us -->
+<section class="section soft" id="why">
+  <div class="container why-grid">
+    <div class="why-art">
+      <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="20" y="30" width="160" height="110" rx="14" fill="#ffffff"/>
+        <circle cx="70" cy="74" r="26" fill="#cfe6f7"/><circle cx="70" cy="66" r="10" fill="#2B6CB0"/>
+        <rect x="50" y="86" width="40" height="22" rx="11" fill="#2B6CB0"/>
+        <rect x="110" y="56" width="58" height="9" rx="4" fill="#57C3AD"/>
+        <rect x="110" y="74" width="44" height="9" rx="4" fill="#bfeee4"/>
+        <rect x="110" y="92" width="52" height="9" rx="4" fill="#bfeee4"/>
+      </svg>
+    </div>
+    <div class="left">
+      <span class="eyebrow" data-i18n="why_eyebrow"></span>
+      <h2 data-i18n="why_title"></h2>
+      <p data-i18n="why_text"></p>
+      <ul class="why-list">
+        <li><span class="ck">✓</span><span data-i18n="why1"></span></li>
+        <li><span class="ck">✓</span><span data-i18n="why2"></span></li>
+        <li><span class="ck">✓</span><span data-i18n="why3"></span></li>
+        <li><span class="ck">✓</span><span data-i18n="why4"></span></li>
+        <li><span class="ck">✓</span><span data-i18n="why5"></span></li>
+        <li><span class="ck">✓</span><span data-i18n="why6"></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- features bar -->
+<section class="features-bar">
+  <div class="container fb-grid">
+    <div class="fb-item">
+      <div class="fb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></div>
+      <div><strong data-i18n="fb1_t"></strong><p data-i18n="fb1_s"></p></div>
+    </div>
+    <div class="fb-item">
+      <div class="fb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></div>
+      <div><strong data-i18n="fb2_t"></strong><p data-i18n="fb2_s"></p></div>
+    </div>
+    <div class="fb-item">
+      <div class="fb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div><strong data-i18n="fb3_t"></strong><p data-i18n="fb3_s"></p></div>
+    </div>
+    <div class="fb-item">
+      <div class="fb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1A5.5 5.5 0 0 0 3.2 12.4l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div>
+      <div><strong data-i18n="fb4_t"></strong><p data-i18n="fb4_s"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- technology & safety -->
+<section class="section" id="tech">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="tech_eyebrow"></span>
+      <h2 data-i18n="tech_title"></h2>
+      <p data-i18n="tech_text"></p>
+    </div>
+    <div class="tech-grid" id="techGrid"></div>
+  </div>
+</section>
+
+<!-- emergency / video consultation banner -->
+<section class="emerg-band">
+  <div class="container emerg-grid">
+    <div>
+      <span class="eyebrow eyebrow-dark" data-i18n="emerg_eyebrow"></span>
+      <h2 data-i18n="emerg_title"></h2>
+      <p data-i18n="emerg_text"></p>
+      <ul class="emerg-list">
+        <li><span class="ck">✓</span><span data-i18n="emerg_b1"></span></li>
+        <li><span class="ck">✓</span><span data-i18n="emerg_b2"></span></li>
+        <li><span class="ck">✓</span><span data-i18n="emerg_b3"></span></li>
+      </ul>
+    </div>
+    <div class="emerg-cta">
+      <a class="btn btn-orange" href="tel:+880XXXXXXXXXX">📞 <span data-i18n="emerg_call"></span></a>
+      <a class="btn btn-wa" href="https://wa.me/880XXXXXXXXXX?text=I%20would%20like%20an%20online%20video%20consultation" target="_blank" rel="noopener">🎥 <span data-i18n="emerg_video"></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- pricing -->
+<section class="section soft2" id="pricing">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="pricing_eyebrow"></span>
+      <h2 data-i18n="pricing_title"></h2>
+      <p data-i18n="pricing_text"></p>
+    </div>
+    <div class="price-wrap">
+      <table class="price-table">
+        <thead><tr><th data-i18n="pricing_th1"></th><th data-i18n="pricing_th2"></th></tr></thead>
+        <tbody id="pricingBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- before after -->
+<section class="section" id="before-after">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="ba_eyebrow"></span>
+      <h2 data-i18n="ba_title"></h2>
+      <p data-i18n="ba_text"></p>
+    </div>
+    <div class="ba-filters">
+      <button class="ba-filter active" data-filter="all" data-i18n="ba_f_all"></button>
+      <button class="ba-filter" data-filter="whitening" data-i18n="ba_f_whitening"></button>
+      <button class="ba-filter" data-filter="braces" data-i18n="ba_f_braces"></button>
+      <button class="ba-filter" data-filter="veneers" data-i18n="ba_f_veneers"></button>
+      <button class="ba-filter" data-filter="implants" data-i18n="ba_f_implants"></button>
+    </div>
+    <div class="ba-grid" id="baGrid"></div>
+    <p class="ba-note" data-i18n="ba_note"></p>
+  </div>
+</section>
+
+<!-- testimonials -->
+<section class="section" id="testimonials">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="test_eyebrow"></span>
+      <h2 data-i18n="test_title"></h2>
+    </div>
+    <div class="test-grid" id="testGrid"></div>
+    <div class="review-cta">
+      <div class="review-score">
+        <svg class="g-logo-lg" viewBox="0 0 48 48" aria-hidden="true">
+          <path fill="#EA4335" d="M24 9.5c3.2 0 5.9 1.1 8.1 2.9l6-6C34.4 3.2 29.5 1 24 1 14.8 1 7 6.7 3.7 14.7l7 5.4C12.4 14 17.7 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.4 5.7c4.3-4 6.8-9.9 6.8-16.9h.4z"/>
+          <path fill="#FBBC05" d="M10.7 28.6A14.6 14.6 0 0 1 9.5 24c0-1.6.3-3.2.8-4.6l-7-5.4A23.9 23.9 0 0 0 .5 24c0 3.9.9 7.5 2.6 10.7l7.6-6.1z"/>
+          <path fill="#34A853" d="M24 46.5c5.4 0 10-1.8 13.3-4.8l-7.4-5.7c-1.8 1.2-4.1 2-6.9 2-6.3 0-11.6-4.2-13.5-10l-7.6 5.9C6.8 41.5 14.8 46.5 24 46.5z"/>
+        </svg>
+        <div>
+          <div class="rs-score"> <span class="rs-stars">★★★★★</span></div>
+          <div class="rs-label" data-i18n="google_reviews_label"></div>
+        </div>
+        <a class="btn btn-primary" href="https://www.google.com/maps" target="_blank" rel="noopener" data-i18n="see_reviews"></a>
+      </div>
+      <div class="review-qr">
+        <a class="review-qr-img" href="https://search.google.com/local/writereview?placeid=" target="_blank" rel="noopener" aria-label="Leave a Google review"><div id="reviewQRCode"></div></a>
+        <p data-i18n="qr_scan_label"></p>
+        <a class="btn btn-primary review-write-btn" href="https://search.google.com/local/writereview?placeid=" target="_blank" rel="noopener" data-i18n="share_experience"></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- contact -->
+<section class="section soft2" id="contact">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="contact_eyebrow"></span>
+      <h2 data-i18n="contact_title"></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="ci-row"><div class="ci-ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-5.5 8-12a8 8 0 1 0-16 0c0 6.5 8 12 8 12z"/><circle cx="12" cy="10" r="3"/></svg></div><div><strong data-i18n="contact_addr_l"></strong><span data-i18n="contact_addr"></span></div></div>
+        <div class="ci-row"><div class="ci-ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7A2 2 0 0 1 22 16.9z"/></svg></div><div><strong data-i18n="contact_phone_l"></strong><a href="tel:+880XXXXXXXXXX"><span data-i18n="contact_phone_main_l"></span>: 01XXXXXXXXX</a> · <a href="tel:+880XXXXXXXXXX"><span data-i18n="contact_phone_appt_l"></span>: 01XXXXXXXXX</a></div></div>
+        <div class="ci-row"><div class="ci-ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.25-8.24 8.25zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></div><div><strong data-i18n="contact_wa_l"></strong><a href="https://wa.me/880XXXXXXXXXX" target="_blank" rel="noopener">01XXXXXXXXX</a></div></div>
+        <div class="ci-row"><div class="ci-ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7 10-7"/></svg></div><div><strong data-i18n="contact_email_l"></strong><a href="mailto:hello@example.com">hello@example.com</a></div></div>
+        <div class="ci-row"><div class="ci-ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><strong data-i18n="contact_hours_l"></strong><span data-i18n="contact_hours"></span></div></div>
+        <a class="btn btn-primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=23.8018173%2C90.370624" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:18px;height:18px"><path d="M12 22s8-5.5 8-12a8 8 0 1 0-16 0c0 6.5 8 12 8 12z"/><circle cx="12" cy="10" r="3"/></svg> <span data-i18n="contact_dir"></span></a>
+      </div>
+      <div class="map-frame">
+        <iframe title="Example Dental location" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=23.8018173,90.370624&z=16&output=embed"></iframe>
+        <a class="map-dir-btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=23.8018173%2C90.370624" target="_blank" rel="noopener" aria-label="Get directions to Example Dental"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-5.5 8-12a8 8 0 1 0-16 0c0 6.5 8 12 8 12z"/><circle cx="12" cy="10" r="3"/></svg><span data-i18n="contact_dir"></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- faq (final section) -->
+<section class="section soft" id="faq">
+  <div class="container faq-wrap">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="faq_eyebrow"></span>
+      <h2 data-i18n="faq_title"></h2>
+    </div>
+    <div class="faq-list" id="faqList"></div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer class="footer">
+  <div class="container foot-grid">
+    <div class="foot-brand">
+      <div class="foot-logo"><span class="logo-anim logo-anim--mark"><img src="assets/mark.svg?v=3" alt="Example Dental"></span><span>EXAMPLE<small>DENTAL</small></span></div>
+      <p data-i18n="foot_about"></p>
+      <div class="foot-soc">
+        <a href="" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg></a>
+        <a href="https://wa.me/880XXXXXXXXXX" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.25-8.24 8.25zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h4 data-i18n="foot_links"></h4>
+      <a href="#home" data-i18n="nav_home"></a>
+      <a href="#services" data-i18n="nav_services"></a>
+      <a href="#pricing" data-i18n="nav_pricing"></a>
+      <a href="#why" data-i18n="nav_about"></a>
+      <a href="careers.html" data-i18n="nav_careers"></a>
+      <a href="book.html" data-i18n="book"></a>
+    </div>
+    <div>
+      <h4 data-i18n="foot_services"></h4>
+      <a href="#services">Root Canal · RCT</a>
+      <a href="#services">Crowns &amp; Bridges</a>
+      <a href="#services">Teeth Whitening</a>
+      <a href="#services">Braces &amp; Aligners</a>
+      <a href="#services">Dental Implants</a>
+    </div>
+    <div>
+      <h4 data-i18n="foot_contact"></h4>
+      <a href="tel:+880XXXXXXXXXX">📞 01XXXXXXXXX</a>
+      <a href="https://wa.me/880XXXXXXXXXX" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:1em;height:1em;vertical-align:-.15em;flex-shrink:0"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.25-8.24 8.25zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg> 01XXXXXXXXX</a>
+      <a href="mailto:hello@example.com">✉️ hello@example.com</a>
+      <a href="https://www.google.com/maps" target="_blank" rel="noopener" data-i18n="contact_addr"></a>
+    </div>
+  </div>
+  <div class="container foot-bottom">© <span id="year"></span> EXAMPLE DENTAL · <span data-i18n="foot_rights"></span></div>
+</footer>
+
+<button id="toTop" class="totop" aria-label="Back to top">↑</button>
+<div class="fixed-sidebar">
+  <a class="fsb-btn fsb-call" href="tel:+880XXXXXXXXXX" aria-label="Call us">
+    <div class="fsb-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7A2 2 0 0 1 22 16.9z"/></svg></div>
+    <span data-i18n="call"></span>
+  </a>
+  <a class="fsb-btn fsb-wa" href="https://wa.me/880XXXXXXXXXX" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <div class="fsb-ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.25-8.24 8.25zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg></div>
+    <span>WhatsApp</span>
+  </a>
+  <a class="fsb-btn fsb-rev" href="https://www.google.com/maps" target="_blank" rel="noopener" aria-label="Review us on Google">
+    <div class="fsb-ic"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.2 0 5.9 1.1 8.1 2.9l6-6C34.4 3.2 29.5 1 24 1 14.8 1 7 6.7 3.7 14.7l7 5.4C12.4 14 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.4 5.7c4.3-4 6.8-9.9 6.8-16.9h.4z"/><path fill="#FBBC05" d="M10.7 28.6A14.6 14.6 0 0 1 9.5 24c0-1.6.3-3.2.8-4.6l-7-5.4A23.9 23.9 0 0 0 .5 24c0 3.9.9 7.5 2.6 10.7l7.6-6.1z"/><path fill="#34A853" d="M24 46.5c5.4 0 10-1.8 13.3-4.8l-7.4-5.7c-1.8 1.2-4.1 2-6.9 2-6.3 0-11.6-4.2-13.5-10l-7.6 5.9C6.8 41.5 14.8 46.5 24 46.5z"/></svg></div>
+    <span data-i18n="rev_us"></span>
+  </a>
+</div>
+
+<!-- WhatsApp Live Chat Widget -->
+<div class="wa-chat-bubble" id="waBubble" role="button" tabindex="0" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.25-8.24 8.25zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+  <span class="wa-bubble-badge" aria-hidden="true">1</span>
+</div>
+<div class="wa-chat-popup" id="waPopup" aria-hidden="true">
+  <div class="wcp-mini-head">
+    <span data-i18n="wa_online"></span>
+    <button class="wcp-close" id="waClose" aria-label="Close chat">✕</button>
+  </div>
+  <div class="wcp-chips">
+    <button class="wcp-chip" data-msg="book" data-i18n="wa_chip_book"></button>
+    <button class="wcp-chip" data-msg="price" data-i18n="wa_chip_price"></button>
+    <button class="wcp-chip" data-msg="question" data-i18n="wa_chip_q"></button>
+  </div>
+  <a class="wcp-start" id="waStart" href="https://wa.me/880XXXXXXXXXX" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="width:18px;height:18px"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm0 18.15c-1.52 0-3.01-.41-4.31-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24s8.24 3.7 8.24 8.24-3.7 8.25-8.24 8.25zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.98-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></svg>
+    <span data-i18n="wa_start"></span>
+  </a>
+</div>
+
+<script>document.getElementById("year").textContent="2025";</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<script src="assets/clinic.config.js?v=1"></script>
+<script src="assets/clinic-compat.js?v=1"></script>
+<script src="assets/content.js?v=1" defer></script>
+<script src="assets/firebase-config.js?v=1"></script>
+<script type="module" src="assets/booking-cloud.js?v=1"></script>
+<script src="assets/app.js?v=1" defer></script>
+<div class="srch-overlay" id="srch-overlay" role="dialog" aria-modal="true" aria-label="Site search">
+  <div class="srch-modal">
+    <div class="srch-row">
+      <svg class="srch-ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+      <input class="srch-input" id="srch-input" type="search" autocomplete="off" placeholder="Search treatments, prices, FAQs…">
+      <kbd class="srch-esc">Esc</kbd>
+      <button class="srch-close" id="srch-close" aria-label="Close search">✕</button>
+    </div>
+    <div class="srch-results" id="srch-results"></div>
+    <div class="srch-hint" id="srch-hint-txt">↑↓ navigate · Enter open · Esc close</div>
+  </div>
+</div>
+<script src="assets/brand-highlight.js?v=1" defer></script><script src="assets/admin-gate.js?v=1" defer></script>
+<script src="assets/legal.js?v=1" defer></script>
+</body>
+</html>

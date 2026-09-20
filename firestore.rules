@@ -1,0 +1,121 @@
+rules_version = '2';
+
+// ============================================================================
+// Clinic template — Firestore security rules.
+// ============================================================================
+//
+// This file is a RECORD of what is published in the console, not the source of
+// truth: the site is static and has no Firebase CLI deploy step, so the live
+// rules are whatever was last pasted into Firebase Console -> Build -> Firestore
+// Database -> Rules. Change the console first, then bring this file into line.
+//
+// The intent: anyone on the website can SUBMIT a well-formed booking, but only
+// the clinic owner can READ one. Booking documents hold patient names and phone
+// numbers, and records hold treatment history, so neither may be world-readable.
+//
+// ---------------------------------------------------------------------------
+// BEFORE YOU DEPLOY A CLINIC — set OWNER_UID below.
+// ---------------------------------------------------------------------------
+// Firebase projects have Email/Password self-registration ENABLED BY DEFAULT.
+// With a rule of `allow read: if request.auth != null`, that means ANY member of
+// the public can register an account on the project and then read every
+// patient's name, phone number and visit history. The site never exposes a
+// sign-up form, but the Firebase Auth REST endpoint is open to the internet and
+// the project's apiKey ships in assets/firebase-config.js to every visitor.
+//
+// So `request.auth != null` is not "the clinic is signed in". It is "somebody is
+// signed in." Pin it to the one account that belongs to the clinic:
+//
+//   1. Firebase Console -> Authentication -> Users -> add the clinic's account.
+//   2. Copy that row's User UID.
+//   3. Paste it into ownerUid() below.
+//   4. Also turn OFF self-registration:
+//      Authentication -> Settings -> User actions -> untick "Enable create".
+//
+// Do BOTH. The rule is the thing that actually enforces it; the setting stops
+// accounts being created in the first place. Either alone leaves a gap.
+// ============================================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // The clinic's own account. Replace with the UID from step 2 above.
+    function ownerUid() {
+      return 'PASTE_THE_CLINIC_OWNER_UID_HERE';
+    }
+
+    function isOwner() {
+      return request.auth != null && request.auth.uid == ownerUid();
+    }
+
+    // Guards the one collection the public can write to. Without this, a script
+    // that reads assets/firebase-config.js (which every visitor's browser does)
+    // could write unlimited 1 MiB documents, exhaust the free tier's daily write
+    // quota so real bookings start failing, and flood the alert inbox.
+    //
+    // NOTE 1 — 'service' and 'time' are reserved words in this language, so those
+    // two fields must be read as d['service'] and d['time']. Writing d.service is
+    // a parse error, not a warning.
+    //
+    // NOTE 2 — a rejected write fails SILENTLY on the site: clinicSaveBooking in
+    // assets/booking-cloud.js wraps addDoc in `catch (e) {}`, so a rule that is
+    // too strict loses bookings with nothing shown on screen and nothing in the
+    // console. After touching this function, submit a real booking AND a homepage
+    // callback (they take different paths) before trusting it.
+    function validBooking(d) {
+      return d.keys().hasOnly([
+               'name','phone','service','date','dateISO','time',
+               'address','note','emergency','status','source','kind','createdAt'
+             ])
+        && d.name is string       && d.name.size() > 0    && d.name.size() <= 100
+        && d.phone is string      && d.phone.size() >= 6  && d.phone.size() <= 25
+        && d['service'] is string && d['service'].size() <= 120
+        && d.date is string       && d.date.size() <= 40
+        && d.dateISO is string    && d.dateISO.size() <= 20
+        && d['time'] is string    && d['time'].size() <= 40
+        && d.address is string    && d.address.size() <= 300
+        && d.note is string       && d.note.size() <= 500
+        && d.emergency is bool
+        && d.status == 'new'
+        && d.source == 'website'
+        && d.kind in ['appointment','callback']
+        && d.createdAt == request.time;
+    }
+
+    match /bookings/{bookingId} {
+      // A visitor submitting the booking form, or the homepage callback form.
+      // Both write here on purpose: this is the only collection a visitor may
+      // create in. Callbacks are marked with kind:"callback".
+      allow create: if validBooking(request.resource.data);
+
+      // Patient contact details. Owner only — see the note at the top.
+      allow read: if isOwner();
+
+      // Nothing edits or removes a booking. The dashboard panel is read-only —
+      // every booking is also captured by the alert email and the bookings
+      // spreadsheet — so a submitted request is immutable from the web.
+      allow update, delete: if false;
+    }
+
+    // Patient visit records created in the dashboard (walk-ins, and website
+    // bookings that were added to records). Unlike bookings there is NO public
+    // create here — this is patient treatment and payment history.
+    match /records/{recordId} {
+      allow read, write: if isOwner();
+    }
+
+    // The four figures on the homepage (Happy Patients, Years Experience,
+    // Services Available, Satisfaction). The clinic edits them in the dashboard;
+    // every visitor's browser reads them, so read is public. Nothing here is
+    // patient data — it is the same four numbers already printed on the page.
+    match /site/{docId} {
+      allow read: if true;
+      allow write: if isOwner();
+    }
+
+    // Nothing else in the project is reachable from the web client.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
