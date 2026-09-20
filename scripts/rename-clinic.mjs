@@ -201,23 +201,25 @@ for (const f of files) {
        the dentist by a shortened name as often as by the full one
        (a given name without the surname, the first word without "ডেন্টাল"), and
        matching only the full string leaves those crediting a real person. */
-    const bnStrip = n => n.replace(/^(ডা\.?|ডাঃ|প্রফ\.?)\s*/u, "").trim().split(/\s+/);
-    /* Same collision guard the Latin pass needs, and for the same failure: the
-       practitioner's given name is often ALSO a word of the clinic's Bangla
-       name, and replacing it there rewrites the clinic as the doctor
-       ("নুসরাত ডেন্টাল"). The clinic pass owns those words. */
+    /* Honorifics differ between the old and new name — "ডা." is stripped but
+       "মোঃ" is not — so the two component lists can come out different lengths.
+       Zipping them by index then maps a surname onto a given name and produces
+       a doubled name like "মোঃ উদাহরণ উদাহরণ". Map by ROLE instead: full
+       string, then given name to given name, then surname to surname. */
+    const bnStrip = n => n.replace(/^(ডা\.?|ডাঃ|মোঃ|মোহাম্মদ|প্রফ\.?)\s*/u, "").trim().split(/\s+/);
+    const oldP = bnStrip(a), newP = bnStrip(b);
+    const pairs = [[a, b], [oldP[0], newP[0]], [oldP.at(-1), newP.at(-1)]];
     const bnClinicWords = new Set(fromBnArg ? bnStrip(fromBnArg) : []);
-    const isDoctorPass  = a === fromDoctorBnArg ||
-                          (fromDoctorBnArg && a === encodeURIComponent(fromDoctorBnArg));
-    const oldBits = [a, ...bnStrip(a)];
-    const newBits = [b, ...bnStrip(b)];
-    for (let i = 0; i < oldBits.length; i++) {
-      const oldB = oldBits[i];
+    const isDoctorPass = a === fromDoctorBnArg ||
+                         (fromDoctorBnArg && a === encodeURIComponent(fromDoctorBnArg));
+    const done = new Set();
+    for (let i = 0; i < pairs.length; i++) {
+      const [oldB, newB] = pairs[i];
+      if (!oldB || !newB || oldB === newB || done.has(oldB)) continue;
+      if ([...oldB].length < 2) continue;
+      /* a word the clinic name also owns is not the practitioner's to rename */
       if (isDoctorPass && i > 0 && bnClinicWords.has(oldB)) continue;
-      /* Collapse to the new full name when the replacement has fewer parts, so
-         a two-word old name never leaves half of itself behind. */
-      const newB = newBits[i] !== undefined ? newBits[i] : (bnStrip(b)[0] || b);
-      if (!oldB || !newB || oldB === newB || [...oldB].length < 2) continue;
+      done.add(oldB);
       const parts = text.split(oldB);
       if (parts.length > 1) { hits += parts.length - 1; text = parts.join(newB); }
     }

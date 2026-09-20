@@ -1,5 +1,5 @@
-/* Example Dental — shared legal layer: footer legal links, medical-disclaimer line,
-   cookie-consent banner, and third-party (Disqus) gating. Works with BOTH i18n systems
+/* Shared legal layer: footer legal links, the accuracy-notice line, the
+   cookie-consent banner, and third-party gating. Works with BOTH i18n systems
    (index/book use data-i18n; other pages use data-en/data-bn) by setting text directly
    and re-translating on the language toggle. */
 (function () {
@@ -12,10 +12,12 @@
   var STR = {
     privacy:  { en: "Privacy Policy",     bn: "প্রাইভেসি পলিসি" },
     terms:    { en: "Terms of Use",       bn: "ব্যবহারের শর্তাবলি" },
-    disc:     { en: "Medical Disclaimer", bn: "মেডিক্যাল ডিসক্লেইমার" },
+    disc:     { en: "Accuracy Notice", bn: "নির্ভুলতা বিজ্ঞপ্তি" },
+    /* On every page, because the fee estimator and the area converter both
+       produce numbers a visitor could mistake for a measurement. */
     discline: {
-      en: "This website is for general information only and is not medical advice. Always consult a qualified dentist.",
-      bn: "এই ওয়েবসাইটটি শুধুমাত্র সাধারণ তথ্যের জন্য, এটি চিকিৎসা পরামর্শ নয়। সব সময় একজন যোগ্য দন্তচিকিৎসকের পরামর্শ নিন।"
+      en: "Figures on this site are fee estimates and unit conversions, never a measurement. Official area comes from the signed field survey report.",
+      bn: "এই সাইটের সংখ্যাগুলো খরচের ধারণা ও একক রূপান্তর — জমির পরিমাপ নয়। প্রকৃত পরিমাণ স্বাক্ষরিত মাঠ জরিপ রিপোর্টে নির্ধারিত হয়।"
     },
     cookie: {
       en: "We use cookies and third-party services (Google Maps, WhatsApp, comments) to run this site and improve your experience.",
@@ -40,7 +42,7 @@
         '<div class="foot-legal-links">' +
           '<a href="' + PRE + 'privacy-policy.html" data-lg="privacy"></a><span>·</span>' +
           '<a href="' + PRE + 'terms.html" data-lg="terms"></a><span>·</span>' +
-          '<a href="' + PRE + 'medical-disclaimer.html" data-lg="disc"></a>' +
+          '<a href="' + PRE + 'accuracy-disclaimer.html" data-lg="disc"></a>' +
         '</div>' +
         '<p class="foot-disc" data-lg="discline"></p>';
       var bottom = f.querySelector(".foot-bottom");

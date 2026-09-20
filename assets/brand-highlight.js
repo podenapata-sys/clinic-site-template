@@ -1,11 +1,11 @@
-/* Highlight the brand name "Example Dental" / "উদাহরণ ডেন্টাল" in running text.
+/* Highlight the brand name "Example Land Survey" / "উদাহরণ ল্যান্ড সার্ভে" in running text.
    Runs on load and re-applies after language toggle (setLang rewrites textContent). */
 (function () {
   // For Bangla, also consume any trailing vowel-signs / case-ending letters that
-  // attach to "ডেন্টাল" (e.g. ডেন্টালে, ডেন্টালের) so the word is never split —
+  // attach to "ল্যান্ড" (e.g. ল্যান্ডে, ল্যান্ডের) so the word is never split —
   // splitting would orphan a combining mark and render a broken glyph.
-  var RXG = /(Example Dental|উদাহরণ ডেন্টাল[ঀ-৿]*)/g;
-  var RXT = /(Example Dental|উদাহরণ ডেন্টাল)/;
+  var RXG = /(Example Land Survey|উদাহরণ ল্যান্ড সার্ভে[ঀ-৿]*)/g;
+  var RXT = /(Example Land Survey|উদাহরণ ল্যান্ড সার্ভে)/;
   var SKIP_TAG = { SCRIPT: 1, STYLE: 1, INPUT: 1, TEXTAREA: 1, NOSCRIPT: 1, IFRAME: 1, OPTION: 1 };
   var busy = false;
 

@@ -53,20 +53,20 @@ window.CLINIC = (function () {
     specialty: "Land Surveying",
 
     tagline: {
-      en: "Painless, modern and affordable dental care",
-      bn: "ব্যথাহীন, আধুনিক ও সাশ্রয়ী দন্তচিকিৎসা",
+      en: "Licensed land survey, records and verification",
+      bn: "সনদপ্রাপ্ত জমি জরিপ, রেকর্ড ও যাচাই",
     },
 
     /* One sentence. Becomes <meta name="description"> and og:description.
        Keep under ~155 characters or Google truncates it in results. */
     description: {
-      en: "Example Dental offers painless, modern and affordable dental care — "
-        + "check-ups, fillings, root canal, crowns, braces and whitening.",
-      bn: "আমাদের ক্লিনিকে পাবেন ব্যথাহীন, আধুনিক ও সাশ্রয়ী দন্তচিকিৎসা — চেকআপ, ফিলিং, রুট ক্যানেল, ক্রাউন ও ব্রেসেস।",
+      en: "Licensed land survey in Dhaka — field measurement, boundary demarcation, "
+        + "khatian and mouza map collection, and verification before you buy.",
+      bn: "ঢাকায় সনদপ্রাপ্ত জমি জরিপ — মাঠ পরিমাপ, সীমানা নির্ধারণ, খতিয়ান ও মৌজা ম্যাপ সংগ্রহ এবং কেনার আগে যাচাই।",
     },
 
-    keywords: "dentist, dental clinic, painless dentist, teeth whitening, "
-            + "dental implants, braces, root canal",
+    keywords: "land survey Dhaka, amin, khatian, mouza map, dag number, "
+            + "boundary demarcation, land verification, jomi jorip",
 
     /* ===== Deployment =================================================== */
     site: {

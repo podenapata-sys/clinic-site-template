@@ -1,5 +1,5 @@
 /* ============================================================
-   CONTACT DENTAL — advanced / premium theme
+   Land survey site — advanced / premium theme
    Gradient-mesh + glassmorphism on a clean clinical base
    ============================================================ */
 @font-face{
@@ -518,7 +518,7 @@ a{color:inherit;text-decoration:none}
 
 /* before / after */
 .ba-filters{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
-/* the images are illustrative, not this clinic's own patients — say so under them */
+/* the images are illustrative, not a client's own land — say so under them */
 .ba-note{margin:22px auto 0;text-align:center;font-size:.86rem;color:var(--muted,#667);max-width:52ch}
 .ba-filter{border:1.5px solid var(--line);background:rgba(255,255,255,.7);border-radius:999px;padding:10px 20px;font-weight:700;font-family:var(--f-head);font-size:.85rem;cursor:pointer;color:var(--muted);transition:.15s}
 .ba-filter.active{border-color:transparent;color:#fff;background:var(--grad-brand);box-shadow:var(--shadow-glow)}

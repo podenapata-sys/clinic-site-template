@@ -1,15 +1,15 @@
 /**
- * Example Dental — "appointments tomorrow" reminder.
+ * Example Land Survey — "appointments tomorrow" reminder.
  *
  * Every evening this reads tomorrow's appointments and emails the clinic one summary,
- * with a WhatsApp button beside each patient. Tap the button, WhatsApp opens with the
- * reminder already written, press send. The patient gets it on the app they actually
+ * with a WhatsApp button beside each client. Tap the button, WhatsApp opens with the
+ * reminder already written, press send. The client gets it on the app they actually
  * read, and it costs nothing.
  *
  * WHY THE CLINIC TAPS INSTEAD OF IT BEING AUTOMATIC
  * A booking stores a name and a phone number, nothing else. Texting a phone number
  * without a person involved needs either a paid SMS gateway or Meta's paid WhatsApp
- * Business API. There is no free, hands-off route to a patient's phone. This gets the
+ * Business API. There is no free, hands-off route to a client's phone. This gets the
  * reminder to them in about a minute of the clinic's evening for nothing.
  *
  * ── SETUP (about five minutes, once) ────────────────────────────────────────
@@ -242,7 +242,7 @@ function _body(list, day) {
     return h + '<p>Nothing booked for tomorrow.</p></div>';
   }
 
-  h += '<p style="margin:0 0 14px">Tap <b>Send reminder</b> beside a patient and WhatsApp '
+  h += '<p style="margin:0 0 14px">Tap <b>Send reminder</b> beside a client and WhatsApp '
      + 'opens with the message already written — just press send.</p>';
 
   for (var i = 0; i < list.length; i++) {
@@ -252,7 +252,7 @@ function _body(list, day) {
        + (a.id ? ' <span style="color:#6b7a8c;font-size:13px">' + _txt(a.id) + '</span>' : '')
        + '</div>'
        + '<div style="color:#6b7a8c;font-size:14px;margin:4px 0 10px">'
-       + (a.service ? _txt(a.service) : 'Treatment not noted')
+       + (a.service ? _txt(a.service) : 'Service not noted')
        + (phone ? ' · <a href="tel:' + phone + '">' + phone + '</a>' : '')
        + '</div>'
        + (wa

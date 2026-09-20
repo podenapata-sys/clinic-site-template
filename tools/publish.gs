@@ -1,5 +1,5 @@
 /**
- * Example Dental — publish content edits to the website.
+ * Example Land Survey — publish content edits to the website.
  *
  * The content editor (admin-content.html) runs in a browser and cannot write files.
  * It sends its changes here; this commits them to the repository, and GitHub Pages
@@ -107,7 +107,7 @@ function _gh(token, method, path, payload) {
   var opts = {
     method: method, muteHttpExceptions: true,
     headers: { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json',
-               'User-Agent': 'example-dental-content-editor' }
+               'User-Agent': 'land-survey-content-editor' }
   };
   if (payload) { opts.contentType = 'application/json'; opts.payload = JSON.stringify(payload); }
   var res = UrlFetchApp.fetch(GITHUB_API + path, opts);

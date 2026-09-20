@@ -1,4 +1,4 @@
-/* Example Dental — private admin gateway.
+/* Example Land Survey — private admin gateway.
    Tapping the FOOTER logo 3 times quickly opens the admin dashboard.
 
    Why the footer mark and not the header brand:

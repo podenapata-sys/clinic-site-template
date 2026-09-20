@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Example Dental — Example Dental</title>
+<title>Example Land Survey — Example Land Survey</title>
 <link rel="icon" type="image/png" href="assets/mark-square.svg?v=1">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -154,7 +154,7 @@ tbody tr:hover td.actions{background:#f8fcfb}
 @media(max-width:520px){.form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .top h1{display:none}.top .btn{padding:9px 12px;font-size:.8rem}}
 
-/* ---- phones: the 11-column table becomes one card per patient, so the Edit/Delete
+/* ---- phones: the 11-column table becomes one card per client, so the Edit/Delete
    buttons are reachable without scrolling 10 columns sideways ---- */
 @media(max-width:620px){
   .tablewrap{overflow-x:visible;background:none;border:none;box-shadow:none;border-radius:0}
@@ -193,9 +193,9 @@ tbody tr:hover td.actions{background:#f8fcfb}
 <!-- LOCK SCREEN -->
 <div id="lock">
   <div class="lockcard">
-    <img src="assets/mark.svg?v=3" alt="Example Dental">
+    <img src="assets/mark.svg?v=3" alt="Example Land Survey">
     <h2 id="lockTitle">Enter PIN</h2>
-    <p id="lockSub">Admin access — Example Dental</p>
+    <p id="lockSub">Admin access — Example Land Survey</p>
     <input class="pin" id="pinInput" type="password" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="••••">
     <div class="lockmsg" id="lockMsg"></div>
     <button class="btn btn-p" id="pinBtn">Unlock</button>
@@ -206,8 +206,8 @@ tbody tr:hover td.actions{background:#f8fcfb}
 <div class="wrap" id="dash" style="display:none">
   <div class="top">
     <a class="brand" href="index.html">
-      <img src="assets/mark.svg?v=3" alt="Example Dental">
-      <span><b>EXAMPLE<small>DENTAL</small></b></span>
+      <img src="assets/mark.svg?v=3" alt="Example Land Survey">
+      <span><b>EXAMPLE<small>LAND SURVEY</small></b></span>
     </a>
     <h1>Admin Dashboard</h1>
     <span class="spacer"></span>
@@ -239,359 +239,16 @@ tbody tr:hover td.actions{background:#f8fcfb}
 
   <!-- ADD / EDIT -->
   <div class="panel">
-    <h3 id="formTitle">➕ Add a patient record</h3>
+    <h3 id="formTitle">➕ Add a client record</h3>
     <div class="form-grid">
       <div class="fld"><label>Mobile Number</label><input id="f_mobile" type="tel" inputmode="numeric" placeholder="01XXXXXXXXX"></div>
       <div class="fld"><label>Customer ID (auto)</label><input id="f_id" class="ro" readonly placeholder="OD-####"></div>
-      <div class="fld wide"><label>Patient Name (optional)</label><input id="f_name" type="text" placeholder="Name"></div>
+      <div class="fld wide"><label>Client Name (optional)</label><input id="f_name" type="text" placeholder="Name"></div>
       <div class="fld wide"><label>Address (optional)</label><input id="f_address" type="text" placeholder="House / road / area"></div>
       <div class="fld wide"><label>Service Taken</label>
         <select id="f_service">
           <option value="">Select a service…</option>
-          <option>Scaling &amp; Polishing</option>
-          <option>Composite Veneer</option>
-          <option>Root Canal Treatment</option>
-          <option>Tooth Filling</option>
-          <option>Fiber Bridge</option>
-          <option>Zirconia / PFM Crown</option>
-          <option>Flexible Denture</option>
-          <option>Dental Implant</option>
-          <option>Laser Teeth Whitening</option>
-          <option>Extraction / Surgery</option>
-          <option>Kids Dentistry</option>
-          <option>Braces / Aligners</option>
-          <option>Check-up / Consultation</option>
-          <option value="__other__">Other (type below)…</option>
-        </select>
-        <input id="f_service_other" type="text" placeholder="Type the service name" style="display:none;margin-top:8px">
-      </div>
-      <div class="fld"><label>Total Amount (৳)</label><input id="f_total" type="number" min="0" step="1" placeholder="0"></div>
-      <div class="fld"><label>Paid Amount (৳)</label><input id="f_paid" type="number" min="0" step="1" placeholder="0"></div>
-      <div class="fld"><label>Due (auto)</label><input id="f_due" class="ro" readonly placeholder="৳0"></div>
-      <div class="fld"><label>Visit Date</label>
-        <span class="datebox"><span class="datebox-txt" data-for="f_date">DD-MM-YYYY</span><input id="f_date" type="date"></span></div>
-      <div class="fld"><label>Next Appointment</label>
-        <span class="datebox"><span class="datebox-txt" data-for="f_next">DD-MM-YYYY</span><input id="f_next" type="date"></span></div>
-    </div>
-    <div class="form-actions">
-      <button class="btn btn-p" id="saveBtn" style="width:auto">Add record</button>
-      <button class="btn btn-g" id="cancelBtn" style="display:none">Cancel</button>
-      <span id="formMsg" style="color:var(--teal-dd);font-weight:600;font-size:.86rem"></span>
-    </div>
-  </div>
-
-  <!-- STATS -->
-  <div class="stats">
-    <div class="stat blue"><div class="n" id="s_count">0</div><div class="l">Patients (in view)</div></div>
-    <div class="stat teal"><div class="n" id="s_total">৳0</div><div class="l">Total billed</div></div>
-    <div class="stat ok"><div class="n" id="s_paid">৳0</div><div class="l">Total collected</div></div>
-    <div class="stat due"><div class="n" id="s_due">৳0</div><div class="l">Outstanding due</div></div>
-  </div>
-
-  <!-- WEBSITE BOOKINGS (live from Firebase) -->
-  <div class="panel" id="wbPanel" style="display:none">
-    <h3>🔔 Website Bookings <span class="badge" id="wbBadge" style="display:none">0</span>
-      <span class="spacer"></span>
-      <button class="btn btn-g btn-sm" id="wbNotify" style="display:none;width:auto">🔔 Enable phone alerts</button>
-      <button class="btn btn-g btn-sm" id="fbLogout" style="display:none;width:auto">Sign out</button>
-    </h3>
-    <div id="wbConnect" style="display:none">
-      <p style="color:var(--muted);font-size:.86rem;margin:0 0 10px">Sign in with your Firebase owner login to load live website bookings.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-        <input id="fbEmail" type="email" placeholder="Owner email" autocomplete="username" style="flex:1;min-width:160px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font-family:var(--f)">
-        <input id="fbPass" type="password" placeholder="Password" autocomplete="current-password" style="flex:1;min-width:140px;padding:10px;border:1.5px solid var(--line);border-radius:10px;font-family:var(--f)">
-        <button class="btn btn-p" id="fbLogin" style="width:auto">Connect</button>
-      </div>
-      <div id="fbMsg" style="color:var(--danger);font-size:.82rem;margin-top:6px"></div>
-    </div>
-    <div id="wbList"></div>
-    <div id="wbEmpty" style="color:var(--muted);font-size:.9rem;padding:6px 2px">No website bookings yet.</div>
-    <p style="color:var(--muted);font-size:.8rem;margin:10px 2px 0">
-      Nothing to press — every booking is saved automatically to your bookings spreadsheet
-      and emailed to you. This is just the latest few.</p>
-  </div>
-
-  <!-- WEBSITE NUMBERS — the four figures on the homepage. Signed-in only, because
-       writing site/stats needs auth; shown/hidden by onAuthStateChanged. -->
-  <div class="panel" id="snPanel" style="display:none">
-    <h3>🌐 Website numbers</h3>
-    <p style="color:var(--muted);font-size:.86rem;margin:0 0 12px">
-      The four figures shown on the homepage. Saving updates the website straight away —
-      no need to wait or refresh.</p>
-    <div class="form-grid">
-      <div class="fld"><label>Happy Patients</label><input id="sn_surveys" type="number" min="0" step="1" placeholder="3415"></div>
-      <div class="fld"><label>Years Experience</label><input id="sn_years" type="number" min="0" step="1" placeholder="8"></div>
-      <div class="fld"><label>Services Available</label><input id="sn_services" type="number" min="0" step="1" placeholder="37"></div>
-      <div class="fld"><label>Satisfaction (%)</label><input id="sn_satisfaction" type="number" min="0" max="100" step="1" placeholder="99"></div>
-    </div>
-    <div style="color:var(--muted);font-size:.86rem;margin-top:10px" id="snHint"></div>
-    <div class="form-actions">
-      <button class="btn btn-p" id="snSave" style="width:auto">Save to website</button>
-      <span id="snMsg" style="color:var(--teal-dd);font-weight:600;font-size:.86rem"></span>
-    </div>
-  </div>
-
-  <!-- TOOLBAR -->
-  <div class="tools">
-    <div class="tabs">
-      <button class="tab active" data-view="today">Day</button>
-      <button class="tab" data-view="week">This Week</button>
-      <button class="tab" data-view="month">Month</button>
-      <button class="tab" data-view="all">All</button>
-      <button class="tab" data-view="upcoming">📅 Upcoming</button>
-      <button class="tab" data-view="dues">💰 Dues</button>
-      <button class="tab tab-bin" data-view="bin" id="binTab" style="display:none">🗑 Bin</button>
-    </div>
-    <span class="datebox datebox-inline" id="dayBox"><span class="datebox-txt" data-for="dayPick">DD-MM-YYYY</span><input type="date" id="dayPick"></span>
-    <span class="datebox datebox-inline" id="monthBox" style="display:none"><span class="datebox-txt" data-for="monthPick">MM-YYYY</span><input type="month" id="monthPick"></span>
-    <input type="search" id="searchBox" placeholder="🔍 Search name, mobile or ID…" style="flex:1;min-width:150px;max-width:280px;padding:8px 12px;border:1.5px solid var(--line);border-radius:10px;font-family:var(--f);font-size:.88rem">
-    <span class="spacer"></span>
-    <button class="btn btn-o btn-sm" id="exportBtn">⬇ Download this view (Excel)</button>
-  </div>
-
-  <div class="tablewrap">
-    <table>
-      <thead><tr>
-        <th>Date</th><th>Customer ID</th><th>Mobile</th><th>Name</th><th>Address</th><th>Service</th>
-        <th class="num">Total</th><th class="num">Paid</th><th class="num">Due</th>
-        <th>Next Appt.</th><th></th>
-      </tr></thead>
-      <tbody id="tbody"></tbody>
-    </table>
-    <div class="empty" id="emptyMsg" style="display:none">No records for this view yet.</div>
-  </div>
-  <p style="text-align:center;color:var(--muted);font-size:.78rem;margin:14px 0 30px">
-    Showing <span id="viewLabel">today</span> · <span id="rowCount">0</span> record(s)
-  </p>
-</div>
-
-<input type="file" id="importFile" accept=".xlsx,.xls,.csv" style="display:none">
-<!-- the website's services and prices; the Service taken list is built from it -->
-<script src="assets/clinic.config.js?v=1"></script>
-<script src="assets/clinic-compat.js?v=1"></script>
-<script src="assets/content.js?v=1"></script>
-<script src="assets/firebase-config.js?v=1"></script>
-<script src="assets/vendor/xlsx.full.min.js" defer></script>
-<script>
-(function(){
-  "use strict";
-  var LS_REC="od_records", LS_PIN="od_pin";
-  var $=function(id){return document.getElementById(id);};
-  var records=[], editId=null, view="today", searchTerm="";
-
-  /* ---------- helpers ---------- */
-  function load(){ try{records=JSON.parse(localStorage.getItem(LS_REC)||"[]");}catch(e){records=[];} if(!Array.isArray(records))records=[]; }
-  function save(){ try{localStorage.setItem(LS_REC,JSON.stringify(records));}catch(e){alert("Could not save — storage may be full or blocked.");} }
-  function digits(s){ return (s||"").replace(/\D/g,""); }
-
-  /* ---------- recycle bin ----------
-     Deleting stamps `deletedAt` instead of dropping the record, so the delete travels
-     through the SAME cloud setDoc path as a normal edit (no extra collection, no rules
-     change) and can be undone. Because records[] now holds tombstones, every consumer
-     that shows or totals data must go through live(). */
-  var TRASH_DAYS = 30;
-  function isDeleted(r){ return !!(r && r.deletedAt); }
-  function live(){ return records.filter(function(r){ return !isDeleted(r); }); }
-  function trashed(){ return records.filter(isDeleted); }
-  function daysSince(iso){
-    var t=Date.parse(iso||""); if(isNaN(t)) return 0;
-    return Math.floor((Date.now()-t)/86400000);
-  }
-
-  /* ---------- cloud sync bridge ----------
-     Firebase lives in a separate ES module on this page, so it hands us
-     window.__odCloud when it is ready and signed in. Every call here is a
-     no-op when that is absent (not signed in, offline, Firebase blocked),
-     which keeps the dashboard fully usable in local-only mode. */
-  function cloudSave(rec){ try{ if(window.__odCloud) window.__odCloud.save(rec); }catch(e){} }
-  function cloudRemove(id){ try{ if(window.__odCloud) window.__odCloud.remove(id); }catch(e){} }
-  function cloudSaveMany(list){ try{ if(window.__odCloud) window.__odCloud.saveMany(list); }catch(e){} }
-
-  /* Called by the Firebase module on every snapshot: the cloud is the source of
-     truth once signed in, so replace the array, refresh the local cache and redraw. */
-  window.__odApplyCloud = function(list){
-    if(!Array.isArray(list)) return;
-    records = list; save(); render();
-  };
-  /* Used by the module to find records added before sign-in, so they can be migrated up. */
-  window.__odLocalRecords = function(){ return records.slice(); };
-  /* real patient records, tombstones excluded — the Website numbers panel offers
-     this as a suggested "Happy Patients" figure. */
-  window.__odLiveCount = function(){ return live().length; };
-
-  /* "➕ Add" on a website booking. The bookings panel lives in a separate script and
-     cannot reach records, save() or editRow(), so it comes through here.
-     Creates the record, then opens it in the form: the patient is in the table straight
-     away, with the amounts one field from being filled in. */
-  window.__odAddBooking = function(b){
-    b = b || {};
-    var rec = {
-      _id: Date.now()+"-"+Math.floor(Math.random()*1e6),
-      /* today is when they were seen; the date they ASKED for is the upcoming visit */
-      date: todayStr(),
-      mobile: b.phone || "",
-      id: cid(b.phone || ""),
-      name: b.name || "",
-      /* b.note is what the field was called before the booking form asked for an
-         address outright, so an older booking still fills the column. */
-      address: b.address || b.note || "",
-      service: b.service || "",
-      total: 0, paid: 0,
-      /* dateISO, never b.date — b.date is the display string ("05-09-2026") and storing
-         it here breaks the Upcoming filter and whenHint(), which both compare ISO. */
-      next: b.dateISO || ""
-    };
-    records.push(rec); save(); cloudSave(rec); render();
-    editRow(rec._id);
-    flash("Added to your records. Enter Total and Paid, then press Update record.", false);
-    return rec._id;
-  };
-
-  window.__odSyncStatus = function(state, detail){
-    var ic=$("syncIcon"), tx=$("syncText"); if(!ic||!tx) return;
-    if(state==="synced"){ ic.textContent="☁"; tx.innerHTML="Records are <b>synced to your account</b> — they are safe on this and your other devices."; }
-    else if(state==="syncing"){ ic.textContent="⏳"; tx.textContent=detail||"Syncing records…"; }
-    else if(state==="error"){ ic.textContent="⚠"; tx.textContent=detail||"Could not sync — records are still saved in this browser."; }
-    else { ic.textContent="💾"; tx.innerHTML="Records are saved in this browser. <b>Sign in below</b> to sync them across your devices."; }
-  };
-  function cid(mobile){ var d=digits(mobile); return d.length>=4 ? "OD-"+d.slice(-4) : (d?"OD-"+d:"OD-????"); }
-  function money(n){ n=Number(n)||0; return "৳"+n.toLocaleString("en-IN"); }
-  function fmtLocal(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
-  function todayStr(){ return fmtLocal(new Date()); }
-  /* Dates are STORED as ISO "YYYY-MM-DD" — <input type="date"> requires it, and
-     every filter and sort here compares the strings directly (r.date>=weekStart(),
-     (r.date||"").slice(0,7), .localeCompare). Only the display is DD-MM-YYYY. */
-  function dmy(iso){
-    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso||"").trim());
-    return m ? m[3]+"-"+m[2]+"-"+m[1] : String(iso||"");
-  }
-  function my(ym){                       // "2026-08" -> "08-2026" for the report
-    var m = /^(\d{4})-(\d{2})$/.exec(String(ym||"").trim());
-    return m ? m[2]+"-"+m[1] : String(ym||"");
-  }
-  /* Accepts either format and returns ISO. Needed because exported .xlsx files now
-     carry DD-MM-YYYY, and re-importing one must not poison the stored dates. */
-  function toIso(v){
-    v = String(v||"").trim(); if(!v) return "";
-    var m = /^(\d{2})-(\d{2})-(\d{4})$/.exec(v);
-    if(m) return m[3]+"-"+m[2]+"-"+m[1];
-    m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
-    return m ? v : v;
-  }
-  /* Repaint the visible half of each .datebox from its hidden native input. Called
-     wherever a value is set in code (render, edit, clear, boot) as well as on the
-     input's own events, because setting .value fires no event. */
-  function syncDateBoxes(){
-    var boxes = document.querySelectorAll(".datebox-txt");
-    for(var i=0;i<boxes.length;i++){
-      var el = boxes[i], inp = document.getElementById(el.getAttribute("data-for"));
-      if(!inp) continue;
-      var v = inp.value || "", month = inp.type === "month";
-      el.textContent = v ? (month ? my(v) : dmy(v)) : (month ? "MM-YYYY" : "DD-MM-YYYY");
-      el.className = v ? "datebox-txt" : "datebox-txt dt-ph";
-    }
-  }
-  function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
-
-  /* ---------- PIN gate ---------- */
-  var DEFAULT_PIN="2518";
-  function checkPin(p){ return p===DEFAULT_PIN || localStorage.getItem(LS_PIN)===btoa("od:"+p); }
-  function initLock(){
-    $("lockTitle").textContent="Enter PIN";
-    $("lockSub").textContent="Admin access — Example Dental";
-    $("pinBtn").textContent="Unlock";
-    $("pinInput").focus();
-  }
-  function tryUnlock(){
-    var p=digits($("pinInput").value);
-    if(!p){ $("lockMsg").textContent="Enter your PIN."; return; }
-    if(checkPin(p)){ unlock(); }
-    else{ $("lockMsg").textContent="Wrong PIN."; $("pinInput").value=""; $("pinInput").focus(); }
-  }
-  /* Unlocking is remembered for the browser session, so stepping between the records
-     dashboard and the website editor does not ask for the PIN each time. sessionStorage,
-     not localStorage: close the browser and the PIN is required again, which is the
-     point of having one on a device the clinic might share. */
-  var SESSION_OPEN = "od_open";
-  function unlock(){
-    try{ sessionStorage.setItem(SESSION_OPEN, "1"); }catch(e){}
-    $("lock").style.display="none"; $("dash").style.display="block"; render();
-  }
-  function lock(){
-    try{ sessionStorage.removeItem(SESSION_OPEN); }catch(e){}   // Lock must mean locked
-    location.reload();
-  }
-  function alreadyOpen(){
-    try{ return sessionStorage.getItem(SESSION_OPEN) === "1"; }catch(e){ return false; }
-  }
-
-  /* ---------- form ---------- */
-  function recalc(){
-    $("f_id").value=cid($("f_mobile").value);
-    var due=(Number($("f_total").value)||0)-(Number($("f_paid").value)||0);
-    $("f_due").value=money(due);
-  }
-  function onServiceChange(){
-    var o=$("f_service_other");
-    if($("f_service").value==="__other__"){ o.style.display="block"; o.focus(); }
-    else { o.style.display="none"; }
-  }
-  function getService(){ return $("f_service").value==="__other__" ? $("f_service_other").value.trim() : $("f_service").value; }
-  function setService(name){
-    var sel=$("f_service"), o=$("f_service_other"), found=false;
-    for(var i=0;i<sel.options.length;i++){ if(sel.options[i].value!=="__other__" && sel.options[i].value===name){ found=true; break; } }
-    if(name && found){ sel.value=name; o.style.display="none"; o.value=""; }
-    else if(name){ sel.value="__other__"; o.value=name; o.style.display="block"; }
-    else { sel.value=""; o.style.display="none"; o.value=""; }
-  }
-  /* The dropdown used to be thirteen hard-coded options — a second copy of a list that
-     already drives the website's price table, and one that had drifted from it. Building
-     it from assets/content.js means it covers every treatment the clinic actually prices,
-     and follows along whenever the content editor publishes a change.
-
-     The hard-coded options stay in the HTML as the fallback: if content.js is missing or
-     malformed this leaves them alone rather than emptying the dropdown. */
-  function buildServiceOptions(){
-    var C = window.CLINIC_CONTENT;
-    if(!C || !C.prices || !C.prices.length) return;
-
-    var sel = $("f_service"), cats = C.cats || {};
-    var known = {};                       // name -> true, for the "previously used" pass
-    var html = "<option value=''>Select a service…</option>";
-
-    /* the website's own category order, then anything with an unlisted category so a
-       price row can never silently vanish from the list */
-    var order = Object.keys(cats), seen = {};
-    order.forEach(function(k){ seen[k]=true; });
-    C.prices.forEach(function(p){ if(!seen[p.c]){ order.push(p.c); seen[p.c]=true; } });
-
-    order.forEach(function(k){
-      var rows = C.prices.filter(function(p){ return p.c === k; });
-      if(!rows.length) return;
-      html += "<optgroup label=\"" + esc((cats[k] && cats[k].en) || k) + "\">";
-      rows.forEach(function(p){
-        known[p.n] = true;
-        html += "<option value=\"" + esc(p.n) + "\">" + esc(p.n) + "</option>";
-      });
-      html += "</optgroup>";
-    });
-
-    /* Services already recorded that the price list no longer carries — a clinic with
-       fifty "Tooth Filling" records should not meet its commonest treatment as "Other". */
-    var past = [];
-    live().forEach(function(r){
-      var n = (r.service||"").trim();
-      if(n && !known[n] && past.indexOf(n) === -1) past.push(n);
-    });
-    if(past.length){
-      html += "<optgroup label=\"Previously used\">";
-      past.sort().forEach(function(n){
-        html += "<option value=\"" + esc(n) + "\">" + esc(n) + "</option>";
-      });
-      html += "</optgroup>";
-    }
-
-    html += "<option value='__other__'>Other (type below)…</option>";
+          <option>Amin Land Measurement</option><option>Boundary Demarcation</option><option>Digital / GPS Survey</option><option>Total Station Survey</option><option>Khatian Search — RS / BS</option><option>Khatian Search — CS / SA</option><option>Mouza Map Collection</option><option>Mouza Map Tracing</option><option>Dag Number Verification</option><option>Inheritance Partition Survey</option><option>Court-admissible Survey Report</option><option>Full Pre-purchase Check</option><option>Deed vs Dag Reconciliation</option>";
     sel.innerHTML = html;
   }
 
@@ -599,7 +256,7 @@ tbody tr:hover td.actions{background:#f8fcfb}
     ["f_mobile","f_name","f_address","f_total","f_paid","f_next"].forEach(function(k){$(k).value="";});
     $("f_service").value=""; $("f_service_other").value=""; $("f_service_other").style.display="none";
     $("f_date").value=todayStr(); recalc();
-    editId=null; $("saveBtn").textContent="Add record"; $("formTitle").textContent="➕ Add a patient record";
+    editId=null; $("saveBtn").textContent="Add record"; $("formTitle").textContent="➕ Add a client record";
     $("cancelBtn").style.display="none"; syncDateBoxes();
   }
   function saveRecord(){
@@ -607,7 +264,7 @@ tbody tr:hover td.actions{background:#f8fcfb}
     if(digits(mobile).length<4){ flash("Enter a valid mobile number (for the Customer ID).",true); $("f_mobile").focus(); return; }
     var totalV=Number($("f_total").value)||0, paidV=Number($("f_paid").value)||0;
     if(totalV<0 || paidV<0){ flash("Amounts cannot be negative.",true); $("f_total").focus(); return; }
-    /* A negative due would render as paid-up and cancel out other patients' dues
+    /* A negative due would render as paid-up and cancel out other clients' dues
        in the Due stat, so block it rather than storing it. */
     if(paidV>totalV){ flash("Paid ("+money(paidV)+") is more than Total ("+money(totalV)+").",true); $("f_paid").focus(); return; }
     var rec={
@@ -646,7 +303,7 @@ tbody tr:hover td.actions{background:#f8fcfb}
     var amt=Math.round(Number(String(raw).trim()));
     if(!isFinite(amt) || amt<=0){ flash("Enter the amount as a number, e.g. 5000.",true); return; }
     /* saveRecord() blocks paid > total because a negative due reads as paid-up and cancels
-       other patients out of the Outstanding due total. A payment must not sneak past it. */
+       other clients out of the Outstanding due total. A payment must not sneak past it. */
     if(amt>due){ flash("That is more than the "+money(due)+" outstanding.",true); return; }
     r.paid=(Number(r.paid)||0)+amt;
     save(); cloudSave(r); render();
@@ -655,19 +312,19 @@ tbody tr:hover td.actions{background:#f8fcfb}
                  : ("Payment of "+money(amt)+" recorded — paid in full ✓"), false);
   }
 
-  /* The same patient back for something else. cid() derives the Customer ID from the
+  /* The same client back for another job. cid() derives the Customer ID from the
      mobile, so filling in the mobile is what keeps them on one ID. */
-  function newTreatment(id){
+  function newJob(id){
     var r=records.find(function(x){return x._id===id;}); if(!r)return;
     clearForm();                                  // clears editId, so Save ADDS a record
     $("f_mobile").value=r.mobile||"";
     $("f_name").value=r.name||"";
-    $("f_address").value=r.address||"";   /* same patient, same house */
+    $("f_address").value=r.address||"";   /* same client, same address */
     recalc();
-    $("formTitle").textContent="➕ New treatment — "+(r.name||r.mobile)+" ("+r.id+")";
+    $("formTitle").textContent="➕ New job — "+(r.name||r.mobile)+" ("+r.id+")";
     $("f_service").focus();
     window.scrollTo({top:0,behavior:"smooth"});
-    flash("Same patient, same Customer ID. Choose the treatment and enter the amounts.",false);
+    flash("Same client, same Customer ID. Choose the service and enter the amounts.",false);
   }
 
   function delRow(id){
@@ -749,9 +406,9 @@ tbody tr:hover td.actions{background:#f8fcfb}
   /* one-tap payment reminder; site-wide format is wa.me/880XXXXXXXXXX<local number> */
   function waBtn(r,due){
     var d=digits(r.mobile); if(d.length<10) return "";
-    var msg="Assalamu alaikum"+(r.name?" "+r.name:"")+", this is Example Dental. "
+    var msg="Assalamu alaikum"+(r.name?" "+r.name:"")+", this is Example Land Survey. "
       + "You have an outstanding balance of Tk "+(due).toLocaleString("en-IN")
-      + " for "+(r.service||"your treatment")+" on "+dmy(r.date)+". Please contact us to settle it. Thank you.";
+      + " for "+(r.service||"your survey")+" on "+dmy(r.date)+". Please contact us to settle it. Thank you.";
     return "<a class='rowbtn' target='_blank' rel='noopener' title='Send payment reminder' "
       + "aria-label='Send WhatsApp payment reminder' href='https://wa.me/880XXXXXXXXXX"+d
       + "?text="+encodeURIComponent(msg)+"'>💬</a>";
@@ -809,7 +466,7 @@ tbody tr:hover td.actions{background:#f8fcfb}
               "<button class='rowbtn' data-purge='"+r._id+"' title='Delete forever' aria-label='Delete forever'>❌</button>"
             : (due>0 ? waBtn(r,due) : "")+
               (due>0 ? "<button class='rowbtn' data-pay='"+r._id+"' title='Take a payment' aria-label='Take a payment'>💵</button>" : "")+
-              "<button class='rowbtn' data-new='"+r._id+"' title='New treatment for this patient' aria-label='New treatment for this patient'>➕</button>"+
+              "<button class='rowbtn' data-new='"+r._id+"' title='New job for this client' aria-label='New job for this client'>➕</button>"+
               "<button class='rowbtn' data-edit='"+r._id+"' title='Edit' aria-label='Edit record'>✏️</button>"+
               "<button class='rowbtn' data-del='"+r._id+"' title='Delete' aria-label='Delete record'>🗑️</button>")+
         "</td>"+
@@ -857,22 +514,22 @@ tbody tr:hover td.actions{background:#f8fcfb}
   function exportView(){
     var rs=filtered();
     var tag=view==="today"?($("dayPick").value||todayStr()):view==="month"?($("monthPick").value||todayStr().slice(0,7)):view;
-    download(rs,"example-dental-"+tag+".xlsx","Records "+tag);
+    download(rs,"land-survey-"+tag+".xlsx","Records "+tag);
   }
   function buildBackupWorkbook(){
     if(!xlsxReady()) return null;
     var wb=XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, makeSheetWithTotals(live().sort(function(a,b){return a.date.localeCompare(b.date);})), "All records");
     var byMonth={};
-    live().forEach(function(r){ var m=(r.date||"").slice(0,7); if(!m)return; byMonth[m]=byMonth[m]||{Month:m,Patients:0,Total:0,Paid:0}; byMonth[m].Patients++; byMonth[m].Total+=Number(r.total)||0; byMonth[m].Paid+=Number(r.paid)||0; });
+    live().forEach(function(r){ var m=(r.date||"").slice(0,7); if(!m)return; byMonth[m]=byMonth[m]||{Month:m,Jobs:0,Total:0,Paid:0}; byMonth[m].Jobs++; byMonth[m].Total+=Number(r.total)||0; byMonth[m].Paid+=Number(r.paid)||0; });
     var ms=Object.keys(byMonth).sort().map(function(m){ var o=byMonth[m]; o.Due=o.Total-o.Paid; return o; });
-    if(ms.length) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(ms,{header:["Month","Patients","Total","Paid","Due"]}), "Monthly summary");
+    if(ms.length) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(ms,{header:["Month","Jobs","Total","Paid","Due"]}), "Monthly summary");
     return wb;
   }
   function backupAll(){
     if(!xlsxReady()){ alert(XLSX_MSG); return; }
     if(!live().length){ alert("No records to back up yet."); return; }
-    XLSX.writeFile(buildBackupWorkbook(), "example-dental-backup-"+todayStr()+".xlsx");
+    XLSX.writeFile(buildBackupWorkbook(), "land-survey-backup-"+todayStr()+".xlsx");
   }
   /* expose the .xlsx bytes so the "Backup to Drive" module can upload them */
   window.__odBackupBlob = function(){
@@ -999,7 +656,7 @@ tbody tr:hover td.actions{background:#f8fcfb}
     $("tbody").addEventListener("click",function(e){
       var b=e.target.closest("[data-edit],[data-del],[data-restore],[data-purge],[data-pay],[data-new]"); if(!b)return;
       if(b.dataset.pay) takePayment(b.dataset.pay);
-      else if(b.dataset.new) newTreatment(b.dataset.new);
+      else if(b.dataset.new) newJob(b.dataset.new);
       else if(b.dataset.edit) editRow(b.dataset.edit);
       else if(b.dataset.restore) restoreRow(b.dataset.restore);
       else if(b.dataset.purge) purgeRow(b.dataset.purge);
@@ -1168,7 +825,7 @@ tbody tr:hover td.actions{background:#f8fcfb}
     }, ()=>{ $("wbEmpty").textContent = "Can't read bookings yet — make sure Email/Password sign-in is enabled and the Firestore rules are applied."; $("wbEmpty").style.display="block"; });
   }
 
-  /* ---------- patient records: cloud sync ----------
+  /* ---------- client records: cloud sync ----------
      Records used to live only in localStorage, so clearing browsing data destroyed
      them and a second device saw nothing. They now mirror into Firestore under the
      owner's account. localStorage stays as the offline cache and the never-signed-in
@@ -1251,14 +908,14 @@ tbody tr:hover td.actions{background:#f8fcfb}
 
   /* ---------- the homepage's four figures (site/stats) ----------
      Deliberately NOT incremented per booking. A booking is a request, not a treated
-     patient: no-shows, duplicates, staff testing the form and anything a bot posts all
+     job: no-shows, duplicates, staff testing the form and anything a bot posts all
      land in the same place. The clinic types the number and presses Save; the panel just
      shows how many real records exist so the figure stays anchored to something true. */
   const SN_FIELDS = ["surveys","years","services","satisfaction"];
 
   function snSuggest(){
     var recs = (window.__odLiveCount ? window.__odLiveCount() : 0);
-    var hint = "Your dashboard holds <b>" + recs.toLocaleString("en-IN") + "</b> patient record"
+    var hint = "Your dashboard holds <b>" + recs.toLocaleString("en-IN") + "</b> client record"
              + (recs===1?"":"s") + ".";
     if(recs > 0) hint += " <button class='btn btn-g btn-sm' id='snUse' style='width:auto;margin-left:8px'>Use this number</button>";
     hint += "<br><span style='font-size:.8rem'>Website bookings are not added in: "
@@ -1343,7 +1000,7 @@ tbody tr:hover td.actions{background:#f8fcfb}
   var btn = document.getElementById("driveBtn");
   if(!CLIENT_ID || !btn) return;
   var tokenClient=null, accessToken=null, tokenExpiry=0, busy=false;
-  var FOLDER = "Example Dental Backups";
+  var FOLDER = "Example Land Survey Backups";
   function setBtn(t){ btn.textContent=t; }
   function p2(n){ return String(n).padStart(2,"0"); }
   function blobToBase64(blob){ return new Promise(function(res,rej){ var r=new FileReader(); r.onload=function(){ res(String(r.result).split(",")[1]); }; r.onerror=rej; r.readAsDataURL(blob); }); }
@@ -1399,7 +1056,7 @@ tbody tr:hover td.actions{background:#f8fcfb}
       var b64 = await blobToBase64(blob);
       var d = new Date();
       var stamp = d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate())+"-"+p2(d.getHours())+p2(d.getMinutes());
-      var meta = { name: "example-dental-backup-"+stamp+".xlsx", parents:[folderId] };
+      var meta = { name: "land-survey-backup-"+stamp+".xlsx", parents:[folderId] };
       var boundary = "example"+Math.random().toString(16).slice(2);
       var body =
         "--"+boundary+"\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n"+JSON.stringify(meta)+

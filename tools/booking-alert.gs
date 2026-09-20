@@ -1,5 +1,5 @@
 /**
- * Example Dental — free booking alerts by email.
+ * Example Land Survey — free booking alerts by email.
  *
  * The website has no server, so this small Google Apps Script acts as one. It
  * receives a booking from book.html and emails it to the clinic, which the Gmail
@@ -59,7 +59,7 @@
 
 var TO_EMAIL     = 'you@example.com';
 var SHARED_TOKEN = 'change-me-to-a-random-word';                // ← must match firebase-config.js
-var CLINIC_NAME  = 'Example Dental';
+var CLINIC_NAME  = 'Example Land Survey';
 
 /** TO_EMAIL as MailApp wants it. Typing a list by hand invites a trailing comma, a
     stray semicolon or a line break, and MailApp rejects the whole send for one bad
@@ -80,9 +80,9 @@ function _bookingEmail(d) {
   var phone = _clean(d.phone);
   var when  = [_clean(d.date), _clean(d.time)].filter(String).join(' at ') || 'not specified';
   var rows  = [
-    ['Patient',   name],
+    ['Client',    name],
     ['Phone',     phone ? '<a href="tel:' + phone + '">' + phone + '</a>' : '(not given)'],
-    ['Treatment', _clean(d.service) || 'not specified'],
+    ['Service',   _clean(d.service) || 'not specified'],
     ['Wants',     when],
     ['Address',   _address(d) || '—']
   ];
@@ -151,7 +151,7 @@ function doPost(e) {
     _markHandled(_fingerprint(d.phone, new Date()));
     return _ok('sent');
   } catch (err) {
-    // never throw: a failed alert must not affect the patient's booking
+    // never throw: a failed alert must not affect the client's booking
     return _ok('error');
   }
 }
@@ -164,7 +164,7 @@ function doGet() {
 /* ---------- the bookings sheet ---------- */
 
 var SHEET_NAME    = 'Website Bookings';
-var SHEET_HEADERS = ['Received', 'Patient', 'Phone', 'Address', 'Treatment',
+var SHEET_HEADERS = ['Received', 'Client', 'Phone', 'Address', 'Service',
                      'Requested date', 'Requested time', 'Emergency', 'Status'];
 var ADDRESS_COL   = 4;   // where Address sits in SHEET_HEADERS
 
@@ -181,7 +181,7 @@ function _address(d) {
     Each value is placed under its OWN heading rather than at a fixed position. The sheet
     is the clinic's own file: they can reorder the columns, and the Address column arrives
     by migration on a sheet that predates it. Writing by position meant one unexpected
-    column put every phone number under Treatment. */
+    column put every phone number under Service. */
 function _logBooking(d) {
   var sh = _bookingsSheet();
   if (!sh) return;
@@ -189,11 +189,13 @@ function _logBooking(d) {
   var head  = sh.getRange(1, 1, 1, width).getValues()[0];
   var byName = {
     'received':       Utilities.formatDate(new Date(), 'Asia/Dhaka', 'dd-MM-yyyy HH:mm'),
-    'patient':        _clean(d.name),
+    'client':         _clean(d.name),
+    'patient':        _clean(d.name),   // sheets created before the rename
     'phone':          _clean(d.phone),
     'address':        _address(d),
     'note':           _address(d),   // an un-migrated sheet still says Note
-    'treatment':      _clean(d.service),
+    'service':        _clean(d.service),
+    'treatment':      _clean(d.service),  // ditto
     'requested date': _clean(d.date),
     'requested time': _clean(d.time),
     'emergency':      d.emerg ? 'YES' : '',
@@ -272,7 +274,7 @@ function _sheetUrl() {
 
 /* ---------- the safety net ----------
 
-   The beacon the website fires is sent from the PATIENT'S browser, and it is
+   The beacon the website fires is sent from the CLIENT'S browser, and it is
    fire-and-forget: the page cannot see the reply, so when it is blocked by an ad-blocker,
    dropped as the phone hands off to WhatsApp, or refused because the web app's access
    setting slipped off "Anyone", nothing anywhere says so. The clinic simply stops getting
